@@ -1,3 +1,5 @@
+import { applyAuthenticCopy } from "../authenticCopy";
+
 const ar = {
   meta: {
     title: "تكبيلي سوبِلي — أكواخ ومسبح ومطعم في تسقالتوبو",
@@ -286,4 +288,4 @@ const ar = {
     cta: "إلى الصفحة الرئيسية",
   },
 };
-export default ar;
+export default applyAuthenticCopy(ar, "ar");

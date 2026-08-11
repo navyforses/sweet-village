@@ -1,3 +1,5 @@
+import { applyAuthenticCopy } from "../authenticCopy";
+
 const ru = {
   meta: {
     title: "Сладкая деревня — коттеджи, бассейн и ресторан в Цхалтубо",
@@ -287,4 +289,4 @@ const ru = {
   },
 };
 
-export default ru;
+export default applyAuthenticCopy(ru, "ru");

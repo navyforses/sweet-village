@@ -1,3 +1,5 @@
+import { applyAuthenticCopy } from "../authenticCopy";
+
 const fr = {
   "meta": {
     "title": "Sweet Village — Cottages, piscine et restaurant à Tskaltoubo",
@@ -296,4 +298,4 @@ const fr = {
   }
 };
 
-export default fr;
+export default applyAuthenticCopy(fr, "fr");

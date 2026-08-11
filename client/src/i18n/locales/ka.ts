@@ -1,3 +1,5 @@
+import { applyAuthenticCopy } from "../authenticCopy";
+
 const ka = {
   meta: {
     title: "ტკბილი სოფელი — კოტეჯები, აუზი და რესტორანი წყალტუბოში",
@@ -287,5 +289,5 @@ const ka = {
   },
 };
 
-export default ka;
+export default applyAuthenticCopy(ka, "ka");
 export type Dict = typeof ka;
