@@ -3,6 +3,7 @@ import { Info, Phone, Users } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
 import { PHOTOS } from "@/lib/assets";
+import { assetUrl } from "@/lib/assetUrl";
 import { CONTACT, EVENT_TYPES, VENUE_SPACE } from "@shared/venue";
 import { useI18n } from "@/i18n";
 
@@ -55,7 +56,7 @@ export default function Events() {
               <article key={ev.id} className="sv-card group">
                 <div className="aspect-[16/10] overflow-hidden">
                   <img
-                    src={ev.photo}
+                    src={assetUrl(ev.photo)}
                     alt={info.title}
                     loading="lazy"
                     className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"

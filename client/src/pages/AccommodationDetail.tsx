@@ -6,6 +6,7 @@ import ShareButton from "@/components/ShareButton";
 import { getAccommodationDetailCopy } from "@/lib/accommodationDetailCopy";
 import { CAPACITY, UNITS, type UnitId } from "@shared/venue";
 import { useI18n } from "@/i18n";
+import { assetUrl } from "@/lib/assetUrl";
 import NotFound from "./NotFound";
 
 export default function AccommodationDetail() {
@@ -43,7 +44,7 @@ export default function AccommodationDetail() {
         <div className="grid gap-3 md:grid-cols-2 md:grid-rows-2">
           {unit.gallery.map((photo, index) => (
             <button key={photo} type="button" onClick={() => setActivePhoto(index)} className={`group relative overflow-hidden bg-pistachio/10 text-start ${index === 0 ? "md:row-span-2" : ""}`} aria-label={`${copy.captions[index] ?? copy.gallery}: ${info.title}`}>
-              <img src={photo} alt={`${info.title} — ${copy.captions[index] ?? copy.gallery}`} className={`w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] ${index === 0 ? "aspect-[4/3] md:aspect-auto md:h-full" : "aspect-[16/9] md:h-full"}`} />
+              <img src={assetUrl(photo)} alt={`${info.title} — ${copy.captions[index] ?? copy.gallery}`} className={`w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] ${index === 0 ? "aspect-[4/3] md:aspect-auto md:h-full" : "aspect-[16/9] md:h-full"}`} />
               <span className="absolute inset-x-0 bottom-0 bg-ink/72 px-4 py-2.5 text-[0.75rem] text-white">{copy.captions[index] ?? copy.gallery}</span>
             </button>
           ))}
@@ -70,7 +71,7 @@ export default function AccommodationDetail() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/92 p-4" role="dialog" aria-modal="true" aria-label={copy.gallery} onClick={() => setActivePhoto(null)}>
           <div className="relative max-h-full max-w-6xl" onClick={event => event.stopPropagation()}>
             <button type="button" onClick={() => setActivePhoto(null)} className="absolute end-3 top-3 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise" aria-label={copy.close}><X className="size-5" /></button>
-            <img src={unit.gallery[activePhoto]} alt={`${info.title} — ${copy.captions[activePhoto] ?? copy.gallery}`} className="max-h-[86vh] max-w-full object-contain" />
+            <img src={assetUrl(unit.gallery[activePhoto])} alt={`${info.title} — ${copy.captions[activePhoto] ?? copy.gallery}`} className="max-h-[86vh] max-w-full object-contain" />
           </div>
         </div>
       )}

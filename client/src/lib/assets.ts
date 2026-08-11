@@ -1,3 +1,5 @@
+import { assetUrl } from "./assetUrl";
+
 /**
  * Central asset registry. Every image is served from webdev storage — nothing
  * heavy lives in the repo. `fb_*` are real photographs from the venue's own
@@ -5,7 +7,7 @@
  * (pine interiors, dark green metal roof, rectangular turquoise pool).
  */
 
-export const PHOTOS = {
+const RAW_PHOTOS = {
   /* Generated scenery */
   hero: "/manus-storage/gen_hero_f355fb4f.jpg",
   cottageExterior: "/manus-storage/gen_cottage_ext_325bdf81.jpg",
@@ -26,7 +28,7 @@ export const PHOTOS = {
 } as const;
 
 /** Per-category menu imagery, keyed by menu category id. */
-export const DISHES: Record<string, string> = {
+const RAW_DISHES: Record<string, string> = {
   cold: "/manus-storage/dish_cheese_47be18c8.jpg",
   salads: "/manus-storage/dish_salad_f4c2a94c.jpg",
   baked: "/manus-storage/dish_khachapuri_489c82a9.jpg",
@@ -39,7 +41,7 @@ export const DISHES: Record<string, string> = {
 };
 
 /** One researched, dish-specific menu visual for each of the 68 live items. */
-export const MENU_ITEM_PHOTOS: Record<number, string> = {
+const RAW_MENU_ITEM_PHOTOS: Record<number, string> = {
   1: "/manus-storage/menu-card-01-pickled-assortment_97f57b46.jpg",
   2: "/manus-storage/menu-card-02-pkhali-assortment_45eb2d41.jpg",
   3: "/manus-storage/menu-card-03-fresh-herbs_bd35db46.jpg",
@@ -109,6 +111,14 @@ export const MENU_ITEM_PHOTOS: Record<number, string> = {
   67: "/manus-storage/menu-card-67-teabag-tea_5a74e601.jpg",
   68: "/manus-storage/menu-card-68-turkish-coffee-replacement_29cf559b.jpg",
 };
+
+function resolveAssetRecord<T extends Record<string | number, string>>(record: T): T {
+  return Object.fromEntries(Object.entries(record).map(([key, value]) => [key, assetUrl(value)])) as T;
+}
+
+export const PHOTOS = resolveAssetRecord(RAW_PHOTOS);
+export const DISHES = resolveAssetRecord(RAW_DISHES);
+export const MENU_ITEM_PHOTOS = resolveAssetRecord(RAW_MENU_ITEM_PHOTOS);
 
 export function menuItemPhoto(itemId: number, categoryId: string): string {
   return MENU_ITEM_PHOTOS[itemId] ?? DISHES[categoryId] ?? PHOTOS.restaurant;

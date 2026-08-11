@@ -1,0 +1,939 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-11T22:26:33.917Z",
+  "sourceDirectory": "/home/ubuntu/webdev-static-assets/sweet-village",
+  "access": "public",
+  "files": [
+    {
+      "filename": "dish_cheese.jpg",
+      "pathname": "sweet-village/dish_cheese.jpg",
+      "size": 643628,
+      "sha256": "00c856b0fb693ff4cc03219d2be6301aa806c2c6232bdc6be084e5fab1f449f8",
+      "url": null
+    },
+    {
+      "filename": "dish_drinks.jpg",
+      "pathname": "sweet-village/dish_drinks.jpg",
+      "size": 296748,
+      "sha256": "8c16566308938465cef911fb2cb51d48e15117736452f16f0bbdbe3a4973ec86",
+      "url": null
+    },
+    {
+      "filename": "dish_khachapuri.jpg",
+      "pathname": "sweet-village/dish_khachapuri.jpg",
+      "size": 525668,
+      "sha256": "4ee5e1d5a2712a2075b0951a4e0485ffbbc88206fcdea3123e52ec64be0ed7fe",
+      "url": null
+    },
+    {
+      "filename": "dish_khinkali.jpg",
+      "pathname": "sweet-village/dish_khinkali.jpg",
+      "size": 298910,
+      "sha256": "7889dcd51a7dd68e51351ecbe1d9fe00ee2e9f3086a237fdfe7856ac3d98492e",
+      "url": null
+    },
+    {
+      "filename": "dish_mtsvadi.jpg",
+      "pathname": "sweet-village/dish_mtsvadi.jpg",
+      "size": 444774,
+      "sha256": "31f9fbb364dd6e77e9c3700eade667177dea908f8dfdd5d7e7d3d2539de70a23",
+      "url": null
+    },
+    {
+      "filename": "dish_ojakhuri.jpg",
+      "pathname": "sweet-village/dish_ojakhuri.jpg",
+      "size": 436762,
+      "sha256": "c487e25b51b7a20bfcabd86237950bcea921be52be0c9f4fe24f7e96caf75010",
+      "url": null
+    },
+    {
+      "filename": "dish_salad.jpg",
+      "pathname": "sweet-village/dish_salad.jpg",
+      "size": 575353,
+      "sha256": "7e8b864eee579a3cb201b3cddddd7ecf5d5288a6303749ea8b7986046a499d45",
+      "url": null
+    },
+    {
+      "filename": "dish_soup.jpg",
+      "pathname": "sweet-village/dish_soup.jpg",
+      "size": 379637,
+      "sha256": "7a03090b5376f56b434e339e9a8511089b5ba46fe50eacb682f6cffb8d79b218",
+      "url": null
+    },
+    {
+      "filename": "facebook-cover-sweet-village_original.jpg",
+      "pathname": "sweet-village/facebook-cover-sweet-village_original.jpg",
+      "size": 7470036,
+      "sha256": "184bc8121712104c35ab60cf24aaa874cee175065088186366ddb17d864554bf",
+      "url": null
+    },
+    {
+      "filename": "facebook-cover-sweet-village-820x360.jpg",
+      "pathname": "sweet-village/facebook-cover-sweet-village-820x360.jpg",
+      "size": 147452,
+      "sha256": "68b4dc422bf5ffc86d6d2e6b6faddbf841b4f82be840e3eed54224813e0b56a1",
+      "url": null
+    },
+    {
+      "filename": "facebook-cover-sweet-village-clean.png",
+      "pathname": "sweet-village/facebook-cover-sweet-village-clean.png",
+      "size": 7847181,
+      "sha256": "367b0cc7d779e1e0829f345294cceda13c94c5b03f9f7a79c197cef4e9c48797",
+      "url": null
+    },
+    {
+      "filename": "facebook-cover-sweet-village-mobile-preview-640x360.jpg",
+      "pathname": "sweet-village/facebook-cover-sweet-village-mobile-preview-640x360.jpg",
+      "size": 108393,
+      "sha256": "d4b21aa567f19cb86fc7a9d7ddeb7769e8df2c61d23bd645943a03655dccbb31",
+      "url": null
+    },
+    {
+      "filename": "facebook-cover-sweet-village.jpg",
+      "pathname": "sweet-village/facebook-cover-sweet-village.jpg",
+      "size": 8337964,
+      "sha256": "a538e0e8981ec4924071e73fe5419ebe79267c37e94e59c802252be96f2d0e1f",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-circle-180.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-circle-180.png",
+      "size": 60799,
+      "sha256": "1bff236799720cff2b4477d847313b92fdb27f1e03d2a7d4ebec0de8dcbef0f2",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-circle-40.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-circle-40.png",
+      "size": 4234,
+      "sha256": "ba07e6e4bac1e3620f2a1ca3fd45ff024c9a283df05acbb6f2f9f2eabc419467",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-facebook-ready.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-facebook-ready.png",
+      "size": 5489624,
+      "sha256": "fe7ed9329905e9de150f9be6f0d5ab28256a9247cc10c902da75eef1e635e59c",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-identity-circle-180.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-identity-circle-180.png",
+      "size": 55539,
+      "sha256": "e6dd368ef43b80282e5bb02cd41b086cb7fda1074e9cd971ef9951a81fc446cd",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-identity-circle-40.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-identity-circle-40.png",
+      "size": 4303,
+      "sha256": "9465ad8b5acbd2ff9bc3396c1184618cac524b690bd6b52a847ac6082a35a87a",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-identity-facebook-ready.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-identity-facebook-ready.png",
+      "size": 6014171,
+      "sha256": "2f4a3420466b632cc79b031056011fdfdc0482e926bb7b2efafba31896d82c67",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-identity-final.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-identity-final.png",
+      "size": 5517863,
+      "sha256": "7c51546170b027d620c2c7c6122084d0c66d1bbabaf9c6775c4d243317bbf7a1",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-identity-preserved.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-identity-preserved.png",
+      "size": 5623332,
+      "sha256": "044ae28f11123c6d84fe16e48e6b0d78c037c0cffab7cb3e81afee39b3308780",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-lettered-circle-180.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-lettered-circle-180.png",
+      "size": 57647,
+      "sha256": "ba65e24a805376adf644b655c09cf319213cac7e23735bc3f276028d9bd585e7",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-lettered-circle-40.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-lettered-circle-40.png",
+      "size": 4382,
+      "sha256": "6db21a32c44f615a57b3c94b0e3a70be697a148cd30dda4fedd6282a2c0621f0",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-lettered-facebook-ready.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-lettered-facebook-ready.png",
+      "size": 5552379,
+      "sha256": "57974a544ef5fd5e3aba5a90cb0084070ac0b6b1bf12927d7a0edee5e1eda532",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-lettered.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-lettered.png",
+      "size": 5158857,
+      "sha256": "fd16af53213b8329e67aad8bcac378fe2d4dae21dea9beba3e5d71bba66c5acc",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village-preview-180.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village-preview-180.png",
+      "size": 50758,
+      "sha256": "9edea28bab3a80f4536c5fe4e7a7f71056238fb21f47e53d1ff5d02949efab0a",
+      "url": null
+    },
+    {
+      "filename": "facebook-profile-sweet-village.png",
+      "pathname": "sweet-village/facebook-profile-sweet-village.png",
+      "size": 5066389,
+      "sha256": "f471f41b14b3620cf3f3bdf70a5986e22f0f6d5939652bb15e068ee34ebcfe65",
+      "url": null
+    },
+    {
+      "filename": "fb_bedroom_01.jpg",
+      "pathname": "sweet-village/fb_bedroom_01.jpg",
+      "size": 282736,
+      "sha256": "15eb8081a787069e1baf41e5ded21d822348e73d869b6f45df2f85d7f605c632",
+      "url": null
+    },
+    {
+      "filename": "fb_bedroom_02.jpg",
+      "pathname": "sweet-village/fb_bedroom_02.jpg",
+      "size": 239198,
+      "sha256": "3c0aae0e05f49402a26617267bfd009604ce7dbbe2d685e1e545baac6e8e6874",
+      "url": null
+    },
+    {
+      "filename": "fb_interior_01.jpg",
+      "pathname": "sweet-village/fb_interior_01.jpg",
+      "size": 312908,
+      "sha256": "dc5ef741ae9fc723170a542a1eb86addb9f5fa5c34110940518b8443df6d8a9c",
+      "url": null
+    },
+    {
+      "filename": "fb_interior_02.jpg",
+      "pathname": "sweet-village/fb_interior_02.jpg",
+      "size": 296235,
+      "sha256": "cdea20b816e60977294241403eb285d6c1a152c41c0f597eb7911497c33bdea9",
+      "url": null
+    },
+    {
+      "filename": "fb_misc_01.jpg",
+      "pathname": "sweet-village/fb_misc_01.jpg",
+      "size": 136891,
+      "sha256": "3a7aaa2a6f513d483cbf15dbcb335f715d5a74d4ef224baf10d72c90aa76c7c4",
+      "url": null
+    },
+    {
+      "filename": "fb_outdoor_01.jpg",
+      "pathname": "sweet-village/fb_outdoor_01.jpg",
+      "size": 131644,
+      "sha256": "0a631d5caa3d14487f0f9e0643b7f1502db536c92fb818082e76d11acc3b3a35",
+      "url": null
+    },
+    {
+      "filename": "fb_pool_01.jpg",
+      "pathname": "sweet-village/fb_pool_01.jpg",
+      "size": 253551,
+      "sha256": "6670a57ff694f8c801595ebdb6e923b3ed4df82a2fd0ad6deb64e3ac29949ca0",
+      "url": null
+    },
+    {
+      "filename": "gen_cottage_ext.jpg",
+      "pathname": "sweet-village/gen_cottage_ext.jpg",
+      "size": 451419,
+      "sha256": "13277de33d37bc7f090756ef12f6508428749377a3a143fd7b91723b6313c16c",
+      "url": null
+    },
+    {
+      "filename": "gen_event_space.jpg",
+      "pathname": "sweet-village/gen_event_space.jpg",
+      "size": 451261,
+      "sha256": "55b9099a6d2a9086fe984a14c12fbbd1cfa9c587f3d496452a23bef6e7e10743",
+      "url": null
+    },
+    {
+      "filename": "gen_hero.jpg",
+      "pathname": "sweet-village/gen_hero.jpg",
+      "size": 359754,
+      "sha256": "21c49b2d7cb5cea43bbb947686fad9160ee8124aea74ae274e46ebdb57de79b7",
+      "url": null
+    },
+    {
+      "filename": "gen_interior_room.jpg",
+      "pathname": "sweet-village/gen_interior_room.jpg",
+      "size": 332459,
+      "sha256": "814f2a15dd68686278fd6e2075eef72bee2b1c0a520489aab10c244bec14e378",
+      "url": null
+    },
+    {
+      "filename": "gen_pool_day.jpg",
+      "pathname": "sweet-village/gen_pool_day.jpg",
+      "size": 543228,
+      "sha256": "a2153ed939fcdb4878082d125fdecdc48d3d1aae0c0fe2145584fede5451f671",
+      "url": null
+    },
+    {
+      "filename": "gen_restaurant.jpg",
+      "pathname": "sweet-village/gen_restaurant.jpg",
+      "size": 343715,
+      "sha256": "99197ee5489b27bb9662c64d4d3232b00ce1fa0d3e87376af7f4238e90383a66",
+      "url": null
+    },
+    {
+      "filename": "gen_wedding.jpg",
+      "pathname": "sweet-village/gen_wedding.jpg",
+      "size": 388171,
+      "sha256": "26b69097fef61eea5362a0fdef636c7f2ba43b9c8bbfd486fe79fa3fa036603e",
+      "url": null
+    },
+    {
+      "filename": "menu_photo_style_reference.jpg",
+      "pathname": "sweet-village/menu_photo_style_reference.jpg",
+      "size": 5466996,
+      "sha256": "85fec93b3da7e8a68e5ab7eec458bc3959b970a5ef4d2372569e9ac192cda0ce",
+      "url": null
+    },
+    {
+      "filename": "menu-card-01-pickled-assortment.jpg",
+      "pathname": "sweet-village/menu-card-01-pickled-assortment.jpg",
+      "size": 5758772,
+      "sha256": "2aac6791ae15bac59edf9aa7df73a8ba31652dca01f06ea2ee89762ad39ce6ab",
+      "url": null
+    },
+    {
+      "filename": "menu-card-02-pkhali-assortment.jpg",
+      "pathname": "sweet-village/menu-card-02-pkhali-assortment.jpg",
+      "size": 5804021,
+      "sha256": "9223a39a07aaa0bea6810f5412bb3b3b1fa27417ecd1258e38ab9dcbdc59f4c5",
+      "url": null
+    },
+    {
+      "filename": "menu-card-03-fresh-herbs.jpg",
+      "pathname": "sweet-village/menu-card-03-fresh-herbs.jpg",
+      "size": 5769366,
+      "sha256": "cd28ddc1aa03f1ef6b87db26c27bdedec08fe3897c0f63414cbf15b6209efadc",
+      "url": null
+    },
+    {
+      "filename": "menu-card-04-cheese-assortment.jpg",
+      "pathname": "sweet-village/menu-card-04-cheese-assortment.jpg",
+      "size": 5069343,
+      "sha256": "5c6fd0e45608452d96fe00945013249964b1ed2619ddd1090c6b848ebf4b9eda",
+      "url": null
+    },
+    {
+      "filename": "menu-card-05-eggplant-walnuts.jpg",
+      "pathname": "sweet-village/menu-card-05-eggplant-walnuts.jpg",
+      "size": 5646971,
+      "sha256": "826bd178d215a69c1407ee55f7c696eea35048070450b662786ce0a99ba9919e",
+      "url": null
+    },
+    {
+      "filename": "menu-card-06-sulguni.jpg",
+      "pathname": "sweet-village/menu-card-06-sulguni.jpg",
+      "size": 4739758,
+      "sha256": "775fe53444e6eb7e147c92a9dc42ca79131ed576fddcf36150fa80f713e5387a",
+      "url": null
+    },
+    {
+      "filename": "menu-card-07-imeretian-cheese.jpg",
+      "pathname": "sweet-village/menu-card-07-imeretian-cheese.jpg",
+      "size": 4970052,
+      "sha256": "1db3f5d45e647792ae2f376bbadae3153d65c6a3c4f9a876fe9127638acbe3b0",
+      "url": null
+    },
+    {
+      "filename": "menu-card-08-green-salad.jpg",
+      "pathname": "sweet-village/menu-card-08-green-salad.jpg",
+      "size": 5346365,
+      "sha256": "6207c2507d28ec3a1280f073b8b7cb1dfc806155d3b6b8ee624c1eecd989d59e",
+      "url": null
+    },
+    {
+      "filename": "menu-card-09-tomato-cucumber-salad.jpg",
+      "pathname": "sweet-village/menu-card-09-tomato-cucumber-salad.jpg",
+      "size": 5724773,
+      "sha256": "8406a9e3142f0147c4cf02956b6a8a6f60cc7ff844f0ae0cc802ff4e35858065",
+      "url": null
+    },
+    {
+      "filename": "menu-card-10-tomato-cucumber-walnuts.jpg",
+      "pathname": "sweet-village/menu-card-10-tomato-cucumber-walnuts.jpg",
+      "size": 6363224,
+      "sha256": "28d7aaa1b3e17e30a68e2104c836d50001c14f89d6cf502b4fa5116455861453",
+      "url": null
+    },
+    {
+      "filename": "menu-card-11-greek-salad.jpg",
+      "pathname": "sweet-village/menu-card-11-greek-salad.jpg",
+      "size": 5397085,
+      "sha256": "0f4e1ad03e07a58493e877de9129017b9536f1bfc62591dd87618a02e00e3d11",
+      "url": null
+    },
+    {
+      "filename": "menu-card-12-caesar-salad.jpg",
+      "pathname": "sweet-village/menu-card-12-caesar-salad.jpg",
+      "size": 5294227,
+      "sha256": "1aec12aae65fee3ebe59e61cfc3bad5f050a2909fc64c8594207e815e13d8e59",
+      "url": null
+    },
+    {
+      "filename": "menu-card-13-atsetsili-salad.jpg",
+      "pathname": "sweet-village/menu-card-13-atsetsili-salad.jpg",
+      "size": 5720550,
+      "sha256": "c3aae9ec8e0bbaed23f4719410df39b7d15187cc2df016f6f55db9f413624244",
+      "url": null
+    },
+    {
+      "filename": "menu-card-14-chefs-salad.jpg",
+      "pathname": "sweet-village/menu-card-14-chefs-salad.jpg",
+      "size": 5547380,
+      "sha256": "57efbcba4f4635c34b18bf84a720847fe61c1f84c4bcc7b9b1fa64cd4ee119bc",
+      "url": null
+    },
+    {
+      "filename": "menu-card-15-mexican-chicken-salad.jpg",
+      "pathname": "sweet-village/menu-card-15-mexican-chicken-salad.jpg",
+      "size": 5482694,
+      "sha256": "7f287a76de11a9c04b3fa6b92a98adbac41e8e5bf4232cca0d521d11f585503b",
+      "url": null
+    },
+    {
+      "filename": "menu-card-16-mushroom-salad.jpg",
+      "pathname": "sweet-village/menu-card-16-mushroom-salad.jpg",
+      "size": 6048590,
+      "sha256": "365f7e53f10cdf05a301cb56af6f11246f3a5b90410e6038854268051d96881c",
+      "url": null
+    },
+    {
+      "filename": "menu-card-17-imeruli-khachapuri.jpg",
+      "pathname": "sweet-village/menu-card-17-imeruli-khachapuri.jpg",
+      "size": 5659428,
+      "sha256": "277e2e52a667db0ef347fc8931f437232962835493ff906f17f32128a0977bda",
+      "url": null
+    },
+    {
+      "filename": "menu-card-18-megruli-khachapuri.jpg",
+      "pathname": "sweet-village/menu-card-18-megruli-khachapuri.jpg",
+      "size": 6519926,
+      "sha256": "eef49ba03e16b1f4e7dfc96df33606ab6b187e72921319b30b037e0acab4e5f4",
+      "url": null
+    },
+    {
+      "filename": "menu-card-19-acharuli-khachapuri-replacement.jpg",
+      "pathname": "sweet-village/menu-card-19-acharuli-khachapuri-replacement.jpg",
+      "size": 5594766,
+      "sha256": "807bbedc6789dde465b0cf136471db8d2ed06226581d4638594630c58d363b11",
+      "url": null
+    },
+    {
+      "filename": "menu-card-19-acharuli-khachapuri.jpg",
+      "pathname": "sweet-village/menu-card-19-acharuli-khachapuri.jpg",
+      "size": 5710135,
+      "sha256": "b420045cabc08bd8bcd029e173453a2a0c01d46f49fa5ad0c3948548d24e4ca5",
+      "url": null
+    },
+    {
+      "filename": "menu-card-20-lobiani-replacement.jpg",
+      "pathname": "sweet-village/menu-card-20-lobiani-replacement.jpg",
+      "size": 5316121,
+      "sha256": "5ce667a4538adc75da78aea1747fce56af167621f09e4cb986429e7ac3796bef",
+      "url": null
+    },
+    {
+      "filename": "menu-card-20-lobiani.jpg",
+      "pathname": "sweet-village/menu-card-20-lobiani.jpg",
+      "size": 6017925,
+      "sha256": "0d25dd1651db4d4791668ee72ac5e110327cda8ce4a2baecaff65a9489e0200e",
+      "url": null
+    },
+    {
+      "filename": "menu-card-21-chvishtari.jpg",
+      "pathname": "sweet-village/menu-card-21-chvishtari.jpg",
+      "size": 5589654,
+      "sha256": "6a67adb78b9d5a50b35daf7e0e3648948aa8402718e495237f4b7f05ade2b9d8",
+      "url": null
+    },
+    {
+      "filename": "menu-card-22-mchadi.jpg",
+      "pathname": "sweet-village/menu-card-22-mchadi.jpg",
+      "size": 5366230,
+      "sha256": "bcd8bb9d5c0f90ed9f1195acd3aa50cd6c06692da7abca799a25da35c84fdb25",
+      "url": null
+    },
+    {
+      "filename": "menu-card-23-pepperoni-pizza.jpg",
+      "pathname": "sweet-village/menu-card-23-pepperoni-pizza.jpg",
+      "size": 5695346,
+      "sha256": "e38f8e8ac3fd1931c69df0de1ca423a7c2d8f1e7bfd51d8ec46dcb36696b2922",
+      "url": null
+    },
+    {
+      "filename": "menu-card-24-margherita-pizza-replacement.jpg",
+      "pathname": "sweet-village/menu-card-24-margherita-pizza-replacement.jpg",
+      "size": 6418906,
+      "sha256": "9811cc9ea3fa48302801f72e685bdc3106872d057b99238ae5a2d12157031b67",
+      "url": null
+    },
+    {
+      "filename": "menu-card-24-margherita-pizza.jpg",
+      "pathname": "sweet-village/menu-card-24-margherita-pizza.jpg",
+      "size": 6440313,
+      "sha256": "ac3d390af261d7bf42ad6d0f66e2566305a59d6d447b205ee2f98f868bb43d30",
+      "url": null
+    },
+    {
+      "filename": "menu-card-25-mushroom-soup.jpg",
+      "pathname": "sweet-village/menu-card-25-mushroom-soup.jpg",
+      "size": 5399011,
+      "sha256": "b11bc2a825463e039fea56285394abaa618ab4f9e69f37689d9779b9a1c88fb5",
+      "url": null
+    },
+    {
+      "filename": "menu-card-26-chakhokhbili.jpg",
+      "pathname": "sweet-village/menu-card-26-chakhokhbili.jpg",
+      "size": 5715457,
+      "sha256": "cc9d10a28dde06c74252e0468de24153b52a9f1e5d03c71288af1575b540ccb5",
+      "url": null
+    },
+    {
+      "filename": "menu-card-27-chicken-broth.jpg",
+      "pathname": "sweet-village/menu-card-27-chicken-broth.jpg",
+      "size": 5237088,
+      "sha256": "97d6b160d633b5dda2500089cb23c542d1eb65317b7aea88a0f1b259d9ad0357",
+      "url": null
+    },
+    {
+      "filename": "menu-card-28-kharcho.jpg",
+      "pathname": "sweet-village/menu-card-28-kharcho.jpg",
+      "size": 5223061,
+      "sha256": "cf5b9498d717c62b0ef0c41528a6501854e219df04b5f97addd236c9b6dc6dc2",
+      "url": null
+    },
+    {
+      "filename": "menu-card-29-khashlama.jpg",
+      "pathname": "sweet-village/menu-card-29-khashlama.jpg",
+      "size": 5610030,
+      "sha256": "b7fa668e215758fa7902bc4b2c1fe96e56308a93f8dfa2b23c5a23b7a9a2c793",
+      "url": null
+    },
+    {
+      "filename": "menu-card-30-mushroom-cream-soup.jpg",
+      "pathname": "sweet-village/menu-card-30-mushroom-cream-soup.jpg",
+      "size": 5269044,
+      "sha256": "35c210f23413df738b4cda96a20388c211e44b04e52987585c6319d783afe2cf",
+      "url": null
+    },
+    {
+      "filename": "menu-card-31-mushrooms-ketsi-replacement.jpg",
+      "pathname": "sweet-village/menu-card-31-mushrooms-ketsi-replacement.jpg",
+      "size": 5552428,
+      "sha256": "bc6b9103ecb5a4a08cf730eaa6fb891399a8ed56465321d71fc05f01bce072c0",
+      "url": null
+    },
+    {
+      "filename": "menu-card-31-mushrooms-ketsi.jpg",
+      "pathname": "sweet-village/menu-card-31-mushrooms-ketsi.jpg",
+      "size": 6378333,
+      "sha256": "dfa7b5c5a978d5a98369603a8cf039572a4055daa9f7657271c6b42df9272d48",
+      "url": null
+    },
+    {
+      "filename": "menu-card-32-mushrooms-ketsi-cheese-replacement.jpg",
+      "pathname": "sweet-village/menu-card-32-mushrooms-ketsi-cheese-replacement.jpg",
+      "size": 5468072,
+      "sha256": "f55a8e8ba27c053649c2741cf62ae5b199297ce6932de9a1de77ccee1cadf985",
+      "url": null
+    },
+    {
+      "filename": "menu-card-32-mushrooms-ketsi-cheese.jpg",
+      "pathname": "sweet-village/menu-card-32-mushrooms-ketsi-cheese.jpg",
+      "size": 6152279,
+      "sha256": "8dd8101de0cce3b88311d05862bf953506cb16643121ed2de5eb52043fb1d700",
+      "url": null
+    },
+    {
+      "filename": "menu-card-33-french-fries.jpg",
+      "pathname": "sweet-village/menu-card-33-french-fries.jpg",
+      "size": 5645661,
+      "sha256": "baf7bf858f48ab8a8bcfe9b84378221414b6a79389466290ad831feec838aa27",
+      "url": null
+    },
+    {
+      "filename": "menu-card-34-fried-potatoes-replacement.jpg",
+      "pathname": "sweet-village/menu-card-34-fried-potatoes-replacement.jpg",
+      "size": 5158440,
+      "sha256": "2f65c2203dee91179582c0062f0b6e15009676cf2e9e63e212d5ded2f3f203dc",
+      "url": null
+    },
+    {
+      "filename": "menu-card-34-fried-potatoes.jpg",
+      "pathname": "sweet-village/menu-card-34-fried-potatoes.jpg",
+      "size": 6587502,
+      "sha256": "51225a53897a65213610b59417abe3c7e18f5b3f3b3abd096f525a38b3184819",
+      "url": null
+    },
+    {
+      "filename": "menu-card-35-mexican-potato-wedges-replacement.jpg",
+      "pathname": "sweet-village/menu-card-35-mexican-potato-wedges-replacement.jpg",
+      "size": 5742864,
+      "sha256": "082660ced17d588f995c431ce1782e13bcc2b724a4940630ed9de523be909041",
+      "url": null
+    },
+    {
+      "filename": "menu-card-35-mexican-potato-wedges.jpg",
+      "pathname": "sweet-village/menu-card-35-mexican-potato-wedges.jpg",
+      "size": 6394510,
+      "sha256": "ea001e4f55cc7885821c7baa067bdf9441d13316d7d79c112925a57f3f2bba80",
+      "url": null
+    },
+    {
+      "filename": "menu-card-36-mashed-potatoes.jpg",
+      "pathname": "sweet-village/menu-card-36-mashed-potatoes.jpg",
+      "size": 4826270,
+      "sha256": "7fee37110bf4cb2e03f76eff780082585b7fc00996e3d51b36c9a84d0d643c0a",
+      "url": null
+    },
+    {
+      "filename": "menu-card-37-lobio-clay-pot-replacement.jpg",
+      "pathname": "sweet-village/menu-card-37-lobio-clay-pot-replacement.jpg",
+      "size": 6049916,
+      "sha256": "5c5011d954af26b8b11f5f00aa386309d25b5ee90a6d7352db4f194ff43f4b97",
+      "url": null
+    },
+    {
+      "filename": "menu-card-38-tkemali.jpg",
+      "pathname": "sweet-village/menu-card-38-tkemali.jpg",
+      "size": 5661308,
+      "sha256": "b8ec4a9809b23db1910679ba8909659f033b11b090ff887f362013d3dd2c8811",
+      "url": null
+    },
+    {
+      "filename": "menu-card-39-satsebeli.jpg",
+      "pathname": "sweet-village/menu-card-39-satsebeli.jpg",
+      "size": 4972033,
+      "sha256": "80fd940c17ec98f250e268ea243222e2e263cc89803a7ef2389acbed37cf0453",
+      "url": null
+    },
+    {
+      "filename": "menu-card-40-ostri-replacement.jpg",
+      "pathname": "sweet-village/menu-card-40-ostri-replacement.jpg",
+      "size": 5146169,
+      "sha256": "7d973d4ab4ce2d31807462eedbb0f4a4d6a7dc758fbcbaabadd4550eb9d83a1b",
+      "url": null
+    },
+    {
+      "filename": "menu-card-41-chakapuli.jpg",
+      "pathname": "sweet-village/menu-card-41-chakapuli.jpg",
+      "size": 5626786,
+      "sha256": "9e39de6d628595638e7c338c25115dcd1f7d0200382ad5d4692790faace9d5d7",
+      "url": null
+    },
+    {
+      "filename": "menu-card-42-ojakhuri-pork.jpg",
+      "pathname": "sweet-village/menu-card-42-ojakhuri-pork.jpg",
+      "size": 6608897,
+      "sha256": "bc5c36f1e014950453239c7c311f7423cdc5d810cdf910eaca4459da51555e56",
+      "url": null
+    },
+    {
+      "filename": "menu-card-43-ojakhuri-beef.jpg",
+      "pathname": "sweet-village/menu-card-43-ojakhuri-beef.jpg",
+      "size": 6587172,
+      "sha256": "54d7bcbd32ee2c2380f167a70b0ad4f07063afef00556d9b62b43afb11113778",
+      "url": null
+    },
+    {
+      "filename": "menu-card-44-shkmeruli.jpg",
+      "pathname": "sweet-village/menu-card-44-shkmeruli.jpg",
+      "size": 6019334,
+      "sha256": "421684738a434c4f3a396df58358b4e93455ca1d97bcd76717c63bb387eb27aa",
+      "url": null
+    },
+    {
+      "filename": "menu-card-45-chicken-tabaka.jpg",
+      "pathname": "sweet-village/menu-card-45-chicken-tabaka.jpg",
+      "size": 6782570,
+      "sha256": "4ddc0727c97aa37dd6681d14fb6a5bc75119763df0f4dfe4dd6025c23808a3f7",
+      "url": null
+    },
+    {
+      "filename": "menu-card-46-grilled-trout-replacement.jpg",
+      "pathname": "sweet-village/menu-card-46-grilled-trout-replacement.jpg",
+      "size": 5871676,
+      "sha256": "da52de097e66db630bbea680358b2c3c0cfef36ca75fa696657e718ceb10335a",
+      "url": null
+    },
+    {
+      "filename": "menu-card-47-adjapsandali.jpg",
+      "pathname": "sweet-village/menu-card-47-adjapsandali.jpg",
+      "size": 5948578,
+      "sha256": "1bfa07342ce4dfc16ef4e109a843771154153f143f10842a260034ea58963678",
+      "url": null
+    },
+    {
+      "filename": "menu-card-48-veal-chef-recipe-replacement.jpg",
+      "pathname": "sweet-village/menu-card-48-veal-chef-recipe-replacement.jpg",
+      "size": 5561602,
+      "sha256": "02d3bb5bd8b9e347552122ced76ab8a7ffa79c1263daeb42f51f67cffaea7e35",
+      "url": null
+    },
+    {
+      "filename": "menu-card-49-madame-bovary.jpg",
+      "pathname": "sweet-village/menu-card-49-madame-bovary.jpg",
+      "size": 5891057,
+      "sha256": "87924f5016ef2e996e96c4eb4f681616de1dca5b2a31d89f4567716fd71c831a",
+      "url": null
+    },
+    {
+      "filename": "menu-card-50-veal-ribs-ajika.jpg",
+      "pathname": "sweet-village/menu-card-50-veal-ribs-ajika.jpg",
+      "size": 6274041,
+      "sha256": "d134b64268d0b7d13730b27a810812509e64bfd62503044a5235f5b88313d1df",
+      "url": null
+    },
+    {
+      "filename": "menu-card-51-veal-ribs-kindzmari.jpg",
+      "pathname": "sweet-village/menu-card-51-veal-ribs-kindzmari.jpg",
+      "size": 6367931,
+      "sha256": "ab6240415b1435415bf2efbeb1c08141b208f2528a84965ab3dc6735fefd4332",
+      "url": null
+    },
+    {
+      "filename": "menu-card-52-kuchmachi.jpg",
+      "pathname": "sweet-village/menu-card-52-kuchmachi.jpg",
+      "size": 5996364,
+      "sha256": "c86db0992c46de954416bd679bce58be2f1ebbd302bebbc0b6965e7718446d64",
+      "url": null
+    },
+    {
+      "filename": "menu-card-53-ojakhuri-mushrooms.jpg",
+      "pathname": "sweet-village/menu-card-53-ojakhuri-mushrooms.jpg",
+      "size": 6583327,
+      "sha256": "504a64a666f9801b0a747bd5c85f1a87beba7ef4a253df615a4ffbd43bd37513",
+      "url": null
+    },
+    {
+      "filename": "menu-card-54-ojakhuri-chicken.jpg",
+      "pathname": "sweet-village/menu-card-54-ojakhuri-chicken.jpg",
+      "size": 6174096,
+      "sha256": "faefb417d281b3df04245a58b4e164c7c88f3e969528f419bcf4b5fe82f4076d",
+      "url": null
+    },
+    {
+      "filename": "menu-card-55-beef-tongue.jpg",
+      "pathname": "sweet-village/menu-card-55-beef-tongue.jpg",
+      "size": 5296899,
+      "sha256": "1a6d007c60ba60bf82f83920014fcc7df6c783be183b1388f9760e525789a8d9",
+      "url": null
+    },
+    {
+      "filename": "menu-card-56-khinkali-replacement.jpg",
+      "pathname": "sweet-village/menu-card-56-khinkali-replacement.jpg",
+      "size": 4547330,
+      "sha256": "596d6a112cfad35c04b5002a07d8588729365c4fd9d1a9ab3d7ef11deb888b06",
+      "url": null
+    },
+    {
+      "filename": "menu-card-57-pork-bbq-replacement.jpg",
+      "pathname": "sweet-village/menu-card-57-pork-bbq-replacement.jpg",
+      "size": 5111668,
+      "sha256": "c9658d301e8bc4c21b156091e66859ee555bb6f52631debff545121446be519f",
+      "url": null
+    },
+    {
+      "filename": "menu-card-57-pork-bbq.jpg",
+      "pathname": "sweet-village/menu-card-57-pork-bbq.jpg",
+      "size": 5527869,
+      "sha256": "f6a35c4076aa1e46518a43fb4450e360bd50cea2d62318f150e9f8a38af7a631",
+      "url": null
+    },
+    {
+      "filename": "menu-card-58-veal-bbq-replacement.jpg",
+      "pathname": "sweet-village/menu-card-58-veal-bbq-replacement.jpg",
+      "size": 5189938,
+      "sha256": "13276314d91c984e59332f4293f5c885ee64b5c6c2c782c71b424cbcfba89126",
+      "url": null
+    },
+    {
+      "filename": "menu-card-58-veal-bbq.jpg",
+      "pathname": "sweet-village/menu-card-58-veal-bbq.jpg",
+      "size": 5649431,
+      "sha256": "0c30a3e098712295bf363184bc659634a85c6b9dfac7ea6434cffc54a5546bcf",
+      "url": null
+    },
+    {
+      "filename": "menu-card-59-chicken-bbq-replacement.jpg",
+      "pathname": "sweet-village/menu-card-59-chicken-bbq-replacement.jpg",
+      "size": 5112174,
+      "sha256": "f32a666e5168af2f91c7f43cfe9eaaedfc637b501431e77ea9355671083fb195",
+      "url": null
+    },
+    {
+      "filename": "menu-card-59-chicken-bbq.jpg",
+      "pathname": "sweet-village/menu-card-59-chicken-bbq.jpg",
+      "size": 5719838,
+      "sha256": "a76f085ec4acf7ec682608c3741fb910d35af63f12bb45596a0476c50ee07e0f",
+      "url": null
+    },
+    {
+      "filename": "menu-card-60-kupati-replacement.jpg",
+      "pathname": "sweet-village/menu-card-60-kupati-replacement.jpg",
+      "size": 6144160,
+      "sha256": "18b20c0a38386e21d5432e5507a7b79b50f7086c1d4d51ac2ed1d3577f12c0ba",
+      "url": null
+    },
+    {
+      "filename": "menu-card-60-kupati.jpg",
+      "pathname": "sweet-village/menu-card-60-kupati.jpg",
+      "size": 6806423,
+      "sha256": "ba00d4883a5505937d7b6d75df58e619a1c6bd5f0eb5767455eaf844d58a99a5",
+      "url": null
+    },
+    {
+      "filename": "menu-card-61-lemonade-replacement.jpg",
+      "pathname": "sweet-village/menu-card-61-lemonade-replacement.jpg",
+      "size": 5054827,
+      "sha256": "87006bcf70be0ccacd0931ced0466dc9f1749909e15217e4fc2462f4bc8f82e2",
+      "url": null
+    },
+    {
+      "filename": "menu-card-62-borjomi.jpg",
+      "pathname": "sweet-village/menu-card-62-borjomi.jpg",
+      "size": 5408598,
+      "sha256": "116c4adcf083f30582e19fd6c0ea1c4fdf21a99381577dd1c17540a321ae77f2",
+      "url": null
+    },
+    {
+      "filename": "menu-card-63-nabeghlavi-replacement.jpg",
+      "pathname": "sweet-village/menu-card-63-nabeghlavi-replacement.jpg",
+      "size": 4940184,
+      "sha256": "8c37cd91913dcf9623af68c89dc3fbe313042ce8eb9482e48946166a2f947940",
+      "url": null
+    },
+    {
+      "filename": "menu-card-64-mtsi-water-half.jpg",
+      "pathname": "sweet-village/menu-card-64-mtsi-water-half.jpg",
+      "size": 5443156,
+      "sha256": "ceeb88602af2d1ad7dfb75a7ff368636533d0f5765edef3e782550ac350cdee3",
+      "url": null
+    },
+    {
+      "filename": "menu-card-65-mtsi-water-one-liter.jpg",
+      "pathname": "sweet-village/menu-card-65-mtsi-water-one-liter.jpg",
+      "size": 5411743,
+      "sha256": "3b6e085416066213357c8aba3678bea354d49afa21647056d9b6778c40841f1f",
+      "url": null
+    },
+    {
+      "filename": "menu-card-66-loose-tea.jpg",
+      "pathname": "sweet-village/menu-card-66-loose-tea.jpg",
+      "size": 5327058,
+      "sha256": "d4e1d1e76aaef90641f555a4b1d86215efb7fc7ca5fdf2116c1f20404fa3e421",
+      "url": null
+    },
+    {
+      "filename": "menu-card-67-teabag-tea.jpg",
+      "pathname": "sweet-village/menu-card-67-teabag-tea.jpg",
+      "size": 4914984,
+      "sha256": "58fa9c824df86031a773c8a64c33be1abbe1419ea081459aa0569329229cabde",
+      "url": null
+    },
+    {
+      "filename": "menu-card-68-turkish-coffee-replacement.jpg",
+      "pathname": "sweet-village/menu-card-68-turkish-coffee-replacement.jpg",
+      "size": 5002415,
+      "sha256": "369e9ba2f5f17d56be794cad16c7cdc960b6f5ed53e7eedcb2f80169a3ae63f4",
+      "url": null
+    },
+    {
+      "filename": "stay-grand-exterior.jpg",
+      "pathname": "sweet-village/stay-grand-exterior.jpg",
+      "size": 7097938,
+      "sha256": "91d28ece27731f3566cae6662031e92041321360617c21f19808857e0ec02180",
+      "url": null
+    },
+    {
+      "filename": "stay-grand-interior.jpg",
+      "pathname": "sweet-village/stay-grand-interior.jpg",
+      "size": 6620219,
+      "sha256": "5dd87560a324a562d9cb6f6266a259dc2509e08a7b326962b01ba7229db0fcfc",
+      "url": null
+    },
+    {
+      "filename": "stay-large-a-ground.jpg",
+      "pathname": "sweet-village/stay-large-a-ground.jpg",
+      "size": 5506407,
+      "sha256": "7367eaf05d7e017b6044f3b74d14194d269c0244eb24b9de60f092797db7e929",
+      "url": null
+    },
+    {
+      "filename": "stay-large-a-loft.jpg",
+      "pathname": "sweet-village/stay-large-a-loft.jpg",
+      "size": 5691124,
+      "sha256": "58213f7429ccbf03faafc96d33792875aae6adcdcf6c3fb742e7e20f83bb70e8",
+      "url": null
+    },
+    {
+      "filename": "stay-large-b-ground.jpg",
+      "pathname": "sweet-village/stay-large-b-ground.jpg",
+      "size": 5465705,
+      "sha256": "a560e4abf6974527ea084222d6bb59e204cafc23d0cf20e7a0c234152a729392",
+      "url": null
+    },
+    {
+      "filename": "stay-large-b-loft.jpg",
+      "pathname": "sweet-village/stay-large-b-loft.jpg",
+      "size": 5215968,
+      "sha256": "1bd12289b7f5e9ce7b18f2305a9edbaee95d74ca8827ffb56150b873359d9ad6",
+      "url": null
+    },
+    {
+      "filename": "stay-large-cottage-exterior.jpg",
+      "pathname": "sweet-village/stay-large-cottage-exterior.jpg",
+      "size": 7229924,
+      "sha256": "b48bcc6c9270176c75511add5525cbda0a0f3af73be02b34fa3fcd88bde9f351",
+      "url": null
+    },
+    {
+      "filename": "stay-small-a-exterior.jpg",
+      "pathname": "sweet-village/stay-small-a-exterior.jpg",
+      "size": 6880471,
+      "sha256": "75ff8129c5407727fb1994a1376ec5400e4418a7690047c80cdef571f51e02dc",
+      "url": null
+    },
+    {
+      "filename": "stay-small-a-interior.jpg",
+      "pathname": "sweet-village/stay-small-a-interior.jpg",
+      "size": 5682880,
+      "sha256": "62ef899562bcdb1a6924de0cafe64ee59b1ed44cc7454b3be522e588a9ad2d78",
+      "url": null
+    },
+    {
+      "filename": "stay-small-a-porch.jpg",
+      "pathname": "sweet-village/stay-small-a-porch.jpg",
+      "size": 6282002,
+      "sha256": "4035b86137c2b7e2b8a4aabf4db6079ac9e4ab18381dbc3fde2789df05f5ba68",
+      "url": null
+    },
+    {
+      "filename": "stay-small-b-exterior.jpg",
+      "pathname": "sweet-village/stay-small-b-exterior.jpg",
+      "size": 7398021,
+      "sha256": "d202b4e208197f9840a476a0f05a682a6d86b03435b2b9276304603cd61d345f",
+      "url": null
+    },
+    {
+      "filename": "stay-small-b-interior.jpg",
+      "pathname": "sweet-village/stay-small-b-interior.jpg",
+      "size": 6071360,
+      "sha256": "5f1b8835d5794dc2bd5a6392eae091bb54415f255e551e54b5c7905b5d302069",
+      "url": null
+    }
+  ]
+}
