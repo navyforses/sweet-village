@@ -1,68 +1,100 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Clock, MapPin, Navigation, Route } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
-import { MapView } from "@/components/Map";
+import { loadGoogleMaps } from "@/lib/loadMaps";
 import { ATTRACTIONS, LOCATION } from "@shared/venue";
 import { useI18n } from "@/i18n";
 
 export default function Location() {
   const { t } = useI18n();
+  const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
-  const [mapReady, setMapReady] = useState(false);
+  /** idle → loading → ready | failed. Drives the placeholder vs fallback. */
+  const [mapState, setMapState] = useState<"loading" | "ready" | "failed">("loading");
 
-  const center = { lat: LOCATION.lat, lng: LOCATION.lng };
+  const center = useMemo(() => ({ lat: LOCATION.lat, lng: LOCATION.lng }), []);
 
   /** Property pin plus one pin per attraction, labelled with drive time. */
-  const onMapReady = (map: google.maps.Map) => {
-    mapRef.current = map;
-    setMapReady(true);
-    const g = window.google;
-    if (!g?.maps?.marker) return;
+  const drawMarkers = useCallback(
+    (map: google.maps.Map) => {
+      const g = window.google;
+      if (!g?.maps?.marker) return;
 
-    const propertyPin = document.createElement("div");
-    propertyPin.style.cssText =
-      "background:#2E7D74;color:#fff;padding:7px 13px;font:500 12px/1.2 sans-serif;border:2px solid #D4AF37;white-space:nowrap";
-    propertyPin.textContent = t.brand.name;
+      const propertyPin = document.createElement("div");
+      propertyPin.style.cssText =
+        "background:#2E7D74;color:#fff;padding:7px 13px;font:500 12px/1.2 sans-serif;border:2px solid #D4AF37;white-space:nowrap";
+      propertyPin.textContent = t.brand.name;
 
-    new g.maps.marker.AdvancedMarkerElement({
-      map,
-      position: center,
-      title: t.brand.name,
-      content: propertyPin,
-      zIndex: 100,
+      new g.maps.marker.AdvancedMarkerElement({
+        map,
+        position: center,
+        title: t.brand.name,
+        content: propertyPin,
+        zIndex: 100,
+      });
+
+      const bounds = new g.maps.LatLngBounds();
+      bounds.extend(center);
+
+      for (const a of ATTRACTIONS) {
+        const info = t.location.attractions[a.id as keyof typeof t.location.attractions];
+        const el = document.createElement("div");
+        el.style.cssText =
+          "background:#fff;color:#2C3531;padding:5px 10px;font:400 11px/1.2 sans-serif;border:1px solid #93A889;white-space:nowrap";
+        el.textContent = `${info.title} · ${a.minutes} ${t.common.minutes}`;
+
+        const marker = new g.maps.marker.AdvancedMarkerElement({
+          map,
+          position: { lat: a.lat, lng: a.lng },
+          title: info.title,
+          content: el,
+        });
+        marker.addListener("click", () => {
+          window.open(
+            `https://www.google.com/maps/dir/?api=1&origin=${center.lat},${center.lng}&destination=${a.lat},${a.lng}`,
+            "_blank",
+            "noopener",
+          );
+        });
+        bounds.extend({ lat: a.lat, lng: a.lng });
+      }
+
+      map.fitBounds(bounds, 56);
+    },
+    [center, t],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    loadGoogleMaps("marker").then(ok => {
+      if (cancelled) return;
+      if (!ok || !container.current || !window.google?.maps) {
+        setMapState("failed");
+        return;
+      }
+
+      const map = new window.google.maps.Map(container.current, {
+        center,
+        zoom: 10,
+        mapId: "DEMO_MAP_ID",
+        mapTypeControl: false,
+        streetViewControl: false,
+      });
+      mapRef.current = map;
+      drawMarkers(map);
+      setMapState("ready");
     });
 
-    const bounds = new g.maps.LatLngBounds();
-    bounds.extend(center);
-
-    for (const a of ATTRACTIONS) {
-      const info = t.location.attractions[a.id as keyof typeof t.location.attractions];
-      const el = document.createElement("div");
-      el.style.cssText =
-        "background:#fff;color:#2C3531;padding:5px 10px;font:400 11px/1.2 sans-serif;border:1px solid #93A889;white-space:nowrap";
-      el.textContent = `${info.title} · ${a.minutes} ${t.common.minutes}`;
-
-      const marker = new g.maps.marker.AdvancedMarkerElement({
-        map,
-        position: { lat: a.lat, lng: a.lng },
-        title: info.title,
-        content: el,
-      });
-      marker.addListener("click", () => {
-        window.open(
-          `https://www.google.com/maps/dir/?api=1&origin=${center.lat},${center.lng}&destination=${a.lat},${a.lng}`,
-          "_blank",
-          "noopener",
-        );
-      });
-      bounds.extend({ lat: a.lat, lng: a.lng });
-    }
-
-    map.fitBounds(bounds, 56);
-  };
+    return () => {
+      cancelled = true;
+    };
+  }, [center, drawMarkers]);
 
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${center.lat},${center.lng}`;
+  /** Used when the interactive map cannot load, so the section still works. */
+  const embedUrl = `https://maps.google.com/maps?q=${center.lat},${center.lng}&z=10&output=embed`;
 
   return (
     <div className="container py-16 md:py-20">
@@ -73,17 +105,28 @@ export default function Location() {
       />
 
       <div className="relative mt-12 border border-line">
-        {!mapReady && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-muted">
+        <div
+          ref={container}
+          className="h-[24rem] w-full [&>div]:size-full md:h-[32rem]"
+          aria-label={t.location.title}
+        />
+
+        {mapState === "loading" && (
+          <div className="absolute inset-0 flex items-center justify-center bg-muted">
             <span className="sv-eyebrow">{t.location.eyebrow}</span>
           </div>
         )}
-        <MapView
-          className="h-[24rem] w-full md:h-[32rem]"
-          initialCenter={center}
-          initialZoom={10}
-          onMapReady={onMapReady}
-        />
+
+        {/* Interactive map unavailable — keep the section useful. */}
+        {mapState === "failed" && (
+          <iframe
+            title={t.location.title}
+            src={embedUrl}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="absolute inset-0 size-full border-0"
+          />
+        )}
       </div>
 
       <div className="mt-8 grid gap-8 md:grid-cols-2">
