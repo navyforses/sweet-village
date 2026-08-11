@@ -7,6 +7,7 @@ import { I18nProvider } from "./i18n";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Stay from "./pages/Stay";
+import AccommodationDetail from "./pages/AccommodationDetail";
 import Menu from "./pages/Menu";
 import Events from "./pages/Events";
 import Pool from "./pages/Pool";
@@ -19,6 +20,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/stay/:unitId" component={AccommodationDetail} />
       <Route path="/stay" component={Stay} />
       {/* /menu must always resolve to this live page, never a static file. */}
       <Route path="/menu" component={Menu} />

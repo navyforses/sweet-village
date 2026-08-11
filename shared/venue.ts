@@ -38,6 +38,8 @@ export interface Unit {
   priceLow: number;
   priceHigh: number;
   photo: string;
+  /** Exterior and interior visuals for the public accommodation detail page. */
+  gallery: readonly string[];
   provisional: true;
 }
 
@@ -50,6 +52,11 @@ export const UNITS: Unit[] = [
     priceLow: 120,
     priceHigh: 190,
     photo: "/manus-storage/gen_cottage_ext_325bdf81.jpg",
+    gallery: [
+      "/manus-storage/stay-small-a-exterior_8e523eac.jpg",
+      "/manus-storage/stay-small-a-interior_ad1e9258.jpg",
+      "/manus-storage/stay-small-a-porch_04c3ec8b.jpg",
+    ],
     provisional: true,
   },
   {
@@ -60,6 +67,11 @@ export const UNITS: Unit[] = [
     priceLow: 120,
     priceHigh: 190,
     photo: "/manus-storage/fb_bedroom_01_29b3a4a3.jpg",
+    gallery: [
+      "/manus-storage/stay-small-b-exterior_0446954f.jpg",
+      "/manus-storage/stay-small-b-interior_281e953e.jpg",
+      "/manus-storage/fb_bedroom_01_29b3a4a3.jpg",
+    ],
     provisional: true,
   },
   {
@@ -70,6 +82,11 @@ export const UNITS: Unit[] = [
     priceLow: 180,
     priceHigh: 280,
     photo: "/manus-storage/fb_bedroom_02_3d703364.jpg",
+    gallery: [
+      "/manus-storage/stay-large-cottage-exterior_b2037ad0.jpg",
+      "/manus-storage/stay-large-a-ground_4860b381.jpg",
+      "/manus-storage/stay-large-a-loft_c8295f6f.jpg",
+    ],
     provisional: true,
   },
   {
@@ -80,6 +97,11 @@ export const UNITS: Unit[] = [
     priceLow: 180,
     priceHigh: 280,
     photo: "/manus-storage/fb_interior_02_3d67dace.jpg",
+    gallery: [
+      "/manus-storage/stay-large-cottage-exterior_b2037ad0.jpg",
+      "/manus-storage/stay-large-b-ground_5a9d1783.jpg",
+      "/manus-storage/stay-large-b-loft_991220e0.jpg",
+    ],
     provisional: true,
   },
   {
@@ -90,6 +112,11 @@ export const UNITS: Unit[] = [
     priceLow: 200,
     priceHigh: 320,
     photo: "/manus-storage/gen_interior_room_17b6f3da.jpg",
+    gallery: [
+      "/manus-storage/stay-grand-exterior_c75a11d3.jpg",
+      "/manus-storage/stay-grand-interior_4d0e93a9.jpg",
+      "/manus-storage/gen_interior_room_17b6f3da.jpg",
+    ],
     provisional: true,
   },
 ];

@@ -33,6 +33,16 @@ describe("accommodation inventory", () => {
     expect(grand.maxGuests).toBe(6);
   });
 
+  it("gives every cottage or room a three-photo exterior/interior detail gallery", () => {
+    for (const unit of UNITS) {
+      expect(unit.gallery).toHaveLength(3);
+      expect(new Set(unit.gallery).size).toBe(3);
+      for (const photo of unit.gallery) {
+        expect(photo).toMatch(/^\/manus-storage\//);
+      }
+    }
+  });
+
   it("never lets a unit sleep more on beds than its stated maximum", () => {
     for (const u of UNITS) {
       expect(u.maxGuests).toBeGreaterThanOrEqual(u.beds);
@@ -85,4 +95,3 @@ describe("contact details", () => {
     expect(CONTACT.whatsapp).toBe("995599639614");
   });
 });
-

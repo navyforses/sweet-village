@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, Loader2, Phone, Send } from "lucide-react";
 import { toast } from "sonner";
 import SectionHeading from "@/components/SectionHeading";
@@ -30,6 +30,21 @@ export default function Booking() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Accommodation cards link here with a preselected unit or whole-complex enquiry.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const interest = params.get("interest");
+    const unit = params.get("unit");
+    const guests = params.get("guests");
+    if (interest !== "cottage" && interest !== "whole") return;
+    setForm(current => ({
+      ...current,
+      interest,
+      unit: interest === "cottage" && UNITS.some(candidate => candidate.id === unit) ? (unit as UnitId) : "",
+      guests: guests && /^\d+$/.test(guests) ? guests : current.guests,
+    }));
+  }, []);
 
   const submit = trpc.booking.submit.useMutation({
     onSuccess: res => {
