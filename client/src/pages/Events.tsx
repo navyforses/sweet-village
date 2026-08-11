@@ -19,9 +19,9 @@ export default function Events() {
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/45 to-ink/25" />
-        <div className="relative flex size-full items-end pb-12">
+        <div className="relative flex size-full items-end pb-12 [text-shadow:0_1px_14px_rgba(20,28,24,0.6)]">
           <div className="container">
-            <p className="sv-eyebrow mb-4 w-fit text-white/90">{t.events.eyebrow}</p>
+            <p className="sv-eyebrow mb-4 w-fit text-white">{t.events.eyebrow}</p>
             <h1 className="max-w-[26ch] text-[clamp(1.75rem,4.4vw,2.9rem)] text-white">
               {t.events.title}
             </h1>
