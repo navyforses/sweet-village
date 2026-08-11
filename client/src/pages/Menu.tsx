@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";
-import { ChevronDown, Link2, Search, X } from "lucide-react";
+import { Link2, Search, X } from "lucide-react";
 import { toast } from "sonner";
-import SectionHeading from "@/components/SectionHeading";
 import { SectionDivider } from "@/components/Ornaments";
-import { DISHES } from "@/lib/assets";
+import { menuItemPhoto } from "@/lib/assets";
 import { MENU, categoryName, itemDesc, itemName, searchMenu } from "@/lib/menu";
 import { useI18n } from "@/i18n";
 
@@ -15,7 +14,7 @@ import { useI18n } from "@/i18n";
 export default function Menu() {
   const { t, lang } = useI18n();
   const [query, setQuery] = useState("");
-  const [open, setOpen] = useState<string[]>([MENU[0].id]);
+  const [activeCategory, setActiveCategory] = useState(MENU[0].id);
   const [qr, setQr] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -36,12 +35,10 @@ export default function Menu() {
   }, [menuUrl]);
 
   const results = useMemo(() => searchMenu(query, lang), [query, lang]);
-
-  // While searching, reveal every matching category.
-  const effectiveOpen = query.trim() ? results.map(c => c.id) : open;
-
-  const toggle = (id: string) =>
-    setOpen(prev => (prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]));
+  const isSearching = Boolean(query.trim());
+  const visibleCategories = isSearching
+    ? results
+    : results.filter(category => category.id === activeCategory);
 
   const copyLink = async () => {
     try {
@@ -53,11 +50,24 @@ export default function Menu() {
   };
 
   return (
-    <div className="container py-16 md:py-20">
-      <SectionHeading eyebrow={t.menu.eyebrow} title={t.menu.title} intro={t.menu.intro} />
+    <div className="container py-12 md:py-16">
+      {/* Compact heading: the food is the primary visual, not a page-sized cover. */}
+      <header className="max-w-[56rem] border-s-2 border-gold/70 ps-5 md:ps-7">
+        <p className="sv-eyebrow">{t.menu.eyebrow}</p>
+        <h1 className="mt-2 font-serif text-[clamp(2rem,4vw,3.25rem)] leading-[0.98] text-ink">
+          {t.menu.title}
+        </h1>
+        <p className="mt-4 max-w-[60ch] text-[0.9375rem] leading-7 text-muted-foreground">
+          {t.menu.intro}
+        </p>
+      </header>
 
-      {/* Search — the fastest path through 68 items on a phone. */}
-      <div className="relative mt-10 max-w-md">
+      <div className="mt-9 grid gap-5 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
+        <p className="order-2 text-[0.75rem] leading-5 text-muted-foreground lg:order-1">
+          {MENU.reduce((sum, category) => sum + category.items.length, 0)} {t.menu.title.toLowerCase()}
+        </p>
+        {/* Search — the fastest path through 68 items on a phone. */}
+        <div className="relative order-1 lg:order-2">
         <Search
           className="pointer-events-none absolute top-1/2 size-4 -translate-y-1/2 text-muted-foreground ltr:left-4 rtl:right-4"
           strokeWidth={1.5}
@@ -78,92 +88,92 @@ export default function Menu() {
             <X className="size-4" strokeWidth={1.5} />
           </button>
         )}
+        </div>
       </div>
+
+      {/* Persistent local navigation: categories stay immediately available. */}
+      <nav
+        aria-label={t.menu.title}
+        className="mt-8 -mx-4 border-y border-line bg-paper px-4 py-3 sm:mx-0 sm:px-0">
+        <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible" role="tablist">
+          {MENU.map(category => {
+            const selected = !isSearching && activeCategory === category.id;
+            return (
+              <button
+                key={category.id}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                onClick={() => {
+                  setQuery("");
+                  setActiveCategory(category.id);
+                }}
+                className={`min-h-10 shrink-0 border px-4 text-[0.8125rem] transition-colors ${
+                  selected
+                    ? "border-turquoise bg-turquoise text-white"
+                    : "border-line bg-white text-ink hover:border-pistachio"
+                }`}>
+                {categoryName(category, lang)}
+                <span className="ms-2 text-[0.6875rem] opacity-70">{category.items.length}</span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
 
       {results.length === 0 && (
         <p className="mt-12 text-[0.9375rem] text-muted-foreground">{t.menu.noResults}</p>
       )}
 
-      {/* Accordion: one section per category, photo banner inside. */}
-      <div className="mt-12 border-t border-line">
-        {results.map(cat => {
-          const isOpen = effectiveOpen.includes(cat.id);
-          return (
-            <section key={cat.id} className="border-b border-line">
-              <h2>
-                <button
-                  type="button"
-                  onClick={() => toggle(cat.id)}
-                  aria-expanded={isOpen}
-                  className="flex min-h-16 w-full items-center justify-between gap-4 py-5 text-start">
-                  <span className="flex items-baseline gap-3">
-                    <span className="font-serif text-[1.125rem] text-ink md:text-[1.3125rem]">
-                      {categoryName(cat, lang)}
-                    </span>
-                    <span className="text-[0.75rem] text-muted-foreground">
-                      {cat.items.length}
-                    </span>
-                  </span>
-                  <ChevronDown
-                    className={`size-4 shrink-0 text-turquoise transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                    strokeWidth={1.5}
-                  />
-                </button>
+      {/* Cards replace the long accordion: several dishes are visible at once. */}
+      <div className="mt-10 space-y-12 md:mt-12">
+        {visibleCategories.map(category => (
+          <section key={category.id} aria-labelledby={`menu-category-${category.id}`}>
+            <div className="mb-5 flex items-baseline justify-between border-b border-ink/15 pb-3">
+              <h2 id={`menu-category-${category.id}`} className="font-serif text-[1.5rem] text-ink md:text-[1.75rem]">
+                {categoryName(category, lang)}
               </h2>
+              <span className="sv-eyebrow text-[0.625rem]">{category.items.length}</span>
+            </div>
 
-              {isOpen && (
-                <div className="pb-8">
-                  {DISHES[cat.id] && (
+            <ul className="sv-stagger grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+              {category.items.map(item => {
+                const desc = itemDesc(item, lang);
+                const title = itemName(item, lang);
+                return (
+                  <li key={item.id} className="sv-card flex min-w-0 flex-col overflow-hidden">
                     <img
-                      src={DISHES[cat.id]}
-                      alt={categoryName(cat, lang)}
+                      src={menuItemPhoto(item.id, category.id)}
+                      alt={title}
                       loading="lazy"
-                      className="mb-8 aspect-[21/9] w-full object-cover"
+                      className="aspect-[4/3] w-full object-cover"
                     />
-                  )}
-                  <ul className="divide-y divide-line/70">
-                    {cat.items.map(item => {
-                      const desc = itemDesc(item, lang);
-                      return (
-                        <li
-                          key={item.id}
-                          className="flex items-baseline justify-between gap-5 py-4">
-                          <div className="min-w-0">
-                            <p className="text-[0.9375rem] text-ink">
-                              {itemName(item, lang)}
-                              {item.volume && (
-                                <span
-                                  dir="ltr"
-                                  className="ms-2 text-[0.75rem] text-muted-foreground">
-                                  {item.volume}
-                                </span>
-                              )}
-                            </p>
-                            {desc && (
-                              <p className="mt-1.5 max-w-[62ch] text-[0.8125rem] text-muted-foreground">
-                                {desc}
-                              </p>
-                            )}
-                          </div>
-                          {/* Dotted leader keeps the price legible across the row */}
-                          <span className="flex shrink-0 items-baseline gap-3">
-                            <span
-                              aria-hidden="true"
-                              className="hidden w-16 border-b border-dotted border-line sm:block"
-                            />
-                            <span className="font-serif text-[1rem] whitespace-nowrap text-ink">
-                              {item.price} {t.common.lari}
-                            </span>
-                          </span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
-            </section>
-          );
-        })}
+                    <div className="flex min-h-[8.25rem] flex-1 flex-col p-3 sm:min-h-[9.5rem] sm:p-4">
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="font-serif text-[0.9375rem] leading-[1.15] text-ink sm:text-[1.0625rem]">
+                          {title}
+                        </h3>
+                        <span className="shrink-0 border border-gold/45 px-1.5 py-0.5 font-serif text-[0.875rem] leading-none text-ink">
+                          {item.price} <span className="font-sans text-[0.625rem]">{t.common.lari}</span>
+                        </span>
+                      </div>
+                      {item.volume && (
+                        <p dir="ltr" className="mt-1 text-[0.6875rem] text-muted-foreground">
+                          {item.volume}
+                        </p>
+                      )}
+                      {desc && (
+                        <p className="mt-2 line-clamp-2 text-[0.6875rem] leading-[1.45] text-muted-foreground sm:text-[0.75rem]">
+                          {desc}
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ))}
       </div>
 
       <p className="mt-8 text-[0.8125rem] text-muted-foreground">{t.menu.noAlcoholNote}</p>

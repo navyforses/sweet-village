@@ -38,6 +38,15 @@ export const DISHES: Record<string, string> = {
   hotdrinks: "/manus-storage/dish_drinks_cfe616a9.jpg",
 };
 
+/**
+ * A valid category photograph is attached to every card. This intentional
+ * fallback protects the menu from broken assets while an original dish-photo
+ * library is collected at the venue.
+ */
+export function menuItemPhoto(_itemId: number, categoryId: string): string {
+  return DISHES[categoryId] ?? PHOTOS.restaurant;
+}
+
 export const GALLERY: string[] = [
   PHOTOS.poolReal,
   PHOTOS.terrace,

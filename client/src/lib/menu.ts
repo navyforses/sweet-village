@@ -1,5 +1,6 @@
 import { MENU, type MenuCategory, type MenuItem } from "@shared/menuData";
 import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS, type ExtraLang } from "@shared/menuTranslations";
+import { EN_RU_DESCRIPTIONS } from "@shared/menuDescriptions";
 import type { Lang } from "@/i18n";
 
 /**
@@ -23,13 +24,11 @@ export function itemName(item: MenuItem, lang: Lang): string {
 
 export function itemDesc(item: MenuItem, lang: Lang): string {
   if (isExtra(lang)) return ITEM_TRANSLATIONS[item.id]?.[lang]?.desc || "";
-  // Only Georgian descriptions exist on the printed menu. For en/ru we borrow
-  // the French translation's meaning is not available, so we show nothing
-  // rather than mixing languages — the dish name carries the information.
-  return lang === "ka" ? (item.descKa ?? "") : "";
+  if (lang === "ka") return item.descKa ?? "";
+  return EN_RU_DESCRIPTIONS[item.id]?.[lang] ?? "";
 }
 
-/** Georgian and English descriptions we can show; ru falls back to none. */
+/** Every live-menu locale has a short card description. */
 export function hasDesc(item: MenuItem, lang: Lang): boolean {
   return itemDesc(item, lang).length > 0;
 }

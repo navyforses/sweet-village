@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { MENU, MENU_ITEM_COUNT } from "../shared/menuData";
 import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS } from "../shared/menuTranslations";
+import { EN_RU_DESCRIPTIONS } from "../shared/menuDescriptions";
+import { menuItemPhoto } from "../client/src/lib/assets";
 
 describe("menu data", () => {
   it("has 68 items across 9 categories", () => {
@@ -30,6 +32,16 @@ describe("menu data", () => {
         expect(item.ka.length).toBeGreaterThan(0);
         expect(item.en.length).toBeGreaterThan(0);
         expect(item.ru.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("supplies an image URL for every compact menu card", () => {
+    for (const cat of MENU) {
+      for (const item of cat.items) {
+        expect(menuItemPhoto(item.id, cat.id), `missing image for item ${item.id}`).toMatch(
+          /^\/manus-storage\//,
+        );
       }
     }
   });
@@ -74,6 +86,16 @@ describe("menu translations", () => {
         for (const lang of ["fr", "es"] as const) {
           expect(georgian.test(ITEM_TRANSLATIONS[item.id][lang].name), `item ${item.id}.${lang}`).toBe(false);
         }
+      }
+    }
+  });
+
+  it("provides a short card description in English and Russian for all 68 items", () => {
+    for (const cat of MENU) {
+      for (const item of cat.items) {
+        const description = EN_RU_DESCRIPTIONS[item.id];
+        expect(description?.en, `missing English description for ${item.id}`).toBeTruthy();
+        expect(description?.ru, `missing Russian description for ${item.id}`).toBeTruthy();
       }
     }
   });
