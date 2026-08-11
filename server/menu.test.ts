@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { MENU, MENU_ITEM_COUNT } from "../shared/menuData";
 import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS } from "../shared/menuTranslations";
 import { EN_RU_DESCRIPTIONS } from "../shared/menuDescriptions";
-import { menuItemPhoto } from "../client/src/lib/assets";
+import { MENU_ITEM_PHOTOS, menuItemPhoto } from "../client/src/lib/assets";
 
 describe("menu data", () => {
   it("has 68 items across 9 categories", () => {
@@ -43,6 +43,15 @@ describe("menu data", () => {
           /^\/manus-storage\//,
         );
       }
+    }
+  });
+
+  it("uses 68 distinct dish-specific photos rather than category fallbacks", () => {
+    const photos = Object.entries(MENU_ITEM_PHOTOS);
+    expect(photos).toHaveLength(68);
+    expect(new Set(photos.map(([, url]) => url)).size).toBe(68);
+    for (const item of MENU.flatMap(category => category.items)) {
+      expect(MENU_ITEM_PHOTOS[item.id]).toMatch(/^\/manus-storage\/menu-card-/);
     }
   });
 });
