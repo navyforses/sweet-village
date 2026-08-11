@@ -3,11 +3,90 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * ტკბილი სოფელი — design system
+ * Imeretian tradition x French editorial restraint.
+ * Muted turquoise-pistachio palette; no bright #40E0D0 anywhere.
+ */
+
+:root {
+  --radius: 0rem;
+
+  /* raw brand tokens */
+  --sv-pistachio: #93a889;
+  --sv-turquoise: #5c8d89;
+  --sv-deep: #2e7d74;
+  --sv-ink: #2c3531;
+  --sv-gold: #d4af37;
+  --sv-wine: #722f37;
+  --sv-paper: #f9f8f6;
+  --sv-line: #e5e0d8;
+  --sv-muted-ink: #7a8478;
+
+  --background: oklch(0.977 0.003 84);
+  --foreground: oklch(0.264 0.014 165);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.264 0.014 165);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.264 0.014 165);
+  --primary: oklch(0.682 0.043 139);
+  --primary-foreground: oklch(0.99 0.002 84);
+  --secondary: oklch(0.578 0.043 179);
+  --secondary-foreground: oklch(0.99 0.002 84);
+  --muted: oklch(0.948 0.005 90);
+  --muted-foreground: oklch(0.556 0.017 148);
+  --accent: oklch(0.523 0.062 187);
+  --accent-foreground: oklch(0.99 0.002 84);
+  --destructive: oklch(0.381 0.09 18);
+  --destructive-foreground: oklch(0.99 0.002 84);
+  --border: oklch(0.902 0.011 84);
+  --input: oklch(0.902 0.011 84);
+  --ring: oklch(0.578 0.043 179);
+  --chart-1: oklch(0.682 0.043 139);
+  --chart-2: oklch(0.578 0.043 179);
+  --chart-3: oklch(0.523 0.062 187);
+  --chart-4: oklch(0.76 0.11 88);
+  --chart-5: oklch(0.381 0.09 18);
+  --sidebar: oklch(0.977 0.003 84);
+  --sidebar-foreground: oklch(0.264 0.014 165);
+  --sidebar-primary: oklch(0.578 0.043 179);
+  --sidebar-primary-foreground: oklch(0.99 0.002 84);
+  --sidebar-accent: oklch(0.948 0.005 90);
+  --sidebar-accent-foreground: oklch(0.264 0.014 165);
+  --sidebar-border: oklch(0.902 0.011 84);
+  --sidebar-ring: oklch(0.578 0.043 179);
+
+  /* motion */
+  --ease-out-snappy: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-smooth: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.dark {
+  --background: oklch(0.24 0.012 165);
+  --foreground: oklch(0.95 0.004 84);
+  --card: oklch(0.29 0.014 165);
+  --card-foreground: oklch(0.95 0.004 84);
+  --popover: oklch(0.29 0.014 165);
+  --popover-foreground: oklch(0.95 0.004 84);
+  --primary: oklch(0.682 0.043 139);
+  --primary-foreground: oklch(0.22 0.012 165);
+  --secondary: oklch(0.578 0.043 179);
+  --secondary-foreground: oklch(0.98 0.002 84);
+  --muted: oklch(0.32 0.012 165);
+  --muted-foreground: oklch(0.72 0.012 148);
+  --accent: oklch(0.523 0.062 187);
+  --accent-foreground: oklch(0.98 0.002 84);
+  --destructive: oklch(0.45 0.1 18);
+  --destructive-foreground: oklch(0.98 0.002 84);
+  --border: oklch(0.36 0.012 165);
+  --input: oklch(0.36 0.012 165);
+  --ring: oklch(0.578 0.043 179);
+  --sidebar: oklch(0.24 0.012 165);
+  --sidebar-foreground: oklch(0.95 0.004 84);
+  --sidebar-border: oklch(0.36 0.012 165);
+}
+
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -40,138 +119,199 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-}
 
-:root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
-}
+  /* brand aliases usable as utilities: text-gold, bg-pistachio, ... */
+  --color-pistachio: var(--sv-pistachio);
+  --color-turquoise: var(--sv-turquoise);
+  --color-deep: var(--sv-deep);
+  --color-ink: var(--sv-ink);
+  --color-gold: var(--sv-gold);
+  --color-wine: var(--sv-wine);
+  --color-paper: var(--sv-paper);
+  --color-line: var(--sv-line);
 
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+
+  --font-sans: "Noto Sans Georgian", "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Noto Serif Georgian", "Noto Serif", ui-serif, Georgia, serif;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
-}
 
-@layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-weight: 400;
+  }
+
+  /* Editorial headings: light serif with generous tracking. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+    line-height: 1.22;
+  }
+
+  p {
+    line-height: 1.65;
+  }
+
+  /* Cards and inputs stay rectangular everywhere. */
   .container {
     width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+    max-width: 1280px;
   }
 
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
-
-  @media (min-width: 640px) {
+  @media (min-width: 768px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
+      padding-inline: 2.5rem;
     }
   }
 
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
-    }
+  ::selection {
+    background: var(--sv-pistachio);
+    color: var(--sv-paper);
   }
 }
+
+/* ---------- Arabic / RTL ---------- */
+
+html[dir="rtl"] {
+  --font-sans: "Noto Naskh Arabic", "Noto Sans Georgian", sans-serif;
+  --font-serif: "Noto Kufi Arabic", "Noto Serif Georgian", serif;
+}
+
+html[dir="rtl"] body {
+  font-family: "Noto Naskh Arabic", "Noto Sans Georgian", sans-serif;
+  /* Arabic reads visually smaller at the same px size. */
+  font-size: 1.0625rem;
+}
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4 {
+  font-family: "Noto Kufi Arabic", "Noto Serif Georgian", serif;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+/* Mirror only directional glyphs, never photos or text. */
+html[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* ---------- Editorial primitives ---------- */
+
+.sv-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sv-muted-ink);
+}
+
+html[dir="rtl"] .sv-eyebrow {
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+.sv-rule {
+  height: 1px;
+  background: var(--sv-line);
+}
+
+/* Thin-bordered editorial card, zero radius, no shadow. */
+.sv-card {
+  background: #fff;
+  border: 1px solid var(--sv-line);
+  transition:
+    border-color 220ms var(--ease-out-snappy),
+    transform 220ms var(--ease-out-snappy);
+}
+
+.sv-card:hover {
+  border-color: var(--sv-pistachio);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sv-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.sv-link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.sv-link-underline::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: inline-start;
+  transition: transform 240ms var(--ease-out-snappy);
+}
+
+.sv-link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Subtle paper texture — avoids flat dead backgrounds without imagery. */
+.sv-paper-texture {
+  background-color: var(--sv-paper);
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(147, 168, 137, 0.05) 0, transparent 45%),
+    radial-gradient(circle at 80% 70%, rgba(92, 141, 137, 0.045) 0, transparent 40%);
+}
+
+/* Staggered reveal for grid children. */
+@media (prefers-reduced-motion: no-preference) {
+  .sv-stagger > * {
+    animation: sv-rise 520ms var(--ease-out-snappy) both;
+  }
+  .sv-stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .sv-stagger > *:nth-child(2) { animation-delay: 60ms; }
+  .sv-stagger > *:nth-child(3) { animation-delay: 120ms; }
+  .sv-stagger > *:nth-child(4) { animation-delay: 180ms; }
+  .sv-stagger > *:nth-child(5) { animation-delay: 240ms; }
+  .sv-stagger > *:nth-child(6) { animation-delay: 300ms; }
+}
+
+@keyframes sv-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Buttons confirm the press. */
+button:active:not(:disabled),
+a[data-press]:active {
+  transform: scale(0.975);
+}
+
+button,
+a[data-press] {
+  transition: transform 150ms var(--ease-out-snappy);
+}
+

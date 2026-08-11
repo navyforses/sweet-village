@@ -1,4 +1,11 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import {
+  int,
+  mysqlEnum,
+  mysqlTable,
+  text,
+  timestamp,
+  varchar,
+} from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -25,4 +32,29 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * Booking enquiries submitted from the public site. Stored so the owner never
+ * loses a lead if an email or notification fails to deliver.
+ */
+export const bookings = mysqlTable("bookings", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 160 }).notNull(),
+  phone: varchar("phone", { length: 40 }).notNull(),
+  /** Free-form ISO date strings; guests often give approximate dates. */
+  checkIn: varchar("checkIn", { length: 32 }),
+  checkOut: varchar("checkOut", { length: 32 }),
+  /** What the guest is interested in: cottage | event | pool | restaurant | whole */
+  interest: varchar("interest", { length: 32 }).notNull(),
+  /** Exact accommodation unit the guest picked, when they picked one. */
+  unit: varchar("unit", { length: 32 }),
+  guests: int("guests"),
+  notes: text("notes"),
+  /** UI language the visitor was browsing in — tells the owner how to reply. */
+  lang: varchar("lang", { length: 8 }).notNull(),
+  /** Whether the owner notification was dispatched successfully. */
+  notified: int("notified").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Booking = typeof bookings.$inferSelect;
+export type InsertBooking = typeof bookings.$inferInsert;
