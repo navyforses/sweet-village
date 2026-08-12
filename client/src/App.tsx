@@ -10,6 +10,7 @@ import Stay from "./pages/Stay";
 import AccommodationDetail from "./pages/AccommodationDetail";
 import Menu from "./pages/Menu";
 import Events from "./pages/Events";
+import EventDetail from "./pages/EventDetail";
 import Pool from "./pages/Pool";
 import Location from "./pages/Location";
 import About from "./pages/About";
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/stay" component={Stay} />
       {/* /menu must always resolve to this live page, never a static file. */}
       <Route path="/menu" component={Menu} />
+      <Route path="/events/:eventId" component={EventDetail} />
       <Route path="/events" component={Events} />
       <Route path="/pool" component={Pool} />
       <Route path="/location" component={Location} />
