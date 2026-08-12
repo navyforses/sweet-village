@@ -34,15 +34,32 @@ describe("accommodation inventory", () => {
     expect(grand.floors).toBe(2);
   });
 
-  it("gives each unit a unique detail gallery, with six approved photos on the two large rooms", () => {
+  it("gives each unit a unique detail gallery with the approved photo count", () => {
     for (const unit of UNITS) {
-      const expectedGallerySize = unit.id === "small-a" || unit.id === "small-b" ? 5 : unit.id === "large-a" || unit.id === "large-b" ? 6 : 3;
+      const expectedGallerySize = unit.id === "small-a" || unit.id === "small-b" ? 5 : unit.id === "large-a" || unit.id === "large-b" ? 6 : 10;
       expect(unit.gallery).toHaveLength(expectedGallerySize);
       expect(new Set(unit.gallery).size).toBe(expectedGallerySize);
       for (const photo of unit.gallery) {
-        expect(photo).toMatch(/^\/(manus-storage|pool-view-loft)\//);
+        expect(photo).toMatch(/^\/(manus-storage|pool-view-house)\//);
       }
     }
+  });
+
+  it("uses the complete ten-photo Pool View House gallery", () => {
+    const grand = UNITS.find(unit => unit.id === "grand")!;
+    expect(grand.photo).toBe("/pool-view-house/01-pool-view-house-exterior.webp");
+    expect(grand.gallery).toEqual([
+      "/pool-view-house/01-pool-view-house-exterior.webp",
+      "/pool-view-house/02-balcony-and-pool.webp",
+      "/pool-view-house/03-balcony-coffee.webp",
+      "/pool-view-house/04-living-dining-wide.webp",
+      "/pool-view-house/05-lower-bedroom-balcony.webp",
+      "/pool-view-house/06-kitchen-dining-lounge.webp",
+      "/pool-view-house/07-bedroom-and-stairs.webp",
+      "/pool-view-house/08-upper-floor-three-beds.webp",
+      "/pool-view-house/09-upper-floor-bedroom.webp",
+      "/pool-view-house/10-bathroom.webp",
+    ]);
   });
 
   it("uses the five approved Garden Cottage photos and omits the rejected garden-path image", () => {

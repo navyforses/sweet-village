@@ -32,3 +32,82 @@ const copy: Record<Lang, DetailCopy> = {
 export function getAccommodationDetailCopy(lang: Lang) {
   return copy[lang];
 }
+
+const poolViewHouseCaptions: Record<Lang, readonly string[]> = {
+  ka: [
+    "აუზისპირა სახლის გარე ხედი",
+    "თეთრი აივანი და აუზის ხედი",
+    "დილის ყავა აივანზე",
+    "მისაღები, სასადილო და სამზარეულო",
+    "ქვედა საძინებელი და აივანი",
+    "სამზარეულო, სასადილო და მოსასვენებელი",
+    "ქვედა საძინებელი და ზედა სართულის კიბე",
+    "ზედა სართული · სამი საწოლი",
+    "ზედა სართულის საძინებელი",
+    "სააბაზანო და საშხაპე",
+  ],
+  en: [
+    "Pool View House exterior",
+    "White balcony and pool view",
+    "Morning coffee on the balcony",
+    "Living, dining and kitchen area",
+    "Lower bedroom and balcony",
+    "Kitchen, dining and lounge area",
+    "Lower bedroom and stairs",
+    "Upper floor · three beds",
+    "Upper-floor bedroom",
+    "Bathroom and walk-in shower",
+  ],
+  ru: [
+    "Дом у бассейна · внешний вид",
+    "Белый балкон и вид на бассейн",
+    "Утренний кофе на балконе",
+    "Гостиная, столовая и кухня",
+    "Нижняя спальня и балкон",
+    "Кухня, столовая и зона отдыха",
+    "Нижняя спальня и лестница",
+    "Верхний этаж · три кровати",
+    "Спальня на верхнем этаже",
+    "Ванная комната и душевая",
+  ],
+  ar: [
+    "المنظر الخارجي للبيت المطل على المسبح",
+    "الشرفة البيضاء وإطلالة المسبح",
+    "قهوة الصباح على الشرفة",
+    "منطقة المعيشة والطعام والمطبخ",
+    "غرفة النوم السفلية والشرفة",
+    "المطبخ والطعام ومنطقة الجلوس",
+    "غرفة النوم السفلية والدرج",
+    "الطابق العلوي · ثلاثة أسرّة",
+    "غرفة النوم في الطابق العلوي",
+    "الحمام ومقصورة الدش",
+  ],
+  fr: [
+    "Extérieur de la maison avec vue sur la piscine",
+    "Balcon blanc et vue sur la piscine",
+    "Café matinal sur le balcon",
+    "Salon, salle à manger et cuisine",
+    "Chambre du bas et balcon",
+    "Cuisine, salle à manger et coin détente",
+    "Chambre du bas et escalier",
+    "Étage supérieur · trois lits",
+    "Chambre à l'étage",
+    "Salle de bain et douche à l'italienne",
+  ],
+  es: [
+    "Exterior de la casa con vistas a la piscina",
+    "Balcón blanco y vista a la piscina",
+    "Café de la mañana en el balcón",
+    "Sala, comedor y cocina",
+    "Dormitorio inferior y balcón",
+    "Cocina, comedor y zona de estar",
+    "Dormitorio inferior y escalera",
+    "Planta superior · tres camas",
+    "Dormitorio de la planta superior",
+    "Baño y ducha a ras de suelo",
+  ],
+};
+
+export function getPoolViewHouseCaptions(lang: Lang) {
+  return poolViewHouseCaptions[lang];
+}
