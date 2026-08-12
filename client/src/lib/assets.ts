@@ -117,6 +117,32 @@ function resolveAssetRecord<T extends Record<string | number, string>>(record: T
 }
 
 export const PHOTOS = resolveAssetRecord(RAW_PHOTOS);
+
+// The homepage uses only real venue photography and cottage images that were
+// explicitly approved for publication. Older generated assets stay available
+// to legacy inner pages until those pages are refreshed separately.
+export const HOME_PHOTOS = resolveAssetRecord({
+  hero: "/events/real-05.jpg",
+  events: "/events/real-07.jpg",
+  pool: "/events/poolside-real-01.webp",
+  restaurant: "/events/real-06.jpg",
+  stay: "/manus-storage/large-cottage-exterior-approved.webp",
+  cottageExterior: "/manus-storage/garden-cottage-exterior.webp",
+  cottageBedroom:
+    "/manus-storage/large-cottage-ground-floor-bedroom-approved.webp",
+  cottageStudio: "/manus-storage/garden-cottage-studio.webp",
+});
+
+export const HOME_GALLERY = [
+  "/events/real-12.jpg",
+  "/events/real-10.jpg",
+  "/events/poolside-real-02.webp",
+  "/manus-storage/large-cottage-exterior-approved.webp",
+  "/events/real-11.jpg",
+  "/events/real-04.jpg",
+  "/manus-storage/garden-cottage-exterior.webp",
+  "/events/real-14.jpg",
+].map(assetUrl);
 export const DISHES = resolveAssetRecord(RAW_DISHES);
 export const MENU_ITEM_PHOTOS = resolveAssetRecord(RAW_MENU_ITEM_PHOTOS);
 

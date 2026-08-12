@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { ArrowRight, Clock, MapPin, Phone } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import { Dot, SectionDivider } from "@/components/Ornaments";
-import { PHOTOS, GALLERY } from "@/lib/assets";
+import { HOME_PHOTOS, HOME_GALLERY } from "@/lib/assets";
 import { ATTRACTIONS, CAPACITY, CONTACT, POOL, UNITS, VENUE_SPACE } from "@shared/venue";
 import { MENU_ITEM_COUNT } from "@shared/menuData";
 import { isLocalSegment, useI18n } from "@/i18n";
@@ -14,7 +14,7 @@ function Hero() {
     <section className="relative">
       <div className="relative h-[78vh] min-h-[30rem] w-full overflow-hidden">
         <img
-          src={PHOTOS.hero}
+          src={HOME_PHOTOS.hero}
           alt={t.brand.name}
           className="absolute inset-0 size-full object-cover"
         />
@@ -84,7 +84,7 @@ function Services() {
     {
       key: "events",
       href: "/events",
-      photo: PHOTOS.wedding,
+      photo: HOME_PHOTOS.events,
       title: t.services.events.title,
       body: t.services.events.body,
       meta: `${VENUE_SPACE.coveredSeats} ${t.events.capacityLabel}`,
@@ -92,7 +92,7 @@ function Services() {
     {
       key: "pool",
       href: "/pool",
-      photo: PHOTOS.poolReal,
+      photo: HOME_PHOTOS.pool,
       title: t.services.pool.title,
       body: t.services.pool.body,
       meta: `${POOL.adult} ${t.common.lari} · ${t.pool.adultLabel}`,
@@ -100,7 +100,7 @@ function Services() {
     {
       key: "restaurant",
       href: "/menu",
-      photo: PHOTOS.restaurant,
+      photo: HOME_PHOTOS.restaurant,
       title: t.services.restaurant.title,
       body: t.services.restaurant.body,
       meta: t.restaurant.itemsCount,
@@ -108,7 +108,7 @@ function Services() {
     {
       key: "stay",
       href: "/stay",
-      photo: PHOTOS.bedroomTwin,
+      photo: HOME_PHOTOS.stay,
       title: t.services.stay.title,
       body: t.services.stay.body,
       meta: `${CAPACITY.units} · ${CAPACITY.maxGuests} ${t.common.guests}`,
@@ -190,19 +190,19 @@ function StayTeaser() {
 
         <div className="order-1 grid grid-cols-2 gap-4 lg:order-2">
           <img
-            src={PHOTOS.cottageExterior}
+            src={HOME_PHOTOS.cottageExterior}
             alt=""
             loading="lazy"
             className="col-span-2 aspect-[16/10] w-full object-cover"
           />
           <img
-            src={PHOTOS.bedroomLoft}
+            src={HOME_PHOTOS.cottageBedroom}
             alt=""
             loading="lazy"
             className="aspect-square w-full object-cover"
           />
           <img
-            src={PHOTOS.roomSitting}
+            src={HOME_PHOTOS.cottageStudio}
             alt=""
             loading="lazy"
             className="aspect-square w-full object-cover"
@@ -262,7 +262,7 @@ function Gallery() {
     <section className="container py-20 md:py-28">
       <SectionHeading eyebrow={t.gallery.eyebrow} title={t.gallery.title} align="center" />
       <div className="mt-14 grid grid-cols-2 gap-3 md:grid-cols-4">
-        {GALLERY.map((src, i) => (
+        {HOME_GALLERY.map((src, i) => (
           <figure
             key={i}
             className={`overflow-hidden ${i % 5 === 0 ? "col-span-2 aspect-[16/10]" : "aspect-square"}`}>
