@@ -28,7 +28,7 @@ function blobPathname(legacyPath: string) {
 describe("Vercel Blob active-photo migration", () => {
   it("collects a stable, deduplicated source list for the live site photos", () => {
     const sources = activeBlobSources();
-    expect(sources.length).toBeGreaterThan(90);
+    expect(sources.length).toBeGreaterThanOrEqual(90);
     expect(new Set(sources.map(source => source.pathname)).size).toBe(sources.length);
     expect(sources.every(source => source.source.startsWith(`${LEGACY_ORIGIN}/manus-storage/`))).toBe(true);
   });

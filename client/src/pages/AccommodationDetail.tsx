@@ -3,7 +3,7 @@ import { Link, useRoute } from "wouter";
 import { ArrowLeft, ArrowUpRight, BedDouble, ChevronLeft, ChevronRight, Images, Layers, Users, X } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
-import { getAccommodationDetailCopy } from "@/lib/accommodationDetailCopy";
+import { getAccommodationDetailCopy, getPoolViewHouseCaptions } from "@/lib/accommodationDetailCopy";
 import { CAPACITY, UNITS, type UnitId } from "@shared/venue";
 import { useI18n } from "@/i18n";
 import { assetUrl } from "@/lib/assetUrl";
@@ -38,7 +38,9 @@ export default function AccommodationDetail() {
   if (!unit) return <NotFound />;
 
   const info = t.stay.units[unit.id as UnitId];
-  const captions = unit.id === "small-a" || unit.id === "small-b"
+  const captions = unit.id === "grand"
+    ? getPoolViewHouseCaptions(lang)
+    : unit.id === "small-a" || unit.id === "small-b"
     ? copy.gardenCottageCaptions
     : unit.id === "large-a" || unit.id === "large-b"
       ? copy.largeCottageCaptions

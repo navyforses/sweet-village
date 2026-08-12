@@ -70,10 +70,17 @@ const GARDEN_COTTAGE_2_GALLERY = [
   ...GARDEN_COTTAGE_GALLERY.slice(1),
 ] as const;
 
-const POOL_VIEW_LOFT_GALLERY = [
-  "/pool-view-loft/01-pool-view-loft-exterior.webp",
-  "/manus-storage/stay-grand-interior_4d0e93a9.jpg",
-  "/manus-storage/gen_interior_room_17b6f3da.jpg",
+const POOL_VIEW_HOUSE_GALLERY = [
+  "/pool-view-house/01-pool-view-house-exterior.webp",
+  "/pool-view-house/02-balcony-and-pool.webp",
+  "/pool-view-house/03-balcony-coffee.webp",
+  "/pool-view-house/04-living-dining-wide.webp",
+  "/pool-view-house/05-lower-bedroom-balcony.webp",
+  "/pool-view-house/06-kitchen-dining-lounge.webp",
+  "/pool-view-house/07-bedroom-and-stairs.webp",
+  "/pool-view-house/08-upper-floor-three-beds.webp",
+  "/pool-view-house/09-upper-floor-bedroom.webp",
+  "/pool-view-house/10-bathroom.webp",
 ] as const;
 
 export const UNITS: Unit[] = [
@@ -128,8 +135,8 @@ export const UNITS: Unit[] = [
     floors: 2,
     priceLow: 200,
     priceHigh: 320,
-    photo: POOL_VIEW_LOFT_GALLERY[0],
-    gallery: POOL_VIEW_LOFT_GALLERY,
+    photo: POOL_VIEW_HOUSE_GALLERY[0],
+    gallery: POOL_VIEW_HOUSE_GALLERY,
     provisional: true,
   },
 ];
