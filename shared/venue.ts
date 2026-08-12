@@ -162,18 +162,106 @@ export const POOL = {
   provisional: true,
 } as const;
 
+export type EventId =
+  | "wedding"
+  | "engagement"
+  | "birthday"
+  | "corporate"
+  | "feast"
+  | "masterclass";
+
 export interface EventType {
-  id: string;
+  id: EventId;
   minGuests: number;
   maxGuests: number;
   photo: string;
+  gallery: readonly string[];
 }
 
 export const EVENT_TYPES: EventType[] = [
-  { id: "wedding", minGuests: 40, maxGuests: 120, photo: "/manus-storage/gen_wedding_84acff3e.jpg" },
-  { id: "engagement", minGuests: 20, maxGuests: 80, photo: "/manus-storage/gen_event_space_e4096ec3.jpg" },
-  { id: "birthday", minGuests: 10, maxGuests: 60, photo: "/manus-storage/fb_outdoor_01_baca0a76.jpg" },
-  { id: "corporate", minGuests: 15, maxGuests: 100, photo: "/manus-storage/gen_restaurant_909d8ee9.jpg" },
+  {
+    id: "wedding",
+    minGuests: 20,
+    maxGuests: 120,
+    photo: "/events/01-wedding.png",
+    gallery: [
+      "/events/01-wedding.png",
+      "/events/real-08.jpg",
+      "/events/real-07.jpg",
+      "/events/real-05.jpg",
+      "/events/real-11.jpg",
+      "/events/real-12.jpg",
+    ],
+  },
+  {
+    id: "engagement",
+    minGuests: 10,
+    maxGuests: 60,
+    photo: "/events/02-engagement.png",
+    gallery: [
+      "/events/02-engagement.png",
+      "/events/real-05.jpg",
+      "/events/real-07.jpg",
+      "/events/real-10.jpg",
+      "/events/real-14.jpg",
+      "/events/real-15.jpg",
+    ],
+  },
+  {
+    id: "birthday",
+    minGuests: 10,
+    maxGuests: 80,
+    photo: "/events/03-birthday.png",
+    gallery: [
+      "/events/03-birthday.png",
+      "/events/real-07.jpg",
+      "/events/real-05.jpg",
+      "/events/real-08.jpg",
+      "/events/real-10.jpg",
+      "/events/real-12.jpg",
+    ],
+  },
+  {
+    id: "corporate",
+    minGuests: 10,
+    maxGuests: 60,
+    photo: "/events/04-corporate.png",
+    gallery: [
+      "/events/04-corporate.png",
+      "/events/real-11.jpg",
+      "/events/real-08.jpg",
+      "/events/real-10.jpg",
+      "/events/real-12.jpg",
+      "/events/real-16.jpg",
+    ],
+  },
+  {
+    id: "feast",
+    minGuests: 8,
+    maxGuests: 60,
+    photo: "/events/05-georgian-feast.png",
+    gallery: [
+      "/events/05-georgian-feast.png",
+      "/events/real-06.jpg",
+      "/events/real-08.jpg",
+      "/events/real-11.jpg",
+      "/events/real-05.jpg",
+      "/events/real-07.jpg",
+    ],
+  },
+  {
+    id: "masterclass",
+    minGuests: 4,
+    maxGuests: 16,
+    photo: "/events/06-culinary-masterclass.png",
+    gallery: [
+      "/events/06-culinary-masterclass.png",
+      "/events/real-04.jpg",
+      "/events/real-03.jpg",
+      "/events/real-02.jpg",
+      "/events/real-01.jpg",
+    ],
+  },
 ];
 
 export const VENUE_SPACE = {
