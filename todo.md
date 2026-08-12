@@ -182,6 +182,9 @@
 - [ ] /migration ღილაკის Vercel deployment/runtime პასუხის დიაგნოსტიკა და საჭირო გამოსწორება
 - [ ] Vercel Functions-ის აღმოჩენისა და `/api/migrate-assets` POST პასუხის დადასტურება მიმდინარე production deployment-ზე
 - [ ] `/api/migrate-assets` HTTP 500-ის root cause-ის მოხსნა server-only asset manifest-ით და function runtime-ის ხელახალი გადამოწმება
+- [ ] Vercel CLI/OIDC ან პროექტის access-token ალტერნატივით პირდაპირი Blob API ატვირთვის სანდო გზის იდენტიფიცირება
+- [ ] Vercel Function-ის გარეშე აქტიური ფოტო-აქტივების პირდაპირ Blob API-ში ატვირთვა და URL manifest-ის შექმნა
+- [ ] Vercel build-time Blob migration სკრიპტის დამატება, რომელიც არსებული დაცული BLOB_READ_WRITE_TOKEN-ით ფოტოს ატვირთავს და Vite-ს CDN origin-ს გადასცემს
 - [x] assets.ts-ის Vercel Blob URL-ებზე უსაფრთხო გადართვა
 - [ ] Vercel-თან თავსებადი გარემო ცვლადების, Maps-ისა და დაჯავშნის email არხის დოკუმენტირება
 - [ ] MySQL/Manus დაჯავშნის persistence-ის Neon PostgreSQL-ზე გადაყვანა და სქემის მომზადება
