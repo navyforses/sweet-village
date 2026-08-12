@@ -168,7 +168,8 @@ export type EventId =
   | "birthday"
   | "corporate"
   | "feast"
-  | "masterclass";
+  | "masterclass"
+  | "poolside";
 
 export interface EventType {
   id: EventId;
@@ -183,9 +184,10 @@ export const EVENT_TYPES: EventType[] = [
     id: "wedding",
     minGuests: 20,
     maxGuests: 120,
-    photo: "/events/01-wedding.png",
+    photo: "/events/01-wedding.webp",
     gallery: [
-      "/events/01-wedding.png",
+      "/events/01-wedding.webp",
+      "/events/07-wedding-terrace.webp",
       "/events/real-08.jpg",
       "/events/real-07.jpg",
       "/events/real-05.jpg",
@@ -197,9 +199,10 @@ export const EVENT_TYPES: EventType[] = [
     id: "engagement",
     minGuests: 10,
     maxGuests: 60,
-    photo: "/events/02-engagement.png",
+    photo: "/events/02-engagement.webp",
     gallery: [
-      "/events/02-engagement.png",
+      "/events/02-engagement.webp",
+      "/events/08-engagement-garden.webp",
       "/events/real-05.jpg",
       "/events/real-07.jpg",
       "/events/real-10.jpg",
@@ -211,9 +214,10 @@ export const EVENT_TYPES: EventType[] = [
     id: "birthday",
     minGuests: 10,
     maxGuests: 80,
-    photo: "/events/03-birthday.png",
+    photo: "/events/03-birthday.webp",
     gallery: [
-      "/events/03-birthday.png",
+      "/events/03-birthday.webp",
+      "/events/09-birthday-lunch.webp",
       "/events/real-07.jpg",
       "/events/real-05.jpg",
       "/events/real-08.jpg",
@@ -225,9 +229,10 @@ export const EVENT_TYPES: EventType[] = [
     id: "corporate",
     minGuests: 10,
     maxGuests: 60,
-    photo: "/events/04-corporate.png",
+    photo: "/events/04-corporate.webp",
     gallery: [
-      "/events/04-corporate.png",
+      "/events/04-corporate.webp",
+      "/events/10-corporate-workshop.webp",
       "/events/real-11.jpg",
       "/events/real-08.jpg",
       "/events/real-10.jpg",
@@ -239,9 +244,10 @@ export const EVENT_TYPES: EventType[] = [
     id: "feast",
     minGuests: 8,
     maxGuests: 60,
-    photo: "/events/05-georgian-feast.png",
+    photo: "/events/05-georgian-feast.webp",
     gallery: [
-      "/events/05-georgian-feast.png",
+      "/events/05-georgian-feast.webp",
+      "/events/11-georgian-feast-room.webp",
       "/events/real-06.jpg",
       "/events/real-08.jpg",
       "/events/real-11.jpg",
@@ -253,13 +259,28 @@ export const EVENT_TYPES: EventType[] = [
     id: "masterclass",
     minGuests: 4,
     maxGuests: 16,
-    photo: "/events/06-culinary-masterclass.png",
+    photo: "/events/06-culinary-masterclass.webp",
     gallery: [
-      "/events/06-culinary-masterclass.png",
+      "/events/06-culinary-masterclass.webp",
+      "/events/12-masterclass-hands.webp",
       "/events/real-04.jpg",
       "/events/real-03.jpg",
       "/events/real-02.jpg",
       "/events/real-01.jpg",
+    ],
+  },
+  {
+    id: "poolside",
+    minGuests: 8,
+    maxGuests: 30,
+    photo: "/events/13-poolside-celebration.webp",
+    gallery: [
+      "/events/13-poolside-celebration.webp",
+      "/events/14-poolside-birthday.webp",
+      "/events/15-poolside-corporate.webp",
+      "/events/16-poolside-masterclass.webp",
+      "/events/poolside-real-01.webp",
+      "/events/poolside-real-02.webp",
     ],
   },
 ];

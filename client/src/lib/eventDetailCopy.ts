@@ -21,6 +21,8 @@ type EventPageCopy = {
   previous: string;
   next: string;
   viewAll: string;
+  professionalConcept: string;
+  realVenuePhoto: string;
   realPhotoNote: string;
   events: Record<EventId, EventText>;
 };
@@ -33,13 +35,15 @@ const copy: Record<Lang, EventPageCopy> = {
     details: "რას მოიცავს",
     gallery: "სივრცე და ატმოსფერო",
     galleryIntro:
-      "პროფესიონალური მთავარი კადრი და ამავე სივრცის რეალური ფოტოები — დააჭირეთ ნებისმიერ ფოტოს გასადიდებლად.",
+      "რეალურ სივრცეზე დაფუძნებული პროფესიონალური ხედვები და ამავე სივრცის რეალური ფოტოები — დააჭირეთ ნებისმიერ ფოტოს გასადიდებლად.",
     guests: "სტუმარი",
     ask: "ღონისძიების განხილვა",
     close: "დახურვა",
     previous: "წინა ფოტო",
     next: "შემდეგი ფოტო",
     viewAll: "ყველა ფოტო",
+    professionalConcept: "რეალურ სივრცეზე დაფუძნებული პროფესიონალური ხედვა",
+    realVenuePhoto: "რეალური სივრცის ფოტო",
     realPhotoNote: "ღონისძიება თითოეული ჯგუფისთვის ინდივიდუალურად იგეგმება.",
     events: {
       wedding: {
@@ -102,6 +106,16 @@ const copy: Record<Lang, EventPageCopy> = {
           "სეზონზე მორგებული გარე ან შიდა ფორმატი",
         ],
       },
+      poolside: {
+        title: "აუზისპირა პავილიონი",
+        body: "აუზის გვერდით მდებარე ღია, გადახურული სივრცე მცირე ღონისძიებებისთვის — საღამოს სუფრიდან დაბადების დღემდე, გუნდის შეხვედრამდე და კულინარიულ მასტერკლასამდე.",
+        experience: "ოთხი განსხვავებული ფორმატი ერთ რეალურ აუზისპირა სივრცეში",
+        highlights: [
+          "მცირე ქორწილი, ნიშნობა ან დაბადების დღე",
+          "გუნდის შეხვედრა და ყავის შესვენება",
+          "კულინარიული მასტერკლასი აუზის გვერდით",
+        ],
+      },
     },
   },
   en: {
@@ -111,13 +125,15 @@ const copy: Record<Lang, EventPageCopy> = {
     details: "What is included",
     gallery: "Space & atmosphere",
     galleryIntro:
-      "A professionally styled hero image followed by real photographs of the same venue — select any image to enlarge it.",
+      "Professional views based on the real venue, followed by real photographs of the same space — select any image to enlarge it.",
     guests: "guests",
     ask: "Discuss your event",
     close: "Close",
     previous: "Previous photo",
     next: "Next photo",
     viewAll: "All photos",
+    professionalConcept: "Professional concept based on the real venue",
+    realVenuePhoto: "Real venue photograph",
     realPhotoNote: "Every event is planned individually for your group.",
     events: {
       wedding: {
@@ -180,6 +196,16 @@ const copy: Record<Lang, EventPageCopy> = {
           "Seasonal indoor or outdoor setup",
         ],
       },
+      poolside: {
+        title: "Poolside pavilion",
+        body: "An open covered pavilion beside the pool for intimate celebrations, birthdays, team sessions and hands-on culinary workshops.",
+        experience: "Four versatile formats in one real poolside space",
+        highlights: [
+          "Intimate wedding, engagement or birthday",
+          "Team session with a coffee break",
+          "Culinary masterclass beside the pool",
+        ],
+      },
     },
   },
   ru: {
@@ -189,13 +215,16 @@ const copy: Record<Lang, EventPageCopy> = {
     details: "Что включено",
     gallery: "Пространство и атмосфера",
     galleryIntro:
-      "Профессиональный главный кадр и реальные фотографии того же пространства — нажмите на фото, чтобы увеличить.",
+      "Профессиональные виды, основанные на реальном пространстве, и реальные фотографии того же места — нажмите на фото, чтобы увеличить.",
     guests: "гостей",
     ask: "Обсудить мероприятие",
     close: "Закрыть",
     previous: "Предыдущее фото",
     next: "Следующее фото",
     viewAll: "Все фото",
+    professionalConcept:
+      "Профессиональная концепция на основе реального пространства",
+    realVenuePhoto: "Реальная фотография пространства",
     realPhotoNote: "Каждое мероприятие планируется индивидуально.",
     events: {
       wedding: {
@@ -258,6 +287,16 @@ const copy: Record<Lang, EventPageCopy> = {
           "Сезонный формат",
         ],
       },
+      poolside: {
+        title: "Павильон у бассейна",
+        body: "Открытый крытый павильон рядом с бассейном для камерных праздников, дней рождения, командных встреч и кулинарных мастер-классов.",
+        experience: "Четыре формата в одном реальном пространстве у бассейна",
+        highlights: [
+          "Камерная свадьба, помолвка или день рождения",
+          "Командная встреча и кофе-брейк",
+          "Кулинарный мастер-класс у бассейна",
+        ],
+      },
     },
   },
   ar: {
@@ -267,13 +306,15 @@ const copy: Record<Lang, EventPageCopy> = {
     details: "ما تتضمنه",
     gallery: "المكان والأجواء",
     galleryIntro:
-      "صورة رئيسية احترافية تليها صور حقيقية للمكان نفسه — اضغط على أي صورة لتكبيرها.",
+      "مشاهد احترافية مبنية على المكان الحقيقي، تليها صور حقيقية للمساحة نفسها — اضغط على أي صورة لتكبيرها.",
     guests: "ضيوف",
     ask: "ناقش فعاليتك",
     close: "إغلاق",
     previous: "الصورة السابقة",
     next: "الصورة التالية",
     viewAll: "كل الصور",
+    professionalConcept: "تصور احترافي مبني على المكان الحقيقي",
+    realVenuePhoto: "صورة حقيقية للمكان",
     realPhotoNote: "يتم تخطيط كل فعالية بما يناسب مجموعتك.",
     events: {
       wedding: {
@@ -328,6 +369,16 @@ const copy: Record<Lang, EventPageCopy> = {
           "تنظيم موسمي داخلي أو خارجي",
         ],
       },
+      poolside: {
+        title: "جناح بجانب المسبح",
+        body: "جناح مفتوح ومغطى بجانب المسبح للاحتفالات الصغيرة وأعياد الميلاد واجتماعات الفرق وورش الطبخ العملية.",
+        experience: "أربعة استخدامات مرنة في مساحة حقيقية بجانب المسبح",
+        highlights: [
+          "زفاف صغير أو خطوبة أو عيد ميلاد",
+          "اجتماع فريق واستراحة قهوة",
+          "ورشة طبخ بجانب المسبح",
+        ],
+      },
     },
   },
   fr: {
@@ -337,13 +388,15 @@ const copy: Record<Lang, EventPageCopy> = {
     details: "Ce qui est inclus",
     gallery: "Lieu et ambiance",
     galleryIntro:
-      "Une image principale professionnelle suivie de vraies photos du même lieu — cliquez pour agrandir.",
+      "Des vues professionnelles fondées sur le lieu réel, suivies de vraies photos du même espace — cliquez pour agrandir.",
     guests: "invités",
     ask: "Parler de votre événement",
     close: "Fermer",
     previous: "Photo précédente",
     next: "Photo suivante",
     viewAll: "Toutes les photos",
+    professionalConcept: "Concept professionnel basé sur le lieu réel",
+    realVenuePhoto: "Photo réelle du lieu",
     realPhotoNote: "Chaque événement est organisé sur mesure.",
     events: {
       wedding: {
@@ -406,6 +459,17 @@ const copy: Record<Lang, EventPageCopy> = {
           "Format saisonnier intérieur ou extérieur",
         ],
       },
+      poolside: {
+        title: "Pavillon au bord de la piscine",
+        body: "Un pavillon ouvert et couvert près de la piscine pour célébrations intimes, anniversaires, réunions d'équipe et ateliers culinaires.",
+        experience:
+          "Quatre formats dans un véritable espace au bord de la piscine",
+        highlights: [
+          "Mariage intime, fiançailles ou anniversaire",
+          "Réunion d'équipe et pause-café",
+          "Atelier culinaire près de la piscine",
+        ],
+      },
     },
   },
   es: {
@@ -415,13 +479,15 @@ const copy: Record<Lang, EventPageCopy> = {
     details: "Qué incluye",
     gallery: "Espacio y ambiente",
     galleryIntro:
-      "Una imagen principal profesional seguida de fotos reales del mismo lugar — pulsa para ampliar.",
+      "Vistas profesionales basadas en el lugar real, seguidas de fotos reales del mismo espacio — pulsa para ampliar.",
     guests: "invitados",
     ask: "Hablar de tu evento",
     close: "Cerrar",
     previous: "Foto anterior",
     next: "Foto siguiente",
     viewAll: "Todas las fotos",
+    professionalConcept: "Concepto profesional basado en el lugar real",
+    realVenuePhoto: "Foto real del lugar",
     realPhotoNote: "Cada evento se planifica a medida.",
     events: {
       wedding: {
@@ -482,6 +548,16 @@ const copy: Record<Lang, EventPageCopy> = {
           "Grupo pequeño",
           "Masa, frutos secos y especias",
           "Formato de temporada",
+        ],
+      },
+      poolside: {
+        title: "Pabellón junto a la piscina",
+        body: "Un pabellón abierto y cubierto junto a la piscina para celebraciones íntimas, cumpleaños, reuniones de equipo y talleres culinarios.",
+        experience: "Cuatro formatos en un espacio real junto a la piscina",
+        highlights: [
+          "Boda íntima, compromiso o cumpleaños",
+          "Reunión de equipo y pausa para café",
+          "Taller culinario junto a la piscina",
         ],
       },
     },

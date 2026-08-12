@@ -24,9 +24,19 @@ describe("event experience pages", () => {
     const masterclass = EVENT_TYPES.find(event => event.id === "masterclass");
 
     expect(masterclass).toMatchObject({ minGuests: 4, maxGuests: 16 });
-    expect(masterclass?.gallery).toHaveLength(5);
+    expect(masterclass?.gallery).toHaveLength(6);
     expect(getEventPageCopy("ka").events.masterclass.title).toBe(
       "კულინარიული მასტერკლასი"
+    );
+  });
+
+  it("adds the poolside pavilion as a versatile real venue space", () => {
+    const poolside = EVENT_TYPES.find(event => event.id === "poolside");
+
+    expect(poolside).toMatchObject({ minGuests: 8, maxGuests: 30 });
+    expect(poolside?.gallery).toHaveLength(6);
+    expect(getEventPageCopy("ka").events.poolside.title).toBe(
+      "აუზისპირა პავილიონი"
     );
   });
 });

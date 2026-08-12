@@ -49,6 +49,7 @@ export default function EventDetail() {
 
   if (!event) return <NotFound />;
   const info = copy.events[event.id as EventId];
+  const generatedPhotoCount = event.id === "poolside" ? 4 : 2;
   const previous = () =>
     setActivePhoto(current =>
       current === null
@@ -112,7 +113,9 @@ export default function EventDetail() {
               <span className="absolute inset-x-0 bottom-0 bg-ink/70 px-4 py-2.5 text-[0.72rem] text-white">
                 {index === 0
                   ? info.experience
-                  : `${copy.gallery} · ${index + 1}`}
+                  : index < generatedPhotoCount
+                    ? `${copy.professionalConcept} · ${index + 1}`
+                    : `${copy.realVenuePhoto} · ${index + 1}`}
               </span>
               {index === 4 && event.gallery.length > 5 && (
                 <span className="absolute end-3 top-3 hidden items-center gap-1.5 bg-white/95 px-3 py-2 text-[0.75rem] text-ink shadow-sm md:inline-flex">
