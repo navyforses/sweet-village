@@ -122,7 +122,7 @@ export const PHOTOS = resolveAssetRecord(RAW_PHOTOS);
 // explicitly approved for publication. Older generated assets stay available
 // to legacy inner pages until those pages are refreshed separately.
 export const HOME_PHOTOS = resolveAssetRecord({
-  hero: "/events/real-05.jpg",
+  hero: "/pool-view-house/01-pool-view-house-exterior.webp",
   events: "/events/real-07.jpg",
   pool: "/events/poolside-real-01.webp",
   restaurant: "/events/real-06.jpg",
