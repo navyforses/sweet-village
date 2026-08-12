@@ -1,6 +1,3 @@
-import { bookingInput, formatBooking, whatsappLink } from "../shared/booking";
-import type { BookingInput } from "../shared/booking";
-
 type ApiRequest = {
   method?: string;
   body?: unknown;
@@ -12,6 +9,24 @@ type ApiResponse = {
   json(body: unknown): void;
 };
 
+type BookingInput = {
+  name: string;
+  phone: string;
+  checkIn?: string;
+  checkOut?: string;
+  interest: "cottage" | "event" | "pool" | "restaurant" | "whole";
+  unit?: "small-a" | "small-b" | "large-a" | "large-b" | "grand";
+  guests?: number;
+  notes?: string;
+  lang: "ka" | "en" | "ru" | "ar" | "fr" | "es";
+};
+
+const OWNER_EMAIL = "iobidzeioseb@gmail.com";
+const WHATSAPP_NUMBER = "995599639614";
+const INTERESTS = new Set<BookingInput["interest"]>(["cottage", "event", "pool", "restaurant", "whole"]);
+const UNITS = new Set<NonNullable<BookingInput["unit"]>>(["small-a", "small-b", "large-a", "large-b", "grand"]);
+const LANGUAGES = new Set<BookingInput["lang"]>(["ka", "en", "ru", "ar", "fr", "es"]);
+
 function parseBody(body: unknown): unknown {
   if (typeof body !== "string") return body;
   try {
@@ -21,13 +36,78 @@ function parseBody(body: unknown): unknown {
   }
 }
 
+function parseOptionalText(value: Record<string, unknown>, key: "checkIn" | "checkOut" | "notes", limit: number) {
+  const raw = value[key];
+  if (raw === undefined || raw === "") return undefined;
+  return typeof raw === "string" && raw.trim().length <= limit ? raw.trim() : null;
+}
+
+function parseBooking(body: unknown): BookingInput | null {
+  if (!body || typeof body !== "object" || Array.isArray(body)) return null;
+  const value = body as Record<string, unknown>;
+  const name = typeof value.name === "string" ? value.name.trim() : "";
+  const phone = typeof value.phone === "string" ? value.phone.trim() : "";
+  const interest = value.interest;
+  const lang = value.lang;
+
+  if (
+    name.length < 2 ||
+    name.length > 160 ||
+    !/^[+()\d\s-]{6,40}$/.test(phone) ||
+    typeof interest !== "string" ||
+    !INTERESTS.has(interest as BookingInput["interest"]) ||
+    typeof lang !== "string" ||
+    !LANGUAGES.has(lang as BookingInput["lang"])
+  ) {
+    return null;
+  }
+
+  const checkIn = parseOptionalText(value, "checkIn", 32);
+  const checkOut = parseOptionalText(value, "checkOut", 32);
+  const notes = parseOptionalText(value, "notes", 2000);
+  if (checkIn === null || checkOut === null || notes === null) return null;
+
+  const unit = value.unit;
+  if (unit !== undefined && (typeof unit !== "string" || !UNITS.has(unit as NonNullable<BookingInput["unit"]>))) return null;
+
+  const guests = value.guests;
+  if (guests !== undefined && (typeof guests !== "number" || !Number.isInteger(guests) || guests < 1 || guests > 200)) return null;
+
+  return {
+    name,
+    phone,
+    interest: interest as BookingInput["interest"],
+    lang: lang as BookingInput["lang"],
+    ...(checkIn ? { checkIn } : {}),
+    ...(checkOut ? { checkOut } : {}),
+    ...(notes ? { notes } : {}),
+    ...(typeof unit === "string" ? { unit: unit as BookingInput["unit"] } : {}),
+    ...(typeof guests === "number" ? { guests } : {}),
+  };
+}
+
+function formatBooking(input: BookingInput) {
+  const lines = [
+    `სახელი / Name: ${input.name}`,
+    `ტელეფონი / Phone: ${input.phone}`,
+    `ინტერესი / Interest: ${input.interest}`,
+  ];
+  if (input.unit) lines.push(`ერთეული / Unit: ${input.unit}`);
+  if (input.checkIn || input.checkOut) lines.push(`თარიღები / Dates: ${input.checkIn ?? "—"} → ${input.checkOut ?? "—"}`);
+  if (input.guests) lines.push(`სტუმრები / Guests: ${input.guests}`);
+  if (input.notes) lines.push(`შენიშვნა / Notes: ${input.notes}`);
+  lines.push(`ენა / Browsing language: ${input.lang}`);
+  return { subject: `ახალი მოთხოვნა — ${input.name}`, body: lines.join("\n") };
+}
+
+function whatsappLink(input: BookingInput) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(formatBooking(input).body)}`;
+}
+
 async function persistBooking(input: BookingInput) {
   const databaseUrl = process.env.NEON_DATABASE_URL;
   if (!databaseUrl) throw new Error("NEON_DATABASE_URL is not configured");
 
-  // Keep database SDK loading inside the request path. This prevents a missing
-  // or incompatible optional runtime dependency from crashing the complete
-  // Vercel Function before it can return a controlled HTTP response.
   const { neon } = await import("@neondatabase/serverless");
   const sql = neon(databaseUrl);
   const [created] = await sql`
@@ -53,13 +133,11 @@ async function sendOwnerEmail(subject: string, body: string) {
   const from = process.env.RESEND_FROM_EMAIL;
   if (!key || !from) return false;
 
-  // Resend is only needed after persistence succeeds. Loading it lazily keeps
-  // malformed public requests independent from the email SDK runtime.
   const { Resend } = await import("resend");
   const resend = new Resend(key);
   const { error } = await resend.emails.send({
     from,
-    to: ["iobidzeioseb@gmail.com"],
+    to: [OWNER_EMAIL],
     subject,
     text: body,
   });
@@ -74,15 +152,15 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return;
   }
 
-  const parsed = bookingInput.safeParse(parseBody(req.body));
-  if (!parsed.success) {
+  const parsed = parseBooking(parseBody(req.body));
+  if (!parsed) {
     res.status(422).json({ error: "Invalid booking request" });
     return;
   }
 
-  const { subject, body } = formatBooking(parsed.data);
+  const { subject, body } = formatBooking(parsed);
   try {
-    const id = await persistBooking(parsed.data);
+    const id = await persistBooking(parsed);
     const emailed = await sendOwnerEmail(subject, body).catch(error => {
       console.warn("[booking] Resend delivery failed", error);
       return false;
@@ -93,10 +171,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       delivered: emailed,
       emailed,
       notified: false,
-      whatsapp: whatsappLink(parsed.data),
+      whatsapp: whatsappLink(parsed),
     });
   } catch (error) {
     console.error("[booking] Vercel submission failed", error);
-    res.status(503).json({ error: "Booking service unavailable" });
+    res.status(503).json({ error: "Booking service unavailable", whatsapp: whatsappLink(parsed) });
   }
 }

@@ -32,4 +32,32 @@ describe("Vercel booking endpoint", () => {
     expect(record.statusCode).toBe(422);
     expect(record.body).toEqual({ error: "Invalid booking request" });
   });
+
+  it("returns a controlled fallback when a valid request reaches an unconfigured persistence layer", async () => {
+    const previousNeonUrl = process.env.NEON_DATABASE_URL;
+    delete process.env.NEON_DATABASE_URL;
+    const { record, response } = responseRecorder();
+
+    await bookingHandler(
+      {
+        method: "POST",
+        body: {
+          name: "Test Guest",
+          phone: "+995 599 63 96 14",
+          interest: "cottage",
+          unit: "small-a",
+          guests: 2,
+          lang: "en",
+        },
+      },
+      response,
+    );
+
+    expect(record.statusCode).toBe(503);
+    expect(record.body).toEqual({
+      error: "Booking service unavailable",
+      whatsapp: expect.stringContaining("https://wa.me/995599639614?text="),
+    });
+    if (previousNeonUrl) process.env.NEON_DATABASE_URL = previousNeonUrl;
+  });
 });
