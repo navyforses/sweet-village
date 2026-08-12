@@ -110,8 +110,8 @@ const fr = {
         "body": "Deuxième moitié du grand cottage, également à deux étages et indépendante. Deux chambres; ensemble, huit invités peuvent loger dans une seule habitation."
       },
       "grand": {
-        "title": "Grande chambre",
-        "body": "La plus grande unité du complexe — cinq lits et un canapé-lit. C’est celle qui convient le mieux pour de grands groupes d'amis."
+        "title": "Maison avec vue sur la piscine",
+        "body": "Un hébergement en bois sur deux niveaux, avec balcon blanc donnant directement sur la piscine. En bas : lit double, kitchenette et coin salon ; dans le loft : trois lits simples. Jusqu’à 6 personnes avec le canapé-lit."
       }
     },
     "facilities": {

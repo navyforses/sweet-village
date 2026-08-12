@@ -113,8 +113,8 @@ const en = {
         body: "The other half of the large cottage, also two-story and independent. Booking both rooms together accommodates eight guests in one house.",
       },
       grand: {
-        title: "Grand Room",
-        body: "The most spacious unit in the complex — five beds and a sofa bed. This is the room usually chosen by a large group of friends.",
+        title: "Pool View House",
+        body: "A two-level wooden suite with a white balcony directly overlooking the pool. The lower floor has a double bed, compact kitchen and lounge; the loft has three single beds, with space for 6 guests using the sofa bed.",
       },
     },
     facilities: {

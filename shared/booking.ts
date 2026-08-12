@@ -41,7 +41,7 @@ const UNIT_LABEL: Record<string, string> = {
   "small-b": "ბაღის კოტეჯი 2 / Garden Cottage 2 (2 beds, up to 4)",
   "large-a": "საოჯახო დუპლექსი A / Family Duplex A (4 beds, 2 floors)",
   "large-b": "საოჯახო დუპლექსი B / Family Duplex B (4 beds, 2 floors)",
-  grand: "დიდი ნომერი / Grand room (5 beds, up to 6)",
+  grand: "აუზისპირა სახლი / Pool View House (5 beds, up to 6)",
 };
 
 export function formatBooking(input: BookingInput): { subject: string; body: string } {

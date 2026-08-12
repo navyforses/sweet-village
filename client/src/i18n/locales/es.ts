@@ -113,8 +113,8 @@ const es = {
         body: "La segunda mitad de la cabaña grande, también de dos pisos e independiente. Reservando ambas habitaciones juntas, ocho huéspedes pueden alojarse en una sola casa.",
       },
       grand: {
-        title: "Habitación grande",
-        body: "La unidad más espaciosa del complejo — cinco camas y un sofá cama. Esta es la habitación ideal para un grupo grande de amigos.",
+        title: "Casa con vistas a la piscina",
+        body: "Alojamiento de madera de dos niveles con balcón blanco directamente sobre la piscina. Abajo hay una cama doble, cocina compacta y sala de estar; el altillo tiene tres camas individuales. Con el sofá cama admite hasta 6 huéspedes.",
       },
     },
     facilities: {
