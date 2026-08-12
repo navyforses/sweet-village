@@ -1,8 +1,6 @@
 import { put } from "@vercel/blob";
-import { DISHES, MENU_ITEM_PHOTOS, PHOTOS } from "../client/src/lib/assets";
-import { EVENT_TYPES, UNITS } from "../shared/venue";
+import { BLOB_MIGRATION_SOURCES } from "./blobSources";
 
-const SOURCE_ORIGIN = "https://sweetvillage-pdzcphmy.manus.space";
 const BATCH_SIZE = 5;
 
 type ApiRequest = {
@@ -22,17 +20,7 @@ function stablePathname(legacyPath: string) {
 }
 
 export function activeBlobSources() {
-  const legacy = [
-    ...Object.values(PHOTOS),
-    ...Object.values(DISHES),
-    ...Object.values(MENU_ITEM_PHOTOS),
-    ...UNITS.flatMap(unit => [unit.photo, ...unit.gallery]),
-    ...EVENT_TYPES.map(event => event.photo),
-  ].filter((value): value is string => value.startsWith("/manus-storage/"));
-
-  return Array.from(new Set(legacy))
-    .map(legacyPath => ({ pathname: stablePathname(legacyPath), source: `${SOURCE_ORIGIN}${legacyPath}` }))
-    .sort((a, b) => a.pathname.localeCompare(b.pathname));
+  return BLOB_MIGRATION_SOURCES.map(([pathname, source]) => ({ pathname, source }));
 }
 
 function requestedOffset(query: ApiRequest["query"]) {

@@ -181,6 +181,7 @@
 - [ ] Vercel-ში დროებითი, დაცული server-side Blob migration endpoint-ის გამოყენებით ფოტოების გადატანა token-ის ხელით გაზიარების გარეშე
 - [ ] /migration ღილაკის Vercel deployment/runtime პასუხის დიაგნოსტიკა და საჭირო გამოსწორება
 - [ ] Vercel Functions-ის აღმოჩენისა და `/api/migrate-assets` POST პასუხის დადასტურება მიმდინარე production deployment-ზე
+- [ ] `/api/migrate-assets` HTTP 500-ის root cause-ის მოხსნა server-only asset manifest-ით და function runtime-ის ხელახალი გადამოწმება
 - [x] assets.ts-ის Vercel Blob URL-ებზე უსაფრთხო გადართვა
 - [ ] Vercel-თან თავსებადი გარემო ცვლადების, Maps-ისა და დაჯავშნის email არხის დოკუმენტირება
 - [ ] MySQL/Manus დაჯავშნის persistence-ის Neon PostgreSQL-ზე გადაყვანა და სქემის მომზადება
