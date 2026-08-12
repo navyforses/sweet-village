@@ -35,7 +35,7 @@ describe("accommodation inventory", () => {
 
   it("gives each unit a unique detail gallery, with six approved photos on the two large rooms", () => {
     for (const unit of UNITS) {
-      const expectedGallerySize = unit.id === "small-a" ? 5 : unit.id === "large-a" || unit.id === "large-b" ? 6 : 3;
+      const expectedGallerySize = unit.id === "small-a" || unit.id === "small-b" ? 5 : unit.id === "large-a" || unit.id === "large-b" ? 6 : 3;
       expect(unit.gallery).toHaveLength(expectedGallerySize);
       expect(new Set(unit.gallery).size).toBe(expectedGallerySize);
       for (const photo of unit.gallery) {
@@ -54,6 +54,14 @@ describe("accommodation inventory", () => {
       "/manus-storage/garden-cottage-sleeping-area.webp",
       "/manus-storage/garden-cottage-garden-view.webp",
     ]);
+  });
+
+  it("uses a distinct exterior and the same interior gallery for Garden Cottage 2", () => {
+    const gardenCottage1 = UNITS.find(unit => unit.id === "small-a")!;
+    const gardenCottage2 = UNITS.find(unit => unit.id === "small-b")!;
+    expect(gardenCottage2.photo).toBe("/manus-storage/garden-cottage-2-exterior.webp");
+    expect(gardenCottage2.gallery[0]).not.toBe(gardenCottage1.gallery[0]);
+    expect(gardenCottage2.gallery.slice(1)).toEqual(gardenCottage1.gallery.slice(1));
   });
 
   it("shows the same approved gallery for the two identical large rooms", () => {

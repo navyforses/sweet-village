@@ -60,6 +60,11 @@ const GARDEN_COTTAGE_GALLERY = [
   "/manus-storage/garden-cottage-garden-view.webp",
 ] as const;
 
+const GARDEN_COTTAGE_2_GALLERY = [
+  "/manus-storage/garden-cottage-2-exterior.webp",
+  ...GARDEN_COTTAGE_GALLERY.slice(1),
+] as const;
+
 export const UNITS: Unit[] = [
   {
     id: "small-a",
@@ -79,12 +84,8 @@ export const UNITS: Unit[] = [
     floors: 1,
     priceLow: 120,
     priceHigh: 190,
-    photo: "/manus-storage/fb_bedroom_01_29b3a4a3.jpg",
-    gallery: [
-      "/manus-storage/stay-small-b-exterior_0446954f.jpg",
-      "/manus-storage/stay-small-b-interior_281e953e.jpg",
-      "/manus-storage/fb_bedroom_01_29b3a4a3.jpg",
-    ],
+    photo: GARDEN_COTTAGE_2_GALLERY[0],
+    gallery: GARDEN_COTTAGE_2_GALLERY,
     provisional: true,
   },
   {
