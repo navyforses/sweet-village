@@ -8,7 +8,12 @@
 const BLOB_ORIGIN = (import.meta.env?.VITE_SWEET_VILLAGE_ASSET_ORIGIN ?? "").replace(/\/$/, "");
 
 export function resolveAssetUrl(assetRef: string, blobOrigin = BLOB_ORIGIN): string {
-  if (!blobOrigin || !assetRef.startsWith("/manus-storage/")) return assetRef;
+  if (!assetRef.startsWith("/manus-storage/")) return assetRef;
+  if (!blobOrigin && typeof window !== "undefined" && window.location.hostname.endsWith(".vercel.app")) {
+    const pathname = assetRef.slice("/manus-storage/".length).replace(/_[a-f0-9]{8}(?=\.[a-z0-9]+$)/i, "");
+    return `/api/blob-image?path=${encodeURIComponent(`sweet-village/${pathname}`)}`;
+  }
+  if (!blobOrigin) return assetRef;
   return `${blobOrigin.replace(/\/$/, "")}/${assetRef.slice("/manus-storage/".length).replace(/_[a-f0-9]{8}(?=\.[a-z0-9]+$)/i, "")}`;
 }
 

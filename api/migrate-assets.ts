@@ -84,7 +84,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       total: sources.length,
       nextOffset: nextOffset < sources.length ? nextOffset : null,
       complete: nextOffset >= sources.length,
-      publicOrigin: uploaded[0] ? new URL(uploaded[0]).origin : null,
+      publicOrigin: uploaded[0] ? `${new URL(uploaded[0]).origin}/sweet-village` : null,
     });
   } catch (error) {
     console.error("[blob-migration] batch failed", error);

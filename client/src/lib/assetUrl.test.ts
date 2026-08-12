@@ -15,4 +15,9 @@ describe("assetUrl", () => {
     expect(resolveAssetUrl("/manus-storage/gen_hero_f355fb4f.jpg", "https://abc.public.blob.vercel-storage.com/sweet-village/"))
       .toBe("https://abc.public.blob.vercel-storage.com/sweet-village/gen_hero.jpg");
   });
+
+  it("does not alter a non-Manus source", () => {
+    expect(resolveAssetUrl("https://example.com/photo.jpg", "https://abc.public.blob.vercel-storage.com/sweet-village"))
+      .toBe("https://example.com/photo.jpg");
+  });
 });
