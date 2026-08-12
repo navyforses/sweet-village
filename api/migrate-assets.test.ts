@@ -11,6 +11,11 @@ const PREUPLOADED_BLOB_REFS = new Set([
   "/manus-storage/large-cottage-ground-floor-staircase-approved.webp",
   "/manus-storage/large-cottage-shared-kitchen-approved.webp",
   "/manus-storage/large-cottage-bathroom-approved.webp",
+  "/manus-storage/garden-cottage-exterior.webp",
+  "/manus-storage/garden-cottage-porch.webp",
+  "/manus-storage/garden-cottage-studio.webp",
+  "/manus-storage/garden-cottage-sleeping-area.webp",
+  "/manus-storage/garden-cottage-garden-view.webp",
 ]);
 
 function blobPathname(legacyPath: string) {

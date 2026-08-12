@@ -38,7 +38,11 @@ export default function AccommodationDetail() {
   if (!unit) return <NotFound />;
 
   const info = t.stay.units[unit.id as UnitId];
-  const captions = unit.id === "large-a" || unit.id === "large-b" ? copy.largeCottageCaptions : copy.captions;
+  const captions = unit.id === "small-a"
+    ? copy.gardenCottageCaptions
+    : unit.id === "large-a" || unit.id === "large-b"
+      ? copy.largeCottageCaptions
+      : copy.captions;
   const bookingHref = `/booking?interest=cottage&unit=${unit.id}&lang=${lang}`;
   const showPreviousPhoto = () => setActivePhoto(current => current === null ? 0 : (current - 1 + unit.gallery.length) % unit.gallery.length);
   const showNextPhoto = () => setActivePhoto(current => current === null ? 0 : (current + 1) % unit.gallery.length);

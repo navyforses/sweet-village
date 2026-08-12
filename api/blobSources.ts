@@ -96,9 +96,6 @@ export const BLOB_MIGRATION_SOURCES = [
   ["sweet-village/menu-card-68-turkish-coffee-replacement.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/menu-card-68-turkish-coffee-replacement_29cf559b.jpg"],
   ["sweet-village/stay-grand-exterior.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-grand-exterior_c75a11d3.jpg"],
   ["sweet-village/stay-grand-interior.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-grand-interior_4d0e93a9.jpg"],
-  ["sweet-village/stay-small-a-exterior.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-small-a-exterior_8e523eac.jpg"],
-  ["sweet-village/stay-small-a-interior.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-small-a-interior_ad1e9258.jpg"],
-  ["sweet-village/stay-small-a-porch.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-small-a-porch_04c3ec8b.jpg"],
   ["sweet-village/stay-small-b-exterior.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-small-b-exterior_0446954f.jpg"],
   ["sweet-village/stay-small-b-interior.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-small-b-interior_281e953e.jpg"]
 ] as const;

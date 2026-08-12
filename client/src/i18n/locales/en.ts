@@ -97,8 +97,8 @@ const en = {
       "Five independent units in one garden. All interiors feature pine wood, warm lighting, and botanical curtains. 17 beds in total, accommodating up to 22 guests with sofa beds.",
     units: {
       "small-a": {
-        title: "Small Cottage I",
-        body: "An independent wooden cottage in the garden, a bright open space with two beds. Accommodates up to four guests with a sofa bed. Ideal for a couple or a small family.",
+        title: "Garden Cottage",
+        body: "A private wooden cottage in the green garden, with a bright studio interior, double bed, sofa, compact kitchenette, and its own covered porch. A peaceful choice for a couple or small family, accommodating up to four guests.",
       },
       "small-b": {
         title: "Small Cottage II",

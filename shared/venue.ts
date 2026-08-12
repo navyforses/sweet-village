@@ -52,6 +52,14 @@ const LARGE_COTTAGE_GALLERY = [
   "/manus-storage/large-cottage-bathroom-approved.webp",
 ] as const;
 
+const GARDEN_COTTAGE_GALLERY = [
+  "/manus-storage/garden-cottage-exterior.webp",
+  "/manus-storage/garden-cottage-porch.webp",
+  "/manus-storage/garden-cottage-studio.webp",
+  "/manus-storage/garden-cottage-sleeping-area.webp",
+  "/manus-storage/garden-cottage-garden-view.webp",
+] as const;
+
 export const UNITS: Unit[] = [
   {
     id: "small-a",
@@ -60,12 +68,8 @@ export const UNITS: Unit[] = [
     floors: 1,
     priceLow: 120,
     priceHigh: 190,
-    photo: "/manus-storage/gen_cottage_ext_325bdf81.jpg",
-    gallery: [
-      "/manus-storage/stay-small-a-exterior_8e523eac.jpg",
-      "/manus-storage/stay-small-a-interior_ad1e9258.jpg",
-      "/manus-storage/stay-small-a-porch_04c3ec8b.jpg",
-    ],
+    photo: GARDEN_COTTAGE_GALLERY[0],
+    gallery: GARDEN_COTTAGE_GALLERY,
     provisional: true,
   },
   {
