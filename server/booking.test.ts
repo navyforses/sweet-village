@@ -96,8 +96,8 @@ describe("formatBooking", () => {
   it("names the exact unit when the guest picked one", () => {
     const { body, subject } = formatBooking({ ...base, unit: "grand" });
     expect(body).toContain("Unit:");
-    expect(body).toContain("Grand room");
-    expect(subject).toContain("დიდი ნომერი");
+    expect(body).toContain("Pool View House");
+    expect(subject).toContain("აუზისპირა სახლი");
   });
 
   it("omits the unit line when the guest did not pick one", () => {

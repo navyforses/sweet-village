@@ -94,6 +94,5 @@ export const BLOB_MIGRATION_SOURCES = [
   ["sweet-village/menu-card-66-loose-tea.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/menu-card-66-loose-tea_dfb3f4ae.jpg"],
   ["sweet-village/menu-card-67-teabag-tea.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/menu-card-67-teabag-tea_5a74e601.jpg"],
   ["sweet-village/menu-card-68-turkish-coffee-replacement.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/menu-card-68-turkish-coffee-replacement_29cf559b.jpg"],
-  ["sweet-village/stay-grand-exterior.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-grand-exterior_c75a11d3.jpg"],
   ["sweet-village/stay-grand-interior.jpg", "https://sweetvillage-pdzcphmy.manus.space/manus-storage/stay-grand-interior_4d0e93a9.jpg"],
 ] as const;

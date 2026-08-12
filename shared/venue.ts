@@ -70,6 +70,12 @@ const GARDEN_COTTAGE_2_GALLERY = [
   ...GARDEN_COTTAGE_GALLERY.slice(1),
 ] as const;
 
+const POOL_VIEW_LOFT_GALLERY = [
+  "/pool-view-loft/01-pool-view-loft-exterior.webp",
+  "/manus-storage/stay-grand-interior_4d0e93a9.jpg",
+  "/manus-storage/gen_interior_room_17b6f3da.jpg",
+] as const;
+
 export const UNITS: Unit[] = [
   {
     id: "small-a",
@@ -119,15 +125,11 @@ export const UNITS: Unit[] = [
     id: "grand",
     beds: 5,
     maxGuests: 6,
-    floors: 1,
+    floors: 2,
     priceLow: 200,
     priceHigh: 320,
-    photo: "/manus-storage/gen_interior_room_17b6f3da.jpg",
-    gallery: [
-      "/manus-storage/stay-grand-exterior_c75a11d3.jpg",
-      "/manus-storage/stay-grand-interior_4d0e93a9.jpg",
-      "/manus-storage/gen_interior_room_17b6f3da.jpg",
-    ],
+    photo: POOL_VIEW_LOFT_GALLERY[0],
+    gallery: POOL_VIEW_LOFT_GALLERY,
     provisional: true,
   },
 ];

@@ -31,6 +31,7 @@ describe("accommodation inventory", () => {
     const grand = UNITS.find(u => u.id === "grand")!;
     expect(grand.beds).toBe(5);
     expect(grand.maxGuests).toBe(6);
+    expect(grand.floors).toBe(2);
   });
 
   it("gives each unit a unique detail gallery, with six approved photos on the two large rooms", () => {
@@ -39,7 +40,7 @@ describe("accommodation inventory", () => {
       expect(unit.gallery).toHaveLength(expectedGallerySize);
       expect(new Set(unit.gallery).size).toBe(expectedGallerySize);
       for (const photo of unit.gallery) {
-        expect(photo).toMatch(/^\/manus-storage\//);
+        expect(photo).toMatch(/^\/(manus-storage|pool-view-loft)\//);
       }
     }
   });
