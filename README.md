@@ -14,7 +14,8 @@
 | Languages | Georgian `ka`, English `en`, Russian `ru`, Arabic `ar` with RTL, French `fr`, Spanish `es` |
 | Contact behavior | Booking request + WhatsApp fallback + owner email target |
 | Owner booking address | `iobidzeioseb@gmail.com` |
-| Current public managed deployment | `https://sweetvillage-pdzcphmy.manus.space` |
+| Current production website | `https://www.sweet-village.com/` on Vercel |
+| Legacy managed deployment | `https://sweetvillage-pdzcphmy.manus.space` |
 | GitHub source repository | `navyforses/sweet-village`, branch `main` |
 
 ## 2. Non-negotiable product rules
@@ -121,11 +122,11 @@ Do not present the property as six cottages. The current, confirmed product mode
 |---|---|
 | `/home/ubuntu/webdev-static-assets/sweet-village/` | Local working archive for the 133 project image assets; not deployed from the Git repository |
 | GitHub Release `sweet-village-assets-2026-08` | Archive of the 133 source images, approximately 572 MB |
-| `/manus-storage/...` URLs | Current working media URLs used by the deployed Manus site |
-| Vercel Blob store `sweetvillage` | Created and connected to the Vercel project; migration remains incomplete and must not be assumed live |
+| `/manus-storage/...` URLs | Legacy Manus asset URLs retained in source for legacy/runtime compatibility |
+| Vercel Blob store `sweetvillage` | Production media store. Public assets are served from `ps7b45pmn65x45ur.public.blob.vercel-storage.com/sweet-village/...` |
 | `scripts/migrate-assets-to-vercel-blob.mjs` | Manual CLI migration tool; requires a valid Blob token outside source control |
-| `scripts/migrate-remote-assets-during-build.mjs` | Experimental Vercel build-time migration path; the most recent Vercel build failed and this path is currently paused |
-| `api/migrate-assets.ts`, `client/src/pages/BlobMigration.tsx` | Temporary Vercel Function migration experiment; not a customer-facing feature |
+| `scripts/migrate-remote-assets-during-build.mjs` | Historical build-time migration helper; production assets are already available in Blob |
+| `api/migrate-assets.ts`, `client/src/pages/BlobMigration.tsx` | Temporary migration experiment; not a customer-facing feature and should be removed in a later cleanup task |
 
 > **Media safety rule.** Never hard-code a new image URL in a random page. Put it in the registry or the relevant shared data file first, then reference the canonical identifier.
 
@@ -190,20 +191,20 @@ Never put real values in Git, source code, screenshots, or chat. `VERCEL_ENVIRON
 | `RESEND_API_KEY` | `api/booking.ts` | Required for Vercel booking email; not configured yet |
 | `RESEND_FROM_EMAIL` | `api/booking.ts` | Verified sender identity required; not configured yet |
 | `BLOB_READ_WRITE_TOKEN` | Blob scripts and Vercel build migration | Connected in Vercel; do not reveal or commit it |
-| `VITE_SWEET_VILLAGE_ASSET_ORIGIN` | `client/src/lib/assetUrl.ts` | Blob public origin after a successful migration |
+| `VITE_SWEET_VILLAGE_ASSET_ORIGIN` | `client/src/lib/assetUrl.ts` | Blob public origin; production currently renders public Blob URLs successfully |
 | `VITE_GOOGLE_MAPS_API_KEY` | `client/src/lib/loadMaps.ts` | Browser-visible but referrer-restricted Google Maps key |
 
 ## 11. Deployment and migration state
 
 | Area | Current status | Safe next action |
 |---|---|---|
-| Manus site | Working and published | Treat as current public source of truth |
+| Production domain | `https://www.sweet-village.com/` | Live on Vercel; HTTP and apex domain both redirect permanently to this canonical HTTPS URL |
 | GitHub sync | `main` is the deployment source | Use a checkpoint for project changes; it synchronizes GitHub |
-| Vercel project | Exists and is linked to GitHub | Keep Vercel configuration work separate from content edits |
-| Vercel Blob store | `sweetvillage` exists | Do not say photos are migrated until verified URLs load from Blob |
-| Vercel media migration | Paused after failed Function and build-time experiments | Resume only after reviewing the failed Vercel build log and agreeing on a method |
+| Vercel project | Live and connected to the purchased domain | Treat the Vercel deployment as the current production website |
+| Vercel Blob store | `sweetvillage` is active | Home, Menu, and Stay verification confirms Blob-backed production assets |
+| Vercel media migration | Completed for production-rendered assets | See `VERIFICATION_LOG.md`; remove temporary migration utilities only in a dedicated cleanup task |
 | Neon + Resend | Architecture and code prepared | Create/configure services and run end-to-end booking QA before enabling production claims |
-| Custom domain | Not selected or purchased | Ask the owner for candidate domains; show price and availability before purchase |
+| Custom domain | Purchased and connected | Canonical production URL is `https://www.sweet-village.com/` |
 
 ## 12. QA and tests
 
@@ -217,6 +218,10 @@ pnpm check
 The current suite covers booking validation, booking API behavior, menu completeness, venue/inventory data, maps proxy behavior, authentic copy, asset URL resolution, Blob migration source integrity, and client-side map loading. The most recent local baseline is **61 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
 
 Visual QA must cover desktop, mobile, and Arabic RTL for any touched public page. Text changes also require checking that each changed user-facing message exists in all six locale files or is intentionally language-specific.
+
+### Latest production verification
+
+The current public domain has been checked in a browser and through HTTP headers. The `www` HTTPS URL responds with HTTP 200 and HSTS; the HTTP URL and apex domain redirect with HTTP 308 to the canonical `https://www.sweet-village.com/`. Home hero/gallery, visible menu cards, and visible stay cards load from the public Vercel Blob origin. See `VERIFICATION_LOG.md` for the timestamped verification notes.
 
 ## 13. Safe change procedure for AI agents
 

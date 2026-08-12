@@ -166,6 +166,10 @@
 
 ## Vercel მიგრაცია
 
+- [x] `www.sweet-village.com` წარმოების დომენის HTTPS, redirect-ისა და ძირითადი route-ების რეალური შემოწმება
+- [x] Vercel Blob-ზე ატვირთული ფოტო-აქტივების ქსელური/ვიზუალური შემოწმება მთავარ, მენიუსა და განთავსების გვერდებზე
+- [x] README.md-ის განახლება დასრულებული Vercel დომენისა და Blob media სტატუსით
+
 ## AI-readable პროექტის დოკუმენტაცია
 
 - [x] README.md-ის შექმნა: სრული არქიტექტურა, გვერდები, 6-ენოვანი სისტემა, მონაცემთა წყაროები, ფუნქციები, ტესტები, ინფრასტრუქტურა და მიმდინარე სტატუსი
@@ -174,26 +178,26 @@
 - [x] არსებული Manus-დამოკიდებულებების (ბაზა, ავტორიზაცია, email, Maps, ფოტო-URL-ები) სრული აუდიტი
 - [x] Vercel-ზე გამოსაყენებელი არქიტექტურისა და საჭირო გარემო ცვლადების განსაზღვრა
 - [x] 133 ფოტო-აქტივის Vercel Blob ან დამოუკიდებელ S3 საცავზე გადატანის მიგრაციის გეგმა
-- [ ] Vercel პროექტის კონფიგურაციისა და deployment ფაილების მომზადება
+- [x] Vercel პროექტის კონფიგურაციისა და deployment ფაილების მომზადება
 - [ ] Vercel-ზე სრული დაჯავშნის ნაკადის და გალერეების შემოწმება
-- [ ] Vercel-ზე დომენის შეძენის/მიბმის ინსტრუქციის მომზადება
+- [x] Vercel-ზე დომენის შეძენის/მიბმის ინსტრუქციის მომზადება
 - [x] Booking.tsx-ში დუბლირებული useState import-ის მოცილება და build-ის აღდგენა
 - [x] Vercel Blob საცავის შექმნისთვის საჭირო პარამეტრებისა და ატვირთვის სკრიპტის მომზადება
 - [ ] 133 ფოტო-აქტივის Vercel Blob URL-ებზე გადატანის რეესტრის გენერაცია
-- [ ] Blob store-ის „sweet-village“ Vercel პროექტთან დაკავშირება და BLOB_READ_WRITE_TOKEN-ის მიღება
-- [ ] 133 ფოტო-აქტივის რეალური ატვირთვა Vercel Blob-ში და public origin-ის მიღება
-- [ ] VITE_SWEET_VILLAGE_ASSET_ORIGIN-ის Vercel გარემოში დამატება და ფოტოების მქონე preview deployment-ის გამოშვება
+- [x] Blob store-ის „sweet-village“ Vercel პროექტთან დაკავშირება და BLOB_READ_WRITE_TOKEN-ის მიღება
+- [x] 133 ფოტო-აქტივის რეალური ატვირთვა Vercel Blob-ში და public origin-ის მიღება
+- [x] VITE_SWEET_VILLAGE_ASSET_ORIGIN-ის Vercel გარემოში დამატება და ფოტოების მქონე preview deployment-ის გამოშვება
 - [ ] Vercel-ში დროებითი, დაცული server-side Blob migration endpoint-ის გამოყენებით ფოტოების გადატანა token-ის ხელით გაზიარების გარეშე
 - [ ] /migration ღილაკის Vercel deployment/runtime პასუხის დიაგნოსტიკა და საჭირო გამოსწორება
 - [ ] Vercel Functions-ის აღმოჩენისა და `/api/migrate-assets` POST პასუხის დადასტურება მიმდინარე production deployment-ზე
 - [ ] `/api/migrate-assets` HTTP 500-ის root cause-ის მოხსნა server-only asset manifest-ით და function runtime-ის ხელახალი გადამოწმება
 - [ ] Vercel CLI/OIDC ან პროექტის access-token ალტერნატივით პირდაპირი Blob API ატვირთვის სანდო გზის იდენტიფიცირება
 - [ ] Vercel Function-ის გარეშე აქტიური ფოტო-აქტივების პირდაპირ Blob API-ში ატვირთვა და URL manifest-ის შექმნა
-- [ ] Vercel build-time Blob migration სკრიპტის დამატება, რომელიც არსებული დაცული BLOB_READ_WRITE_TOKEN-ით ფოტოს ატვირთავს და Vite-ს CDN origin-ს გადასცემს
+- [x] Vercel build-time Blob migration სკრიპტის დამატება, რომელიც არსებული დაცული BLOB_READ_WRITE_TOKEN-ით ფოტოს ატვირთავს და Vite-ს CDN origin-ს გადასცემს
 - [x] assets.ts-ის Vercel Blob URL-ებზე უსაფრთხო გადართვა
-- [ ] Vercel-თან თავსებადი გარემო ცვლადების, Maps-ისა და დაჯავშნის email არხის დოკუმენტირება
+- [x] Vercel-თან თავსებადი გარემო ცვლადების, Maps-ისა და დაჯავშნის email არხის დოკუმენტირება
 - [ ] MySQL/Manus დაჯავშნის persistence-ის Neon PostgreSQL-ზე გადაყვანა და სქემის მომზადება
-- [ ] Vercel serverless booking endpoint-ისა და Resend email მიწოდების დამატება
+- [x] Vercel serverless booking endpoint-ისა და Resend email მიწოდების დამატება
 - [ ] Neon, Resend და Vercel Blob გარემო ცვლადების უსაფრთხო კონფიგურაცია
 
 ---
