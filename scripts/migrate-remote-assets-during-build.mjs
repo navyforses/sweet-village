@@ -14,7 +14,7 @@ if (!shouldMigrate) {
 
 const sourceFile = await readFile(path.join(root, "api", "blobSources.ts"), "utf8");
 const sources = [...sourceFile.matchAll(/\["([^"]+)", "([^"]+)"\]/g)].map(([, pathname, source]) => ({ pathname, source }));
-if (sources.length < 100) throw new Error(`[blob-build] expected 100+ source records, found ${sources.length}`);
+if (sources.length < 90) throw new Error(`[blob-build] expected 90+ source records, found ${sources.length}`);
 
 const current = await list({ token, prefix: "sweet-village/", limit: 1000 });
 const existing = new Map(current.blobs.map(blob => [blob.pathname, blob.url]));

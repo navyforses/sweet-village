@@ -43,6 +43,15 @@ export interface Unit {
   provisional: true;
 }
 
+const LARGE_COTTAGE_GALLERY = [
+  "/manus-storage/large-cottage-exterior-approved.webp",
+  "/manus-storage/large-cottage-ground-floor-bedroom-approved.webp",
+  "/manus-storage/large-cottage-second-floor-twin-bedroom-approved.webp",
+  "/manus-storage/large-cottage-ground-floor-staircase-approved.webp",
+  "/manus-storage/large-cottage-shared-kitchen-approved.webp",
+  "/manus-storage/large-cottage-bathroom-approved.webp",
+] as const;
+
 export const UNITS: Unit[] = [
   {
     id: "small-a",
@@ -81,12 +90,8 @@ export const UNITS: Unit[] = [
     floors: 2,
     priceLow: 180,
     priceHigh: 280,
-    photo: "/manus-storage/fb_bedroom_02_3d703364.jpg",
-    gallery: [
-      "/manus-storage/stay-large-cottage-exterior_b2037ad0.jpg",
-      "/manus-storage/stay-large-a-ground_4860b381.jpg",
-      "/manus-storage/stay-large-a-loft_c8295f6f.jpg",
-    ],
+    photo: LARGE_COTTAGE_GALLERY[0],
+    gallery: LARGE_COTTAGE_GALLERY,
     provisional: true,
   },
   {
@@ -96,12 +101,8 @@ export const UNITS: Unit[] = [
     floors: 2,
     priceLow: 180,
     priceHigh: 280,
-    photo: "/manus-storage/fb_interior_02_3d67dace.jpg",
-    gallery: [
-      "/manus-storage/stay-large-cottage-exterior_b2037ad0.jpg",
-      "/manus-storage/stay-large-b-ground_5a9d1783.jpg",
-      "/manus-storage/stay-large-b-loft_991220e0.jpg",
-    ],
+    photo: LARGE_COTTAGE_GALLERY[0],
+    gallery: LARGE_COTTAGE_GALLERY,
     provisional: true,
   },
   {

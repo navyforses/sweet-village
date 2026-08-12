@@ -33,14 +33,21 @@ describe("accommodation inventory", () => {
     expect(grand.maxGuests).toBe(6);
   });
 
-  it("gives every cottage or room a three-photo exterior/interior detail gallery", () => {
+  it("gives each unit a unique detail gallery, with six approved photos on the two large rooms", () => {
     for (const unit of UNITS) {
-      expect(unit.gallery).toHaveLength(3);
-      expect(new Set(unit.gallery).size).toBe(3);
+      const expectedGallerySize = unit.id === "large-a" || unit.id === "large-b" ? 6 : 3;
+      expect(unit.gallery).toHaveLength(expectedGallerySize);
+      expect(new Set(unit.gallery).size).toBe(expectedGallerySize);
       for (const photo of unit.gallery) {
         expect(photo).toMatch(/^\/manus-storage\//);
       }
     }
+  });
+
+  it("shows the same approved gallery for the two identical large rooms", () => {
+    const largeA = UNITS.find(unit => unit.id === "large-a")!;
+    const largeB = UNITS.find(unit => unit.id === "large-b")!;
+    expect(largeB.gallery).toEqual(largeA.gallery);
   });
 
   it("never lets a unit sleep more on beds than its stated maximum", () => {

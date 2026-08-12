@@ -19,6 +19,7 @@ export default function AccommodationDetail() {
   if (!unit) return <NotFound />;
 
   const info = t.stay.units[unit.id as UnitId];
+  const captions = unit.id === "large-a" || unit.id === "large-b" ? copy.largeCottageCaptions : copy.captions;
   const bookingHref = `/booking?interest=cottage&unit=${unit.id}&lang=${lang}`;
 
   return (
@@ -41,11 +42,11 @@ export default function AccommodationDetail() {
       </section>
 
       <section className="container mt-12 md:mt-16">
-        <div className="grid gap-3 md:grid-cols-2 md:grid-rows-2">
+        <div className="grid gap-3 md:grid-cols-2">
           {unit.gallery.map((photo, index) => (
-            <button key={photo} type="button" onClick={() => setActivePhoto(index)} className={`group relative overflow-hidden bg-pistachio/10 text-start ${index === 0 ? "md:row-span-2" : ""}`} aria-label={`${copy.captions[index] ?? copy.gallery}: ${info.title}`}>
-              <img src={assetUrl(photo)} alt={`${info.title} — ${copy.captions[index] ?? copy.gallery}`} className={`w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] ${index === 0 ? "aspect-[4/3] md:aspect-auto md:h-full" : "aspect-[16/9] md:h-full"}`} />
-              <span className="absolute inset-x-0 bottom-0 bg-ink/72 px-4 py-2.5 text-[0.75rem] text-white">{copy.captions[index] ?? copy.gallery}</span>
+            <button key={photo} type="button" onClick={() => setActivePhoto(index)} className={`group relative overflow-hidden bg-pistachio/10 text-start ${index === 0 ? "md:col-span-2" : ""}`} aria-label={`${captions[index] ?? copy.gallery}: ${info.title}`}>
+              <img src={assetUrl(photo)} alt={`${info.title} — ${captions[index] ?? copy.gallery}`} className={`w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] ${index === 0 ? "aspect-[16/9]" : "aspect-[16/10]"}`} />
+              <span className="absolute inset-x-0 bottom-0 bg-ink/72 px-4 py-2.5 text-[0.75rem] text-white">{captions[index] ?? copy.gallery}</span>
             </button>
           ))}
         </div>
@@ -71,7 +72,7 @@ export default function AccommodationDetail() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/92 p-4" role="dialog" aria-modal="true" aria-label={copy.gallery} onClick={() => setActivePhoto(null)}>
           <div className="relative max-h-full max-w-6xl" onClick={event => event.stopPropagation()}>
             <button type="button" onClick={() => setActivePhoto(null)} className="absolute end-3 top-3 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise" aria-label={copy.close}><X className="size-5" /></button>
-            <img src={assetUrl(unit.gallery[activePhoto])} alt={`${info.title} — ${copy.captions[activePhoto] ?? copy.gallery}`} className="max-h-[86vh] max-w-full object-contain" />
+            <img src={assetUrl(unit.gallery[activePhoto])} alt={`${info.title} — ${captions[activePhoto] ?? copy.gallery}`} className="max-h-[86vh] max-w-full object-contain" />
           </div>
         </div>
       )}

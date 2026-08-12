@@ -4,6 +4,14 @@ import { UNITS } from "../shared/venue";
 import { activeBlobSources } from "./migrate-assets";
 
 const LEGACY_ORIGIN = "https://sweetvillage-pdzcphmy.manus.space";
+const PREUPLOADED_BLOB_REFS = new Set([
+  "/manus-storage/large-cottage-exterior-approved.webp",
+  "/manus-storage/large-cottage-ground-floor-bedroom-approved.webp",
+  "/manus-storage/large-cottage-second-floor-twin-bedroom-approved.webp",
+  "/manus-storage/large-cottage-ground-floor-staircase-approved.webp",
+  "/manus-storage/large-cottage-shared-kitchen-approved.webp",
+  "/manus-storage/large-cottage-bathroom-approved.webp",
+]);
 
 function blobPathname(legacyPath: string) {
   const filename = legacyPath.split("/").pop() ?? "asset";
@@ -13,9 +21,9 @@ function blobPathname(legacyPath: string) {
 describe("Vercel Blob active-photo migration", () => {
   it("collects a stable, deduplicated source list for the live site photos", () => {
     const sources = activeBlobSources();
-    expect(sources.length).toBeGreaterThan(100);
+    expect(sources.length).toBeGreaterThan(90);
     expect(new Set(sources.map(source => source.pathname)).size).toBe(sources.length);
-    expect(sources.every(source => source.source.startsWith("https://sweetvillage-pdzcphmy.manus.space/manus-storage/"))).toBe(true);
+    expect(sources.every(source => source.source.startsWith(`${LEGACY_ORIGIN}/manus-storage/`))).toBe(true);
   });
 
   it("matches every active site photo to its exact legacy source URL", () => {
@@ -24,7 +32,7 @@ describe("Vercel Blob active-photo migration", () => {
       ...Object.values(DISHES),
       ...Object.values(MENU_ITEM_PHOTOS),
       ...UNITS.flatMap(unit => [unit.photo, ...unit.gallery]),
-    ];
+    ].filter(photo => photo.startsWith("/manus-storage/") && !PREUPLOADED_BLOB_REFS.has(photo));
     const expected = new Map(
       [...new Set(livePhotoRefs)].map(legacyPath => [
         blobPathname(legacyPath),
