@@ -10,6 +10,7 @@ const REAL_SPACE_PHOTOS = [
   "/events/real-10.jpg",
   "/events/real-07.jpg",
   "/events/real-15.jpg",
+  "/events/real-09.jpg",
 ] as const;
 
 export default function Events() {
@@ -20,7 +21,7 @@ export default function Events() {
     <div>
       <div className="relative h-[58vh] min-h-[24rem] max-h-[44rem] overflow-hidden">
         <img
-          src="/events/00-events-overview.png"
+          src="/events/00-events-overview.webp"
           alt={t.events.title}
           className="absolute inset-0 size-full object-cover"
         />
@@ -119,7 +120,7 @@ export default function Events() {
                 {copy.events.masterclass.title}
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
               {REAL_SPACE_PHOTOS.map((photo, index) => (
                 <img
                   key={photo}
