@@ -14,6 +14,7 @@ import Pool from "./pages/Pool";
 import Location from "./pages/Location";
 import About from "./pages/About";
 import Booking from "./pages/Booking";
+import BlobMigration from "./pages/BlobMigration";
 import NotFound from "./pages/NotFound";
 
 function Router() {
@@ -29,6 +30,7 @@ function Router() {
       <Route path="/location" component={Location} />
       <Route path="/about" component={About} />
       <Route path="/booking" component={Booking} />
+      <Route path="/migration" component={BlobMigration} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

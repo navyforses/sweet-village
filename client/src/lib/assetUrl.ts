@@ -5,7 +5,7 @@
  * paths are kept untouched. After the Vercel Blob migration, set the variable
  * to the public Blob origin recorded by scripts/migrate-assets-to-vercel-blob.mjs.
  */
-const BLOB_ORIGIN = (import.meta.env.VITE_SWEET_VILLAGE_ASSET_ORIGIN ?? "").replace(/\/$/, "");
+const BLOB_ORIGIN = (import.meta.env?.VITE_SWEET_VILLAGE_ASSET_ORIGIN ?? "").replace(/\/$/, "");
 
 export function resolveAssetUrl(assetRef: string, blobOrigin = BLOB_ORIGIN): string {
   if (!blobOrigin || !assetRef.startsWith("/manus-storage/")) return assetRef;

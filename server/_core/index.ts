@@ -6,6 +6,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { registerMapsProxy } from "../mapsProxy";
+import { bookingInput, submitBooking } from "../booking";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
@@ -38,6 +39,19 @@ async function startServer() {
   registerStorageProxy(app);
   registerOAuthRoutes(app);
   registerMapsProxy(app);
+  app.post("/api/booking", async (req, res) => {
+    const parsed = bookingInput.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(422).json({ error: "Invalid booking request" });
+      return;
+    }
+    try {
+      res.json(await submitBooking(parsed.data));
+    } catch (error) {
+      console.error("[booking] preview submission failed", error);
+      res.status(503).json({ error: "Booking service unavailable" });
+    }
+  });
   // tRPC API
   app.use(
     "/api/trpc",

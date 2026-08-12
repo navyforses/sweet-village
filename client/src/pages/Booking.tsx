@@ -3,7 +3,6 @@ import { Check, Loader2, Phone, Send } from "lucide-react";
 import { toast } from "sonner";
 import SectionHeading from "@/components/SectionHeading";
 import { SectionDivider } from "@/components/Ornaments";
-import { trpc } from "@/lib/trpc";
 import { CONTACT, UNITS, type UnitId } from "@shared/venue";
 import { useI18n } from "@/i18n";
 
@@ -46,23 +45,8 @@ export default function Booking() {
     }));
   }, []);
 
-  const submit = trpc.booking.submit.useMutation({
-    onSuccess: res => {
-      setDone(true);
-      // The lead is stored either way, but say so honestly when neither
-      // notification channel could reach the owner.
-      if (res.delivered) {
-        toast.success(t.booking.successTitle);
-      } else {
-        toast.warning(t.booking.fallbackTitle);
-      }
-    },
-    onError: () => {
-      toast.error(t.booking.errorTitle);
-    },
-  });
-
   const [delivered, setDelivered] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const set = (k: keyof typeof form, v: string) => {
     setForm(f => ({ ...f, [k]: v }));
@@ -93,12 +77,27 @@ export default function Booking() {
     lang,
   });
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    submit.mutate(payload(), {
-      onSuccess: res => setDelivered(res.delivered),
-    });
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload()),
+      });
+      if (!response.ok) throw new Error("Booking request failed");
+      const result = (await response.json()) as { delivered: boolean };
+      setDelivered(result.delivered);
+      setDone(true);
+      if (result.delivered) toast.success(t.booking.successTitle);
+      else toast.warning(t.booking.fallbackTitle);
+    } catch {
+      toast.error(t.booking.errorTitle);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   /** Direct WhatsApp fallback — no server round trip required. */
@@ -307,10 +306,10 @@ export default function Booking() {
           <div className="flex flex-wrap gap-3">
             <button
               type="submit"
-              disabled={submit.isPending}
+              disabled={isSubmitting}
               data-press
               className="flex min-h-12 flex-1 items-center justify-center gap-2.5 bg-turquoise px-7 text-[0.875rem] text-white transition-colors hover:bg-deep disabled:opacity-60">
-              {submit.isPending ? (
+              {isSubmitting ? (
                 <>
                   <Loader2 className="size-4 animate-spin" strokeWidth={1.5} />
                   {t.booking.submitting}

@@ -175,8 +175,15 @@
 - [x] Booking.tsx-ში დუბლირებული useState import-ის მოცილება და build-ის აღდგენა
 - [x] Vercel Blob საცავის შექმნისთვის საჭირო პარამეტრებისა და ატვირთვის სკრიპტის მომზადება
 - [ ] 133 ფოტო-აქტივის Vercel Blob URL-ებზე გადატანის რეესტრის გენერაცია
+- [ ] Blob store-ის „sweet-village“ Vercel პროექტთან დაკავშირება და BLOB_READ_WRITE_TOKEN-ის მიღება
+- [ ] 133 ფოტო-აქტივის რეალური ატვირთვა Vercel Blob-ში და public origin-ის მიღება
+- [ ] VITE_SWEET_VILLAGE_ASSET_ORIGIN-ის Vercel გარემოში დამატება და ფოტოების მქონე preview deployment-ის გამოშვება
+- [ ] Vercel-ში დროებითი, დაცული server-side Blob migration endpoint-ის გამოყენებით ფოტოების გადატანა token-ის ხელით გაზიარების გარეშე
 - [x] assets.ts-ის Vercel Blob URL-ებზე უსაფრთხო გადართვა
 - [ ] Vercel-თან თავსებადი გარემო ცვლადების, Maps-ისა და დაჯავშნის email არხის დოკუმენტირება
+- [ ] MySQL/Manus დაჯავშნის persistence-ის Neon PostgreSQL-ზე გადაყვანა და სქემის მომზადება
+- [ ] Vercel serverless booking endpoint-ისა და Resend email მიწოდების დამატება
+- [ ] Neon, Resend და Vercel Blob გარემო ცვლადების უსაფრთხო კონფიგურაცია
 
 ---
 
