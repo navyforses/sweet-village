@@ -180,6 +180,7 @@
 - [ ] VITE_SWEET_VILLAGE_ASSET_ORIGIN-ის Vercel გარემოში დამატება და ფოტოების მქონე preview deployment-ის გამოშვება
 - [ ] Vercel-ში დროებითი, დაცული server-side Blob migration endpoint-ის გამოყენებით ფოტოების გადატანა token-ის ხელით გაზიარების გარეშე
 - [ ] /migration ღილაკის Vercel deployment/runtime პასუხის დიაგნოსტიკა და საჭირო გამოსწორება
+- [ ] Vercel Functions-ის აღმოჩენისა და `/api/migrate-assets` POST პასუხის დადასტურება მიმდინარე production deployment-ზე
 - [x] assets.ts-ის Vercel Blob URL-ებზე უსაფრთხო გადართვა
 - [ ] Vercel-თან თავსებადი გარემო ცვლადების, Maps-ისა და დაჯავშნის email არხის დოკუმენტირება
 - [ ] MySQL/Manus დაჯავშნის persistence-ის Neon PostgreSQL-ზე გადაყვანა და სქემის მომზადება

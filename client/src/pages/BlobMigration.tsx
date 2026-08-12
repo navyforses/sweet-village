@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type MigrationProgress = { completed: number; total: number; nextOffset: number | null; complete: boolean; error?: string };
+type MigrationProgress = { completed: number; total: number; nextOffset: number | null; complete: boolean; error?: string; status?: number };
 
 export default function BlobMigration() {
   const [progress, setProgress] = useState<MigrationProgress | null>(null);
@@ -11,9 +11,15 @@ export default function BlobMigration() {
     let offset = 0;
     try {
       while (true) {
-        const response = await fetch(`/api/migrate-assets?offset=${offset}`, { method: "POST" });
-        const result = (await response.json()) as MigrationProgress;
-        if (!response.ok) throw new Error(result.error ?? "Migration request failed");
+        const response = await fetch(`/api/migrate-assets?offset=${offset}`, { method: "POST", credentials: "same-origin" });
+        const raw = await response.text();
+        let result: MigrationProgress;
+        try {
+          result = JSON.parse(raw) as MigrationProgress;
+        } catch {
+          throw new Error(`Vercel API-მ JSON-ის ნაცვლად სხვა პასუხი დააბრუნა (HTTP ${response.status})`);
+        }
+        if (!response.ok) throw new Error(result.error ?? `Migration request failed (HTTP ${response.status})`);
         setProgress(result);
         if (result.complete || result.nextOffset === null) break;
         offset = result.nextOffset;
@@ -34,7 +40,11 @@ export default function BlobMigration() {
         <button type="button" onClick={start} disabled={running || progress?.complete} className="mt-8 min-h-12 bg-turquoise px-6 text-sm text-white disabled:opacity-60">
           {running ? "ფოტოების გადატანა მიმდინარეობს…" : progress?.complete ? "ფოტოები გადატანილია" : "გადაიტანე აქტიური ფოტოები"}
         </button>
-        {progress && <p className="mt-5 text-sm text-ink">{progress.error ?? `${progress.completed} / ${progress.total} ფოტო`}</p>}
+        {progress && (
+          <div className={`mt-5 border p-4 text-sm ${progress.error ? "border-destructive bg-destructive/5 text-destructive" : "border-pistachio/40 text-ink"}`} role="status" aria-live="polite">
+            {progress.error ? `შეცდომა: ${progress.error}` : `${progress.completed} / ${progress.total} ფოტო`}
+          </div>
+        )}
       </section>
     </main>
   );
