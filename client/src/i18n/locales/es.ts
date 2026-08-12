@@ -97,8 +97,8 @@ const es = {
       "Cinco unidades independientes en un mismo jardín. Todos los interiores son de madera de pino, con iluminación cálida y cortinas botánicas. Un total de 17 camas, y con sofás cama hasta 22 huéspedes.",
     units: {
       "small-a": {
-        title: "Cabaña pequeña I",
-        body: "Cabaña de madera independiente en el jardín, un espacio único y luminoso con dos camas. Con sofá cama para hasta cuatro huéspedes. Ideal para una pareja o una familia pequeña.",
+        title: "Cabaña del Jardín",
+        body: "Una cabaña de madera independiente en el jardín, con un estudio luminoso, cama doble, sofá, cocina compacta y porche privado cubierto. Una opción tranquila para una pareja o una familia pequeña, con capacidad para cuatro huéspedes.",
       },
       "small-b": {
         title: "Cabaña pequeña II",

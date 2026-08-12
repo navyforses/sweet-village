@@ -94,8 +94,8 @@ const fr = {
     "intro": "Cinq unités indépendantes dans un seul jardin. Toutes les intérieurs en bois de conifères, lumière chaude et rideaux botaniques. Au total 17 lits, canapés-lits pour 22 invités.",
     "units": {
       "small-a": {
-        "title": "Petit cottage I",
-        "body": "Cottage en bois indépendant dans le jardin, espace lumineux unique, deux lits. Canapé-lit pour jusqu'à quatre personnes. Idéal pour un couple ou une petite famille."
+        "title": "Chalet du Jardin",
+        "body": "Un chalet en bois indépendant au cœur du jardin, avec un studio lumineux, un lit double, un canapé, une kitchenette et une véranda privée couverte. Un choix paisible pour un couple ou une petite famille, jusqu'à quatre voyageurs."
       },
       "small-b": {
         "title": "Petit cottage II",

@@ -35,13 +35,25 @@ describe("accommodation inventory", () => {
 
   it("gives each unit a unique detail gallery, with six approved photos on the two large rooms", () => {
     for (const unit of UNITS) {
-      const expectedGallerySize = unit.id === "large-a" || unit.id === "large-b" ? 6 : 3;
+      const expectedGallerySize = unit.id === "small-a" ? 5 : unit.id === "large-a" || unit.id === "large-b" ? 6 : 3;
       expect(unit.gallery).toHaveLength(expectedGallerySize);
       expect(new Set(unit.gallery).size).toBe(expectedGallerySize);
       for (const photo of unit.gallery) {
         expect(photo).toMatch(/^\/manus-storage\//);
       }
     }
+  });
+
+  it("uses the five approved Garden Cottage photos and omits the rejected garden-path image", () => {
+    const gardenCottage = UNITS.find(unit => unit.id === "small-a")!;
+    expect(gardenCottage.photo).toBe(gardenCottage.gallery[0]);
+    expect(gardenCottage.gallery).toEqual([
+      "/manus-storage/garden-cottage-exterior.webp",
+      "/manus-storage/garden-cottage-porch.webp",
+      "/manus-storage/garden-cottage-studio.webp",
+      "/manus-storage/garden-cottage-sleeping-area.webp",
+      "/manus-storage/garden-cottage-garden-view.webp",
+    ]);
   });
 
   it("shows the same approved gallery for the two identical large rooms", () => {
