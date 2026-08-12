@@ -37,8 +37,8 @@ const INTEREST_LABEL: Record<string, string> = {
 };
 
 const UNIT_LABEL: Record<string, string> = {
-  "small-a": "ბაღის კოტეჯი / Garden Cottage (2 beds, up to 4)",
-  "small-b": "მცირე კოტეჯი II / Small cottage II (2 beds, up to 4)",
+  "small-a": "ბაღის კოტეჯი 1 / Garden Cottage 1 (2 beds, up to 4)",
+  "small-b": "ბაღის კოტეჯი 2 / Garden Cottage 2 (2 beds, up to 4)",
   "large-a": "დიდი კოტეჯი — ნომერი A / Large cottage Room A (4 beds, 2 floors)",
   "large-b": "დიდი კოტეჯი — ნომერი B / Large cottage Room B (4 beds, 2 floors)",
   grand: "დიდი ნომერი / Grand room (5 beds, up to 6)",

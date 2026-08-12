@@ -38,7 +38,7 @@ export default function AccommodationDetail() {
   if (!unit) return <NotFound />;
 
   const info = t.stay.units[unit.id as UnitId];
-  const captions = unit.id === "small-a"
+  const captions = unit.id === "small-a" || unit.id === "small-b"
     ? copy.gardenCottageCaptions
     : unit.id === "large-a" || unit.id === "large-b"
       ? copy.largeCottageCaptions
