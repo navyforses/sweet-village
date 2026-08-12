@@ -1,6 +1,5 @@
-import { neon } from "@neondatabase/serverless";
-import { Resend } from "resend";
 import { bookingInput, formatBooking, whatsappLink } from "../shared/booking";
+import type { BookingInput } from "../shared/booking";
 
 type ApiRequest = {
   method?: string;
@@ -22,10 +21,14 @@ function parseBody(body: unknown): unknown {
   }
 }
 
-async function persistBooking(input: ReturnType<typeof bookingInput.parse>) {
+async function persistBooking(input: BookingInput) {
   const databaseUrl = process.env.NEON_DATABASE_URL;
   if (!databaseUrl) throw new Error("NEON_DATABASE_URL is not configured");
 
+  // Keep database SDK loading inside the request path. This prevents a missing
+  // or incompatible optional runtime dependency from crashing the complete
+  // Vercel Function before it can return a controlled HTTP response.
+  const { neon } = await import("@neondatabase/serverless");
   const sql = neon(databaseUrl);
   const [created] = await sql`
     INSERT INTO bookings (name, phone, check_in, check_out, interest, unit, guests, notes, lang)
@@ -50,6 +53,9 @@ async function sendOwnerEmail(subject: string, body: string) {
   const from = process.env.RESEND_FROM_EMAIL;
   if (!key || !from) return false;
 
+  // Resend is only needed after persistence succeeds. Loading it lazily keeps
+  // malformed public requests independent from the email SDK runtime.
+  const { Resend } = await import("resend");
   const resend = new Resend(key);
   const { error } = await resend.emails.send({
     from,
