@@ -149,7 +149,7 @@ Browser form
   -> JSON response with WhatsApp fallback link
 ```
 
-This Vercel path is **prepared but not operational** until Neon and Resend are configured and tested. Do not claim that Vercel booking emails are live before those steps complete.
+The Vercel handler is deployed and its public validation path has been verified with a controlled HTTP 422 response. Persistence and email delivery are **not yet operational** until Neon and Resend are configured and tested. Do not claim that Vercel booking emails are live before those steps complete.
 
 ## 8. Maps
 

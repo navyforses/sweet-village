@@ -15,3 +15,7 @@ The public `/menu` page rendered all nine category controls, the 68-item menu co
 ## 2026-08-12 — Stay page Blob asset verification
 
 The public `/stay` page returned the expected inventory summary of five units, 17 beds, and up to 22 guests. It displayed all five accommodation entries with their correct detail and booking links. Once image loading completed, visible cottage cards rendered their exterior images successfully from the same public Vercel Blob origin, including `stay-small-a-exterior.jpg`, `stay-small-b-exterior.jpg`, `stay-large-cottage-exterior.jpg`, and `stay-grand-exterior.jpg`.
+
+## 2026-08-12 — Vercel booking function verification
+
+The public `/booking` page rendered its required name and phone fields, interest selector, accommodation selector, dates, guest count, notes, submit control, and WhatsApp fallback. A deliberately malformed `POST /api/booking` request returned the expected controlled `422 {"error":"Invalid booking request"}` response after the standalone handler refactor. No real guest lead was created during this check. Persistence and email delivery remain dependent on configuring Neon PostgreSQL and Resend secrets in Vercel.
