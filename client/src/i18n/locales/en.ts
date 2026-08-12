@@ -105,11 +105,11 @@ const en = {
         body: "Identical to the first cottage — often booked together by two couples or a group of friends who need separate entrances.",
       },
       "large-a": {
-        title: "Large Cottage · Room A",
+        title: "Family Duplex A",
         body: "A two-story room in the large cottage with a separate entrance. Two beds on the ground floor and two in the attic — comfortably sleeps four guests.",
       },
       "large-b": {
-        title: "Large Cottage · Room B",
+        title: "Family Duplex B",
         body: "The other half of the large cottage, also two-story and independent. Booking both rooms together accommodates eight guests in one house.",
       },
       grand: {

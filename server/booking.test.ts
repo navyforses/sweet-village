@@ -114,7 +114,7 @@ describe("whatsappLink", () => {
 
   it("carries the chosen unit so the owner sees it in WhatsApp too", () => {
     const text = decodeURIComponent(whatsappLink({ ...base, unit: "large-a" }));
-    expect(text).toContain("Room A");
+    expect(text).toContain("Family Duplex A");
   });
 });
 

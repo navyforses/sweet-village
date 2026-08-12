@@ -52,6 +52,11 @@ const LARGE_COTTAGE_GALLERY = [
   "/manus-storage/large-cottage-bathroom-approved.webp",
 ] as const;
 
+const FAMILY_DUPLEX_B_GALLERY = [
+  "/manus-storage/family-duplex-b-exterior.webp",
+  ...LARGE_COTTAGE_GALLERY.slice(1),
+] as const;
+
 const GARDEN_COTTAGE_GALLERY = [
   "/manus-storage/garden-cottage-exterior.webp",
   "/manus-storage/garden-cottage-porch.webp",
@@ -106,8 +111,8 @@ export const UNITS: Unit[] = [
     floors: 2,
     priceLow: 180,
     priceHigh: 280,
-    photo: LARGE_COTTAGE_GALLERY[0],
-    gallery: LARGE_COTTAGE_GALLERY,
+    photo: FAMILY_DUPLEX_B_GALLERY[0],
+    gallery: FAMILY_DUPLEX_B_GALLERY,
     provisional: true,
   },
   {

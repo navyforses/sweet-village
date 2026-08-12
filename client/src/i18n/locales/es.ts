@@ -105,11 +105,11 @@ const es = {
         body: "Cabaña idéntica a la primera — a menudo reservada junto con la otra por dos parejas o un grupo de amigos que necesitan entradas separadas.",
       },
       "large-a": {
-        title: "Cabaña grande · Habitación A",
+        title: "Dúplex Familiar A",
         body: "Habitación de dos pisos en la cabaña grande, con entrada independiente. Dos camas en la planta baja y dos en el ático — cuatro huéspedes cómodamente.",
       },
       "large-b": {
-        title: "Cabaña grande · Habitación B",
+        title: "Dúplex Familiar B",
         body: "La segunda mitad de la cabaña grande, también de dos pisos e independiente. Reservando ambas habitaciones juntas, ocho huéspedes pueden alojarse en una sola casa.",
       },
       grand: {

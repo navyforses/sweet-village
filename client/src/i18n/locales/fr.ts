@@ -102,11 +102,11 @@ const fr = {
         "body": "Le même cottage que I — souvent réservé ensemble par deux couples ou un groupe d'amis, nécessitant une entrée séparée."
       },
       "large-a": {
-        "title": "Grand cottage · Chambre A",
+        "title": "Duplex Familial A",
         "body": "Niveau deux dans le grand cottage, avec entrée indépendante. Deux lits au rez-de-chaussée et deux lits dans le grenier — quatre invités confortablement."
       },
       "large-b": {
-        "title": "Grand cottage · Chambre B",
+        "title": "Duplex Familial B",
         "body": "Deuxième moitié du grand cottage, également à deux étages et indépendante. Deux chambres; ensemble, huit invités peuvent loger dans une seule habitation."
       },
       "grand": {

@@ -64,10 +64,12 @@ describe("accommodation inventory", () => {
     expect(gardenCottage2.gallery.slice(1)).toEqual(gardenCottage1.gallery.slice(1));
   });
 
-  it("shows the same approved gallery for the two identical large rooms", () => {
+  it("uses a distinct exterior and the same interior gallery for Family Duplex B", () => {
     const largeA = UNITS.find(unit => unit.id === "large-a")!;
     const largeB = UNITS.find(unit => unit.id === "large-b")!;
-    expect(largeB.gallery).toEqual(largeA.gallery);
+    expect(largeB.photo).toBe("/manus-storage/family-duplex-b-exterior.webp");
+    expect(largeB.gallery[0]).not.toBe(largeA.gallery[0]);
+    expect(largeB.gallery.slice(1)).toEqual(largeA.gallery.slice(1));
   });
 
   it("never lets a unit sleep more on beds than its stated maximum", () => {
