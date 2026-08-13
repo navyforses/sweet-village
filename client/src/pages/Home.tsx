@@ -155,7 +155,7 @@ function Services() {
 
 function StayTeaser() {
   const { t } = useI18n();
-  const cheapest = Math.min(...UNITS.map(u => u.priceLow));
+  const cheapest = Math.min(...UNITS.map(u => u.nightlyPrice));
 
   return (
     <section className="container py-20 md:py-28">

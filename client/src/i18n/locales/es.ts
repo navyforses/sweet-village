@@ -87,18 +87,18 @@ const es = {
     },
     stay: {
       title: "Cabañas",
-      body: "Cabañas de madera y habitaciones para 2 a 6 huéspedes — todo el complejo puede alojar a 22 personas.",
+      body: "Cabañas de madera y habitaciones para 2 a 6 huéspedes — todo el complejo puede alojar a 18 personas.",
     },
   },
   stay: {
     eyebrow: "Alojamiento",
     title: "Cabañas y habitaciones",
     intro:
-      "Cinco unidades independientes en un mismo jardín. Todos los interiores son de madera de pino, con iluminación cálida y cortinas botánicas. Un total de 17 camas, y con sofás cama hasta 22 huéspedes.",
+      "Cinco alojamientos independientes en un mismo jardín. La capacidad total confirmada por el propietario es de 18 huéspedes.",
     units: {
       "small-a": {
         title: "Cabaña del Jardín 1",
-        body: "Una cabaña de madera independiente en el jardín, con un estudio luminoso, cama doble, sofá, cocina compacta y porche privado cubierto. Una opción tranquila para una pareja o una familia pequeña, con capacidad para cuatro huéspedes.",
+        body: "Una cabaña de madera independiente en el jardín, con un estudio luminoso, cama doble, sofá, cocina compacta y porche privado cubierto. Esta cabaña admite un máximo de dos huéspedes.",
       },
       "small-b": {
         title: "Cabaña del Jardín 2",

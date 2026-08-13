@@ -85,17 +85,17 @@ const fr = {
     },
     "stay": {
       "title": "Cabanes",
-      "body": "Cinq unités indépendantes dans un seul jardin. Toutes les intérieurs en bois de conifères, lumière chaude et rideaux botaniques. Au total 17 lits, canapés-lits pour 22 invités."
+      "body": "Cinq hébergements indépendants dans un même jardin, pour une capacité totale confirmée de 18 personnes."
     }
   },
   "stay": {
     "eyebrow": "Hébergement",
     "title": "Cabanes et chambres",
-    "intro": "Cinq unités indépendantes dans un seul jardin. Toutes les intérieurs en bois de conifères, lumière chaude et rideaux botaniques. Au total 17 lits, canapés-lits pour 22 invités.",
+    "intro": "Cinq hébergements indépendants dans un même jardin. La capacité totale confirmée par le propriétaire est de 18 personnes.",
     "units": {
       "small-a": {
         "title": "Chalet du Jardin 1",
-        "body": "Un chalet en bois indépendant au cœur du jardin, avec un studio lumineux, un lit double, un canapé, une kitchenette et une véranda privée couverte. Un choix paisible pour un couple ou une petite famille, jusqu'à quatre voyageurs."
+        "body": "Un chalet en bois indépendant au cœur du jardin, avec un studio lumineux, un lit double, un canapé, une kitchenette et une véranda privée couverte. Ce chalet accueille au maximum deux personnes."
       },
       "small-b": {
         "title": "Chalet du Jardin 2",

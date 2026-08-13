@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CONTACT } from "./venue";
+import { CONTACT, UNITS } from "./venue";
 
 export const LANG_CODES = ["ka", "en", "ru", "ar", "fr", "es"] as const;
 export const INTERESTS = ["cottage", "event", "pool", "restaurant", "whole"] as const;
@@ -15,6 +15,16 @@ export const bookingInput = z.object({
   guests: z.number().int().min(1).max(200).optional(),
   notes: z.string().trim().max(2000).optional(),
   lang: z.enum(LANG_CODES),
+}).superRefine((input, context) => {
+  if (input.interest !== "cottage" || !input.unit || input.guests === undefined) return;
+  const unit = UNITS.find(candidate => candidate.id === input.unit);
+  if (unit && input.guests > unit.maxGuests) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["guests"],
+      message: `Maximum ${unit.maxGuests} guests for this unit`,
+    });
+  }
 });
 
 export type BookingInput = z.infer<typeof bookingInput>;
@@ -37,11 +47,11 @@ const INTEREST_LABEL: Record<string, string> = {
 };
 
 const UNIT_LABEL: Record<string, string> = {
-  "small-a": "ბაღის კოტეჯი 1 / Garden Cottage 1 (2 beds, up to 4)",
-  "small-b": "ბაღის კოტეჯი 2 / Garden Cottage 2 (2 beds, up to 4)",
-  "large-a": "საოჯახო დუპლექსი A / Family Duplex A (4 beds, 2 floors)",
-  "large-b": "საოჯახო დუპლექსი B / Family Duplex B (4 beds, 2 floors)",
-  grand: "აუზისპირა სახლი / Pool View House (5 beds, up to 6)",
+  "small-a": "ბაღის კოტეჯი 1 / Garden Cottage 1 (2 guests, 120 GEL/night)",
+  "small-b": "ბაღის კოტეჯი 2 / Garden Cottage 2 (2 guests, 120 GEL/night)",
+  "large-a": "საოჯახო დუპლექსი A / Family Duplex A (4 guests, 200 GEL/night)",
+  "large-b": "საოჯახო დუპლექსი B / Family Duplex B (4 guests, 200 GEL/night)",
+  grand: "აუზისპირა სახლი / Pool View House (6 guests, 350 GEL/night)",
 };
 
 export function formatBooking(input: BookingInput): { subject: string; body: string } {

@@ -2,18 +2,18 @@ import { describe, expect, it } from "vitest";
 import { ATTRACTIONS, CAPACITY, CONTACT, POOL, UNITS, VENUE_SPACE } from "../shared/venue";
 
 describe("accommodation inventory", () => {
-  it("matches what the owner confirmed: 5 units, 17 beds, 22 guests", () => {
+  it("matches what the owner confirmed: 5 units, 17 beds, 18 guests", () => {
     expect(CAPACITY.units).toBe(5);
     expect(CAPACITY.beds).toBe(17);
-    expect(CAPACITY.maxGuests).toBe(22);
+    expect(CAPACITY.maxGuests).toBe(18);
   });
 
-  it("describes two small cottages sleeping 2 and taking up to 4", () => {
+  it("limits each Garden Cottage to two guests", () => {
     const small = UNITS.filter(u => u.id.startsWith("small"));
     expect(small).toHaveLength(2);
     for (const u of small) {
       expect(u.beds).toBe(2);
-      expect(u.maxGuests).toBe(4);
+      expect(u.maxGuests).toBe(2);
     }
   });
 
@@ -93,8 +93,19 @@ describe("accommodation inventory", () => {
   it("never lets a unit sleep more on beds than its stated maximum", () => {
     for (const u of UNITS) {
       expect(u.maxGuests).toBeGreaterThanOrEqual(u.beds);
-      expect(u.priceHigh).toBeGreaterThan(u.priceLow);
+      expect(u.nightlyPrice).toBeGreaterThan(0);
+      expect(u.provisional).toBe(false);
     }
+  });
+
+  it("uses the owner-confirmed nightly prices", () => {
+    expect(Object.fromEntries(UNITS.map(unit => [unit.id, unit.nightlyPrice]))).toEqual({
+      "small-a": 120,
+      "small-b": 120,
+      "large-a": 200,
+      "large-b": 200,
+      grand: 350,
+    });
   });
 });
 
