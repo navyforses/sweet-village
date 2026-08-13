@@ -97,17 +97,17 @@ export default function Location() {
   const embedUrl = `https://maps.google.com/maps?q=${center.lat},${center.lng}&z=10&output=embed`;
 
   return (
-    <div className="container py-16 md:py-20">
+    <div className="container py-10 md:py-20">
       <SectionHeading
         eyebrow={t.location.eyebrow}
         title={t.location.title}
         intro={t.location.intro}
       />
 
-      <div className="relative mt-12 border border-line">
+      <div className="relative mt-9 border border-line md:mt-12">
         <div
           ref={container}
-          className="h-[24rem] w-full [&>div]:size-full md:h-[32rem]"
+          className="h-[19rem] w-full [&>div]:size-full sm:h-[24rem] md:h-[32rem]"
           aria-label={t.location.title}
         />
 
@@ -129,7 +129,7 @@ export default function Location() {
         )}
       </div>
 
-      <div className="mt-8 grid gap-8 md:grid-cols-2">
+      <div className="mt-7 grid gap-7 md:mt-8 md:grid-cols-2 md:gap-8">
         <div>
           <h2 className="sv-eyebrow mb-3">{t.location.addressTitle}</h2>
           <p className="flex items-start gap-2.5 text-[0.9375rem] text-ink">
@@ -141,7 +141,7 @@ export default function Location() {
             target="_blank"
             rel="noopener noreferrer"
             data-press
-            className="mt-5 inline-flex min-h-12 items-center gap-2.5 bg-turquoise px-7 text-[0.875rem] text-white transition-colors hover:bg-deep">
+            className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2.5 bg-turquoise px-7 text-[0.875rem] text-white transition-colors hover:bg-deep sm:w-auto">
             <Navigation className="size-4" strokeWidth={1.5} />
             {t.location.driveTime}
           </a>
@@ -156,7 +156,7 @@ export default function Location() {
       </div>
 
       {/* Full distance table, ordered by drive time. */}
-      <table className="mt-16 w-full border-collapse">
+      <table className="mt-12 w-full table-fixed border-collapse md:mt-16">
         <thead>
           <tr className="border-b border-ink/15">
             <th scope="col" className="sv-eyebrow py-3 text-start">
@@ -175,13 +175,13 @@ export default function Location() {
             const info = t.location.attractions[a.id as keyof typeof t.location.attractions];
             return (
               <tr key={a.id}>
-                <td className="py-5 pe-4">
+                <td className="py-4 pe-3 md:py-5 md:pe-4">
                   <p className="text-[1rem] text-ink">{info.title}</p>
                   <p className="mt-1.5 max-w-[52ch] text-[0.8125rem] text-muted-foreground">
                     {info.note}
                   </p>
                 </td>
-                <td className="py-5 text-end align-top font-serif text-[1.0625rem] whitespace-nowrap text-turquoise">
+                <td className="w-[5.75rem] py-4 text-end align-top font-serif text-[0.9375rem] whitespace-nowrap text-turquoise md:py-5 md:text-[1.0625rem]">
                   {a.minutes} {t.common.minutes}
                 </td>
                 <td className="hidden py-5 text-end align-top text-[0.875rem] whitespace-nowrap text-muted-foreground sm:table-cell">
@@ -196,7 +196,7 @@ export default function Location() {
         </tbody>
       </table>
 
-      <ShareButton className="mt-16 justify-center" />
+      <ShareButton className="mt-12 justify-center md:mt-16" />
     </div>
   );
 }

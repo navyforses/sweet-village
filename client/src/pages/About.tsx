@@ -18,10 +18,10 @@ export default function About() {
   ];
 
   return (
-    <div className="container py-16 md:py-20">
+    <div className="container py-10 md:py-20">
       <SectionHeading eyebrow={t.about.eyebrow} title={t.about.title} />
 
-      <div className="mt-12 grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
+      <div className="mt-9 grid gap-9 md:mt-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
         <div className="space-y-6 text-[0.975rem] text-muted-foreground">
           <p className="first-letter:float-start first-letter:me-2 first-letter:font-serif first-letter:text-[3.25rem] first-letter:leading-[0.82] first-letter:text-turquoise">
             {t.about.body1}
@@ -29,7 +29,7 @@ export default function About() {
           <p>{t.about.body2}</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
           <img
             src={PHOTOS.terrace}
             alt=""
@@ -50,9 +50,9 @@ export default function About() {
         </div>
       </div>
 
-      <SectionDivider motif="borjgali" className="mt-16" />
+      <SectionDivider motif="borjgali" className="mt-12 md:mt-16" />
 
-      <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4">
+      <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 md:mt-14 md:grid-cols-4 md:gap-x-8 md:gap-y-10">
         {stats.map((s, i) => (
           <div key={i}>
             <dd className="font-serif text-[clamp(2rem,4.5vw,2.75rem)] leading-none text-turquoise">
@@ -63,7 +63,7 @@ export default function About() {
         ))}
       </dl>
 
-      <ShareButton className="mt-16 justify-center" />
+      <ShareButton className="mt-12 justify-center md:mt-16" />
     </div>
   );
 }

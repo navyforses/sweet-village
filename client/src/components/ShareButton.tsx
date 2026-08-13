@@ -29,20 +29,20 @@ export default function ShareButton({ className = "" }: { className?: string }) 
   };
 
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-2.5 ${className}`}>
       <span className="sv-eyebrow">{t.footer.share}</span>
       <button
         type="button"
         onClick={shareFacebook}
         aria-label="Facebook"
-        className="flex size-10 items-center justify-center border border-line bg-white text-ink transition-colors hover:border-pistachio hover:text-turquoise">
+        className="sv-touch-target flex items-center justify-center border border-line bg-white text-ink transition-colors hover:border-pistachio hover:text-turquoise">
         <Facebook className="size-4" strokeWidth={1.5} />
       </button>
       <button
         type="button"
         onClick={copy}
         aria-label={t.menu.copyLink}
-        className="flex size-10 items-center justify-center border border-line bg-white text-ink transition-colors hover:border-pistachio hover:text-turquoise">
+        className="sv-touch-target flex items-center justify-center border border-line bg-white text-ink transition-colors hover:border-pistachio hover:text-turquoise">
         <Link2 className="size-4" strokeWidth={1.5} />
       </button>
     </div>

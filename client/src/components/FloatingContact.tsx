@@ -23,11 +23,11 @@ export default function FloatingContact() {
   return (
     <>
       {/* Phones: fixed bottom bar, two equal targets */}
-      <div className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 border-t border-line bg-white/97 backdrop-blur md:hidden">
+      <div className="sv-safe-bottom fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 border-t border-line bg-white/97 shadow-[0_-8px_30px_rgba(26,42,35,0.08)] backdrop-blur md:hidden">
         <a
           href={telHref}
           data-press
-          className="flex min-h-14 items-center justify-center gap-2.5 border-e border-line text-[0.875rem] text-ink">
+          className="flex min-h-14 items-center justify-center gap-2.5 border-e border-line text-[0.9375rem] font-medium text-ink">
           <Phone className="size-4 text-turquoise" strokeWidth={1.5} />
           {t.common.call}
         </a>
@@ -36,7 +36,7 @@ export default function FloatingContact() {
           target="_blank"
           rel="noopener noreferrer"
           data-press
-          className="flex min-h-14 items-center justify-center gap-2.5 text-[0.875rem] text-ink">
+          className="flex min-h-14 items-center justify-center gap-2.5 text-[0.9375rem] font-medium text-ink">
           <WhatsAppIcon className="size-4 text-[#25D366]" />
           {t.common.whatsapp}
         </a>

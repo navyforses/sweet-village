@@ -147,6 +147,35 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-weight: 400;
+    min-width: 320px;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 1rem;
   }
 
   /* Editorial headings: light serif with generous tracking. */
@@ -168,8 +197,14 @@
   .container {
     width: 100%;
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    padding-inline: 1rem;
     max-width: 1280px;
+  }
+
+  @media (min-width: 480px) {
+    .container {
+      padding-inline: 1.25rem;
+    }
   }
 
   @media (min-width: 768px) {
@@ -181,6 +216,19 @@
   ::selection {
     background: var(--sv-pistachio);
     color: var(--sv-paper);
+  }
+}
+
+@media (max-width: 767px) {
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: 0.015em;
+  }
+
+  p {
+    line-height: 1.58;
   }
 }
 
@@ -313,5 +361,64 @@ a[data-press]:active {
 button,
 a[data-press] {
   transition: transform 150ms var(--ease-out-snappy);
+}
+
+/* Mobile-app ergonomics and safe-area handling. */
+.sv-safe-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+.sv-scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sv-scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.sv-touch-target {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+}
+
+@media (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    /* Prevent Safari from zooming the whole page when a field receives focus. */
+    font-size: 1rem !important;
+  }
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--sv-turquoise);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (hover: none) {
+  .sv-card:hover {
+    border-color: var(--sv-line);
+    transform: none;
+  }
+
+  .sv-link-underline::after {
+    display: none;
+  }
 }
 

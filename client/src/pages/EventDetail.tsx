@@ -62,8 +62,8 @@ export default function EventDetail() {
     );
 
   return (
-    <div className="pb-12">
-      <section className="container pt-9 md:pt-12">
+    <div className="pb-8 md:pb-12">
+      <section className="container pt-6 md:pt-12">
         <Link
           href={`/events?lang=${lang}`}
           className="inline-flex min-h-11 items-center gap-2 text-[0.8125rem] text-turquoise hover:text-deep"
@@ -71,17 +71,17 @@ export default function EventDetail() {
           <ArrowLeft className="size-4 rtl:rotate-180" strokeWidth={1.5} />
           {copy.back}
         </Link>
-        <div className="mt-7 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+        <div className="mt-5 grid gap-6 lg:mt-7 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-8">
           <div>
             <p className="sv-eyebrow">{copy.explore}</p>
-            <h1 className="mt-4 max-w-[24ch] text-[clamp(2rem,5vw,3.4rem)] text-ink">
+            <h1 className="mt-3 max-w-[24ch] text-[clamp(1.75rem,8vw,3.4rem)] leading-[1.12] text-ink md:mt-4">
               {info.title}
             </h1>
             <p className="mt-5 max-w-[62ch] text-[0.95rem] leading-7 text-muted-foreground">
               {info.body}
             </p>
           </div>
-          <div className="border-s-2 border-gold/40 ps-6 md:ps-8">
+          <div className="border-t border-line pt-5 lg:border-t-0 lg:border-s-2 lg:border-gold/40 lg:pt-0 lg:ps-8">
             <p className="sv-eyebrow">{copy.details}</p>
             <p className="mt-3 font-serif text-[1.35rem] text-turquoise">
               {info.experience}
@@ -94,8 +94,8 @@ export default function EventDetail() {
         </div>
       </section>
 
-      <section className="container mt-10 md:mt-12">
-        <div className="grid snap-x snap-mandatory grid-flow-col auto-cols-[86%] gap-2.5 overflow-x-auto pb-2 md:h-[clamp(300px,34vw,430px)] md:snap-none md:grid-flow-row md:auto-cols-auto md:grid-cols-4 md:grid-rows-2 md:gap-2 md:overflow-visible md:pb-0">
+      <section className="mt-8 md:container md:mt-12">
+        <div className="sv-scrollbar-none grid snap-x snap-mandatory grid-flow-col auto-cols-[88%] gap-2 overflow-x-auto px-4 pb-2 md:h-[clamp(300px,34vw,430px)] md:snap-none md:grid-flow-row md:auto-cols-auto md:grid-cols-4 md:grid-rows-2 md:gap-2 md:overflow-visible md:px-0 md:pb-0">
           {event.gallery.map((photo, index) => (
             <button
               key={photo}
@@ -126,13 +126,13 @@ export default function EventDetail() {
             </button>
           ))}
         </div>
-        <p className="mt-3 max-w-[64ch] text-[0.75rem] text-muted-foreground">
+        <p className="container mt-3 max-w-[64ch] text-[0.75rem] text-muted-foreground md:px-0">
           {copy.galleryIntro}
         </p>
       </section>
 
-      <section className="container mt-14 md:mt-18">
-        <div className="grid gap-8 border-y border-line py-9 lg:grid-cols-[1fr_auto] lg:items-center">
+      <section className="container mt-10 md:mt-18">
+        <div className="grid gap-7 border-y border-line py-7 lg:grid-cols-[1fr_auto] lg:items-center lg:py-9">
           <div>
             <p className="sv-eyebrow">{copy.details}</p>
             <ul className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -167,7 +167,7 @@ export default function EventDetail() {
 
       {activePhoto !== null && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/92 p-4"
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/92 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:p-4"
           role="dialog"
           aria-modal="true"
           aria-label={copy.gallery}
@@ -197,7 +197,7 @@ export default function EventDetail() {
               <img
                 src={event.gallery[activePhoto]}
                 alt={`${info.title} — ${activePhoto + 1}`}
-                className="max-h-[82vh] max-w-full object-contain"
+                className="max-h-[76svh] max-w-full object-contain sm:max-h-[82vh]"
               />
               <figcaption className="mt-3 bg-ink/80 px-4 py-2 text-[0.78rem] text-white">
                 {activePhoto + 1} / {event.gallery.length} · {info.title}

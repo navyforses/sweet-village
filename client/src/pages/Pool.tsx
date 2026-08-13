@@ -10,17 +10,17 @@ export default function Pool() {
   const { t } = useI18n();
 
   return (
-    <div className="container py-16 md:py-20">
+    <div className="container py-10 md:py-20">
       <SectionHeading eyebrow={t.pool.eyebrow} title={t.pool.title} intro={t.pool.intro} />
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
+      <div className="mt-9 grid gap-8 md:mt-12 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
         <div className="space-y-4">
           <img
             src={PHOTOS.poolReal}
             alt={t.pool.title}
             className="aspect-[16/10] w-full object-cover"
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
             <img
               src={PHOTOS.poolDay}
               alt=""
@@ -107,7 +107,7 @@ export default function Pool() {
         </div>
       </div>
 
-      <aside className="mt-14 border border-gold/40 bg-gold/[0.06] p-7 md:p-9">
+      <aside className="mt-10 border border-gold/40 bg-gold/[0.06] p-5 sm:p-7 md:mt-14 md:p-9">
         <h2 className="flex items-center gap-2.5 text-[1.125rem] text-ink">
           <Info className="size-4 text-gold" strokeWidth={1.5} />
           {t.pool.limitTitle}
@@ -117,7 +117,7 @@ export default function Pool() {
         </p>
       </aside>
 
-      <ShareButton className="mt-16 justify-center" />
+      <ShareButton className="mt-12 justify-center md:mt-16" />
     </div>
   );
 }

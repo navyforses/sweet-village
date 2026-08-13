@@ -52,10 +52,10 @@ export default function SiteHeader() {
       className={`sticky top-0 z-40 border-b transition-colors duration-300 ${
         scrolled ? "border-line bg-paper/96 backdrop-blur" : "border-transparent bg-paper"
       }`}>
-      <div className="container flex h-[4.5rem] items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-3" aria-label={t.brand.name}>
+      <div className="container flex h-16 items-center justify-between gap-2 md:h-[4.5rem] md:gap-4">
+        <Link href="/" className="flex min-h-11 min-w-0 items-center gap-2.5 md:gap-3" aria-label={t.brand.name}>
           <Borjgali size={20} />
-          <span className="font-serif text-[1.0625rem] tracking-[0.1em] text-ink">
+          <span className="truncate font-serif text-[0.9375rem] tracking-[0.075em] text-ink min-[390px]:text-[1rem] md:text-[1.0625rem] md:tracking-[0.1em]">
             {t.brand.name}
           </span>
         </Link>
@@ -73,7 +73,7 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex shrink-0 items-center gap-2 md:gap-2.5">
           <LanguageSwitcher compact />
           <Link
             href="/booking"
@@ -86,7 +86,7 @@ export default function SiteHeader() {
             onClick={() => setOpen(v => !v)}
             aria-label={open ? t.common.close : t.nav.home}
             aria-expanded={open}
-            className="flex size-11 items-center justify-center border border-line bg-white text-ink lg:hidden">
+            className="sv-touch-target flex items-center justify-center border border-line bg-white text-ink lg:hidden">
             {open ? (
               <X className="size-4" strokeWidth={1.5} />
             ) : (
@@ -97,22 +97,23 @@ export default function SiteHeader() {
       </div>
 
       {open && (
-        <nav className="border-t border-line bg-paper lg:hidden">
-          <div className="container flex flex-col py-2">
+        <nav className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto border-t border-line bg-paper/98 backdrop-blur-md md:top-[4.5rem] lg:hidden">
+          <div className="container flex min-h-full flex-col py-4 sv-safe-bottom">
             {links.map(l => (
               <Link
                 key={l.href}
                 href={l.href}
-                className={`min-h-13 flex items-center border-b border-line/70 text-[0.9375rem] ${
+                className={`flex min-h-14 items-center justify-between border-b border-line/70 text-[1rem] ${
                   location === l.href ? "text-turquoise" : "text-ink"
                 }`}>
                 {l.label}
+                <span aria-hidden="true" className="text-turquoise">→</span>
               </Link>
             ))}
             <Link
               href="/booking"
               data-press
-              className="mt-4 mb-3 flex min-h-13 items-center justify-center bg-turquoise text-[0.9375rem] text-white">
+              className="mt-auto flex min-h-14 items-center justify-center bg-turquoise px-6 text-[1rem] text-white">
               {t.nav.book}
             </Link>
           </div>
