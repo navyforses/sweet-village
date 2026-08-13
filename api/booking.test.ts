@@ -33,6 +33,15 @@ describe("Vercel booking endpoint", () => {
     expect(record.body).toEqual({ error: "Invalid booking request" });
   });
 
+  it("rejects a Garden Cottage request for more than two guests", async () => {
+    const { record, response } = responseRecorder();
+    await bookingHandler({
+      method: "POST",
+      body: { name: "Test Guest", phone: "+995 599 63 96 14", interest: "cottage", unit: "small-a", guests: 3, lang: "en" },
+    }, response);
+    expect(record.statusCode).toBe(422);
+  });
+
   it("returns a controlled fallback when a valid request reaches an unconfigured persistence layer", async () => {
     const previousNeonUrl = process.env.NEON_DATABASE_URL;
     delete process.env.NEON_DATABASE_URL;

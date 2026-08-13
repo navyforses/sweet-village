@@ -56,6 +56,12 @@ describe("bookingInput validation", () => {
     expect(bookingInput.safeParse({ ...base, guests: 0 }).success).toBe(false);
     expect(bookingInput.safeParse({ ...base, guests: 500 }).success).toBe(false);
   });
+
+  it("enforces the confirmed guest limit for each cottage", () => {
+    expect(bookingInput.safeParse({ ...base, unit: "small-a", guests: 2 }).success).toBe(true);
+    expect(bookingInput.safeParse({ ...base, unit: "small-a", guests: 3 }).success).toBe(false);
+    expect(bookingInput.safeParse({ ...base, unit: "large-a", guests: 5 }).success).toBe(false);
+  });
 });
 
 describe("formatBooking", () => {

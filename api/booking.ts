@@ -25,6 +25,13 @@ const OWNER_EMAIL = "iobidzeioseb@gmail.com";
 const WHATSAPP_NUMBER = "995599639614";
 const INTERESTS = new Set<BookingInput["interest"]>(["cottage", "event", "pool", "restaurant", "whole"]);
 const UNITS = new Set<NonNullable<BookingInput["unit"]>>(["small-a", "small-b", "large-a", "large-b", "grand"]);
+const UNIT_GUEST_LIMITS: Record<NonNullable<BookingInput["unit"]>, number> = {
+  "small-a": 2,
+  "small-b": 2,
+  "large-a": 4,
+  "large-b": 4,
+  grand: 6,
+};
 const LANGUAGES = new Set<BookingInput["lang"]>(["ka", "en", "ru", "ar", "fr", "es"]);
 
 function parseBody(body: unknown): unknown {
@@ -72,6 +79,7 @@ function parseBooking(body: unknown): BookingInput | null {
 
   const guests = value.guests;
   if (guests !== undefined && (typeof guests !== "number" || !Number.isInteger(guests) || guests < 1 || guests > 200)) return null;
+  if (typeof unit === "string" && typeof guests === "number" && guests > UNIT_GUEST_LIMITS[unit as NonNullable<BookingInput["unit"]>]) return null;
 
   return {
     name,

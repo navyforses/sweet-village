@@ -93,7 +93,7 @@ export default function AccommodationDetail() {
             {unit.floors > 1 && <span className="flex items-center gap-2"><Layers className="size-4 text-turquoise" strokeWidth={1.5} />{unit.floors} {copy.floors}</span>}
           </div>
           <div className="flex flex-wrap items-center gap-5 md:justify-end">
-            <div><p dir="ltr" className="font-serif text-[1.35rem] text-ink">{unit.priceLow}–{unit.priceHigh} {t.common.lari}<span className="ms-1 font-sans text-[0.75rem] text-muted-foreground">/ {t.common.perNight}</span></p><p className="mt-1 text-[0.7rem] text-muted-foreground">{copy.seasonal}</p></div>
+            <div><p dir="ltr" className="font-serif text-[1.35rem] text-ink">{unit.nightlyPrice} {t.common.lari}<span className="ms-1 font-sans text-[0.75rem] text-muted-foreground">/ {t.common.perNight}</span></p><p className="mt-1 text-[0.7rem] text-muted-foreground">{copy.seasonal}</p></div>
             <Link href={bookingHref} data-press className="inline-flex min-h-12 items-center gap-2 bg-turquoise px-6 text-[0.875rem] text-white transition-colors hover:bg-deep">{copy.book}<ArrowUpRight className="size-4" strokeWidth={1.5} /></Link>
           </div>
         </div>

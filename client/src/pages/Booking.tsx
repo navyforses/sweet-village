@@ -29,6 +29,7 @@ export default function Booking() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const selectedUnit = UNITS.find(candidate => candidate.id === form.unit);
 
   // Accommodation cards link here with a preselected unit or whole-complex enquiry.
   useEffect(() => {
@@ -61,6 +62,9 @@ export default function Booking() {
     const next: Record<string, string> = {};
     if (form.name.trim().length < 2) next.name = t.booking.required;
     if (!/^[+()\d\s-]{6,40}$/.test(form.phone.trim())) next.phone = t.booking.invalidPhone;
+    if (form.guests && selectedUnit && Number(form.guests) > selectedUnit.maxGuests) {
+      next.guests = `${t.common.upTo} ${selectedUnit.maxGuests} ${t.common.guests}`;
+    }
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -234,16 +238,29 @@ export default function Booking() {
               <select
                 id="unit"
                 value={form.unit}
-                onChange={e => set("unit", e.target.value)}
+                onChange={e => {
+                  const nextUnit = UNITS.find(candidate => candidate.id === e.target.value);
+                  setForm(current => ({
+                    ...current,
+                    unit: e.target.value as "" | UnitId,
+                    guests: nextUnit && Number(current.guests) > nextUnit.maxGuests ? String(nextUnit.maxGuests) : current.guests,
+                  }));
+                  if (errors.unit || errors.guests) setErrors(current => ({ ...current, unit: "", guests: "" }));
+                }}
                 className={FIELD}>
                 <option value="">{t.booking.anyUnit}</option>
                 {UNITS.map(u => (
                   <option key={u.id} value={u.id}>
                     {t.stay.units[u.id as UnitId].title} — {t.common.upTo} {u.maxGuests}{" "}
-                    {t.common.guests}
+                    {t.common.guests} — {u.nightlyPrice} {t.common.lari} / {t.common.perNight}
                   </option>
                 ))}
               </select>
+              {selectedUnit && (
+                <p className="mt-2 text-[0.75rem] text-muted-foreground">
+                  {selectedUnit.nightlyPrice} {t.common.lari} / {t.common.perNight} · {t.common.upTo} {selectedUnit.maxGuests} {t.common.guests}
+                </p>
+              )}
             </div>
           )}
 
@@ -280,12 +297,14 @@ export default function Booking() {
                 id="guests"
                 type="number"
                 min={1}
-                max={200}
+                max={selectedUnit?.maxGuests ?? 200}
                 inputMode="numeric"
                 value={form.guests}
                 onChange={e => set("guests", e.target.value)}
                 className={FIELD}
+                aria-invalid={!!errors.guests}
               />
+              {errors.guests && <p className="mt-2 text-[0.75rem] text-destructive">{errors.guests}</p>}
             </div>
           </div>
 

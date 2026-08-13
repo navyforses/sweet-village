@@ -92,7 +92,7 @@ export default function Stay() {
                     </div>
                     <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
                       <div>
-                        <p dir="ltr" className="font-serif text-[1.25rem] text-ink">{unit.priceLow}–{unit.priceHigh} {t.common.lari}<span className="ms-1 font-sans text-[0.75rem] text-muted-foreground">/ {t.common.perNight}</span></p>
+                        <p dir="ltr" className="font-serif text-[1.25rem] text-ink">{unit.nightlyPrice} {t.common.lari}<span className="ms-1 font-sans text-[0.75rem] text-muted-foreground">/ {t.common.perNight}</span></p>
                         <p className="mt-1 text-[0.7rem] text-muted-foreground">{copy.card.seasonal}</p>
                       </div>
                       <Link href={unitHref(unit.id)} data-press className="inline-flex min-h-11 items-center gap-2 border border-turquoise px-4 text-[0.8125rem] text-turquoise transition-colors hover:bg-turquoise hover:text-white">

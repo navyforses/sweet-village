@@ -2,9 +2,8 @@
  * Factual data about the venue. Single source of truth for capacity, pricing
  * and distances — every page reads from here so numbers can never drift.
  *
- * NOTE ON PRICES: these are indicative launch prices benchmarked against
- * comparable Tskaltubo cottage listings. They are marked `provisional` so the
- * owner can confirm or override before the site goes public.
+ * Accommodation prices and guest limits below are owner-confirmed. Pool day
+ * visit prices remain provisional until separately confirmed.
  */
 
 export const CONTACT = {
@@ -31,16 +30,15 @@ export interface Unit {
   id: UnitId;
   /** Sleeping capacity on real beds. */
   beds: number;
-  /** Maximum with the sofa bed opened. */
+  /** Owner-confirmed maximum number of overnight guests. */
   maxGuests: number;
   floors: number;
-  /** Indicative price range in GEL per night, low → high season. */
-  priceLow: number;
-  priceHigh: number;
+  /** Owner-confirmed price in GEL per night. */
+  nightlyPrice: number;
   photo: string;
   /** Exterior and interior visuals for the public accommodation detail page. */
   gallery: readonly string[];
-  provisional: true;
+  provisional: false;
 }
 
 const LARGE_COTTAGE_GALLERY = [
@@ -87,57 +85,52 @@ export const UNITS: Unit[] = [
   {
     id: "small-a",
     beds: 2,
-    maxGuests: 4,
+    maxGuests: 2,
     floors: 1,
-    priceLow: 120,
-    priceHigh: 190,
+    nightlyPrice: 120,
     photo: GARDEN_COTTAGE_GALLERY[0],
     gallery: GARDEN_COTTAGE_GALLERY,
-    provisional: true,
+    provisional: false,
   },
   {
     id: "small-b",
     beds: 2,
-    maxGuests: 4,
+    maxGuests: 2,
     floors: 1,
-    priceLow: 120,
-    priceHigh: 190,
+    nightlyPrice: 120,
     photo: GARDEN_COTTAGE_2_GALLERY[0],
     gallery: GARDEN_COTTAGE_2_GALLERY,
-    provisional: true,
+    provisional: false,
   },
   {
     id: "large-a",
     beds: 4,
     maxGuests: 4,
     floors: 2,
-    priceLow: 180,
-    priceHigh: 280,
+    nightlyPrice: 200,
     photo: LARGE_COTTAGE_GALLERY[0],
     gallery: LARGE_COTTAGE_GALLERY,
-    provisional: true,
+    provisional: false,
   },
   {
     id: "large-b",
     beds: 4,
     maxGuests: 4,
     floors: 2,
-    priceLow: 180,
-    priceHigh: 280,
+    nightlyPrice: 200,
     photo: FAMILY_DUPLEX_B_GALLERY[0],
     gallery: FAMILY_DUPLEX_B_GALLERY,
-    provisional: true,
+    provisional: false,
   },
   {
     id: "grand",
     beds: 5,
     maxGuests: 6,
     floors: 2,
-    priceLow: 200,
-    priceHigh: 320,
+    nightlyPrice: 350,
     photo: POOL_VIEW_HOUSE_GALLERY[0],
     gallery: POOL_VIEW_HOUSE_GALLERY,
-    provisional: true,
+    provisional: false,
   },
 ];
 

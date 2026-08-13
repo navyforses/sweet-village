@@ -87,18 +87,18 @@ const en = {
     },
     stay: {
       title: "Cottages",
-      body: "Wooden cottages and rooms for 2 to 6 guests — the whole complex accommodates 22 people.",
+      body: "Wooden cottages and rooms for 2 to 6 guests — the whole complex accommodates 18 people.",
     },
   },
   stay: {
     eyebrow: "Stay",
     title: "Cottages and rooms",
     intro:
-      "Five independent units in one garden. All interiors feature pine wood, warm lighting, and botanical curtains. 17 beds in total, accommodating up to 22 guests with sofa beds.",
+      "Five independent units in one garden. All interiors feature pine wood, warm lighting, and botanical curtains. The owner-confirmed total capacity is 18 guests.",
     units: {
       "small-a": {
         title: "Garden Cottage 1",
-        body: "A private wooden cottage in the green garden, with a bright studio interior, double bed, sofa, compact kitchenette, and its own covered porch. A peaceful choice for a couple or small family, accommodating up to four guests.",
+        body: "A private wooden cottage in the green garden, with a bright studio interior, double bed, sofa, compact kitchenette, and its own covered porch. This cottage is for a maximum of two guests.",
       },
       "small-b": {
         title: "Garden Cottage 2",
