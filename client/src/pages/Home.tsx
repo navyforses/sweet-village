@@ -11,42 +11,50 @@ function Hero() {
   const { t } = useI18n();
 
   return (
-    <section className="relative">
-      <div className="relative h-[78vh] min-h-[30rem] w-full overflow-hidden">
+    <section className="relative bg-background pb-14 md:pb-20">
+      <div className="relative h-[64vh] min-h-[27rem] w-full overflow-hidden md:h-[70vh]">
         <img
           src={HOME_PHOTOS.hero}
           alt={t.brand.name}
-          className="absolute inset-0 size-full object-cover"
+          className="absolute inset-0 size-full object-cover object-center"
         />
-        {/* Legibility scrim, weighted to the text side */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/72 via-ink/28 to-ink/10" />
+        {/* Keep the hospitality photograph unobstructed; only a light vignette shapes the frame. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/16 via-transparent to-ink/6" />
+      </div>
 
-        <div className="relative flex size-full items-end pb-16 md:pb-20">
-          <div className="container">
-            <p className="sv-eyebrow mb-5 flex w-fit items-center gap-2.5 text-white/85">
-              <Dot />
-              {t.hero.eyebrow}
-            </p>
-            <h1 className="max-w-[24ch] text-[clamp(1.9rem,5.2vw,3.5rem)] text-white">
-              {t.hero.title}
-            </h1>
-            <p className="mt-6 max-w-[52ch] text-[0.975rem] text-white/88 md:text-[1.0625rem]">
-              {t.hero.subtitle}
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3.5">
-              <a
-                href={`tel:${CONTACT.phone}`}
-                data-press
-                className="flex min-h-12 items-center gap-2.5 bg-turquoise px-7 text-[0.875rem] text-white transition-colors hover:bg-deep">
-                <Phone className="size-4" strokeWidth={1.5} />
-                {t.hero.ctaPrimary}
-              </a>
-              <Link
-                href="/menu"
-                data-press
-                className="flex min-h-12 items-center border border-white/45 px-7 text-[0.875rem] text-white transition-colors hover:border-white hover:bg-white/10">
-                {t.hero.ctaSecondary}
-              </Link>
+      {/* Editorial hospitality pattern: copy receives its own floating surface instead of covering a cottage. */}
+      <div className="container relative z-10 -mt-10 md:-mt-14">
+        <div className="border border-ink/8 bg-background/95 px-6 py-7 shadow-[0_24px_70px_rgba(26,42,35,0.16)] backdrop-blur-md sm:px-8 md:px-10 md:py-9">
+          <div className="grid items-center gap-7 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
+            <div>
+              <p className="sv-eyebrow mb-4 flex w-fit items-center gap-2.5 text-turquoise">
+                <Dot />
+                {t.hero.eyebrow}
+              </p>
+              <h1 className="max-w-[27ch] text-[clamp(1.75rem,4vw,2.9rem)] leading-[1.08] text-ink">
+                {t.hero.title}
+              </h1>
+            </div>
+
+            <div className="border-t border-ink/10 pt-6 lg:border-s lg:border-t-0 lg:ps-10 lg:pt-0">
+              <p className="max-w-[48ch] text-[0.925rem] text-muted-foreground md:text-[1rem]">
+                {t.hero.subtitle}
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3">
+                <a
+                  href={`tel:${CONTACT.phone}`}
+                  data-press
+                  className="flex min-h-12 items-center gap-2.5 bg-turquoise px-7 text-[0.875rem] text-white transition-colors hover:bg-deep">
+                  <Phone className="size-4" strokeWidth={1.5} />
+                  {t.hero.ctaPrimary}
+                </a>
+                <Link
+                  href="/menu"
+                  data-press
+                  className="flex min-h-12 items-center border border-ink/20 px-7 text-[0.875rem] text-ink transition-colors hover:border-turquoise hover:text-turquoise">
+                  {t.hero.ctaSecondary}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
