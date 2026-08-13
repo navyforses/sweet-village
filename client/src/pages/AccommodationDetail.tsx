@@ -51,13 +51,13 @@ export default function AccommodationDetail() {
 
   return (
     <div className="pb-6">
-      <section className="container pt-10 md:pt-14">
+      <section className="container pt-6 md:pt-14">
         <Link href={`/stay?lang=${lang}`} className="inline-flex min-h-11 items-center gap-2 text-[0.8125rem] text-turquoise hover:text-deep">
           <ArrowLeft className="size-4 rtl:rotate-180" strokeWidth={1.5} />{copy.back}
         </Link>
-        <div className="mt-7 grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+        <div className="mt-5 grid gap-7 lg:mt-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-10">
           <SectionHeading eyebrow={copy.gallery} title={info.title} intro={info.body} />
-          <div className="border-s border-line ps-6 sm:ps-8">
+          <div className="border-t border-line pt-5 lg:border-t-0 lg:border-s lg:pt-0 lg:ps-8">
             <p className="sv-eyebrow">{copy.facts}</p>
             <dl className="mt-5 grid grid-cols-3 gap-3 text-ink">
               <div><dd className="font-serif text-[1.5rem] text-turquoise">{unit.maxGuests}</dd><dt className="mt-1 text-[0.72rem] text-muted-foreground">{copy.sleeps}</dt></div>
@@ -68,8 +68,8 @@ export default function AccommodationDetail() {
         </div>
       </section>
 
-      <section className="container mt-10 md:mt-12">
-        <div className="grid snap-x snap-mandatory grid-flow-col auto-cols-[84%] gap-2.5 overflow-x-auto pb-2 md:h-[clamp(300px,34vw,420px)] md:snap-none md:grid-flow-row md:auto-cols-auto md:grid-cols-4 md:grid-rows-2 md:gap-2 md:overflow-visible md:pb-0">
+      <section className="mt-8 md:container md:mt-12">
+        <div className="sv-scrollbar-none grid snap-x snap-mandatory grid-flow-col auto-cols-[88%] gap-2 overflow-x-auto px-4 pb-2 md:h-[clamp(300px,34vw,420px)] md:snap-none md:grid-flow-row md:auto-cols-auto md:grid-cols-4 md:grid-rows-2 md:gap-2 md:overflow-visible md:px-0 md:pb-0">
           {unit.gallery.map((photo, index) => (
             <button key={photo} type="button" onClick={() => setActivePhoto(index)} className={`group relative aspect-[4/3] snap-start overflow-hidden bg-pistachio/10 text-start md:aspect-auto md:h-full ${index === 0 ? "md:col-span-2 md:row-span-2" : unit.gallery.length <= 3 ? "md:col-span-2" : ""} ${index > 4 ? "md:hidden" : ""}`} aria-label={`${captions[index] ?? copy.gallery}: ${info.title}`}>
               <img src={assetUrl(photo)} alt={`${info.title} — ${captions[index] ?? copy.gallery}`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
@@ -82,19 +82,19 @@ export default function AccommodationDetail() {
             </button>
           ))}
         </div>
-        <p className="mt-2 text-end text-[0.72rem] text-muted-foreground md:hidden">{copy.swipeHint} · {unit.gallery.length} {copy.photos}</p>
+        <p className="container mt-2 text-end text-[0.72rem] text-muted-foreground md:hidden">{copy.swipeHint} · {unit.gallery.length} {copy.photos}</p>
       </section>
 
       <section className="container mt-12 md:mt-16">
-        <div className="grid gap-8 border-y border-line py-8 md:grid-cols-[1fr_auto] md:items-center md:py-10">
+        <div className="grid gap-6 border-y border-line py-7 md:grid-cols-[1fr_auto] md:items-center md:py-10">
           <div className="flex flex-wrap gap-x-6 gap-y-3 text-[0.875rem] text-ink">
             <span className="flex items-center gap-2"><BedDouble className="size-4 text-turquoise" strokeWidth={1.5} />{unit.beds} {copy.beds}</span>
             <span className="flex items-center gap-2"><Users className="size-4 text-turquoise" strokeWidth={1.5} />{copy.sleeps} {unit.maxGuests} {t.common.guests}</span>
             {unit.floors > 1 && <span className="flex items-center gap-2"><Layers className="size-4 text-turquoise" strokeWidth={1.5} />{unit.floors} {copy.floors}</span>}
           </div>
-          <div className="flex flex-wrap items-center gap-5 md:justify-end">
+          <div className="grid gap-4 sm:flex sm:flex-wrap sm:items-center sm:gap-5 md:justify-end">
             <div><p dir="ltr" className="font-serif text-[1.35rem] text-ink">{unit.nightlyPrice} {t.common.lari}<span className="ms-1 font-sans text-[0.75rem] text-muted-foreground">/ {t.common.perNight}</span></p><p className="mt-1 text-[0.7rem] text-muted-foreground">{copy.seasonal}</p></div>
-            <Link href={bookingHref} data-press className="inline-flex min-h-12 items-center gap-2 bg-turquoise px-6 text-[0.875rem] text-white transition-colors hover:bg-deep">{copy.book}<ArrowUpRight className="size-4" strokeWidth={1.5} /></Link>
+            <Link href={bookingHref} data-press className="inline-flex min-h-12 items-center justify-center gap-2 bg-turquoise px-6 text-[0.875rem] text-white transition-colors hover:bg-deep">{copy.book}<ArrowUpRight className="size-4" strokeWidth={1.5} /></Link>
           </div>
         </div>
         <p className="mt-6 text-[0.75rem] text-muted-foreground">{CAPACITY.units} {t.about.stats.units} · {CAPACITY.beds} {t.common.beds} · {CAPACITY.maxGuests} {t.common.guests}</p>
@@ -102,12 +102,12 @@ export default function AccommodationDetail() {
       </section>
 
       {activePhoto !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/92 p-4" role="dialog" aria-modal="true" aria-label={copy.gallery} onClick={() => setActivePhoto(null)}>
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/92 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:p-4" role="dialog" aria-modal="true" aria-label={copy.gallery} onClick={() => setActivePhoto(null)}>
           <div className="relative flex max-h-full w-full max-w-6xl items-center justify-center" onClick={event => event.stopPropagation()}>
             <button type="button" onClick={() => setActivePhoto(null)} className="absolute end-3 top-3 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise" aria-label={copy.close}><X className="size-5" /></button>
             {unit.gallery.length > 1 && <button type="button" onClick={showPreviousPhoto} className="absolute start-2 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise sm:start-4" aria-label={copy.previousPhoto}><ChevronLeft className="size-6 rtl:rotate-180" /></button>}
             <figure className="flex max-h-[90vh] max-w-full flex-col items-center">
-              <img src={assetUrl(unit.gallery[activePhoto])} alt={`${info.title} — ${captions[activePhoto] ?? copy.gallery}`} className="max-h-[82vh] max-w-full object-contain" />
+              <img src={assetUrl(unit.gallery[activePhoto])} alt={`${info.title} — ${captions[activePhoto] ?? copy.gallery}`} className="max-h-[76svh] max-w-full object-contain sm:max-h-[82vh]" />
               <figcaption className="mt-3 bg-ink/80 px-4 py-2 text-center text-[0.78rem] text-white">
                 {activePhoto + 1} / {unit.gallery.length} · {captions[activePhoto] ?? copy.gallery}
               </figcaption>

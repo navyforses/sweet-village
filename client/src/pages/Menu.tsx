@@ -50,11 +50,11 @@ export default function Menu() {
   };
 
   return (
-    <div className="container py-12 md:py-16">
+    <div className="container py-9 md:py-16">
       {/* Compact heading: the food is the primary visual, not a page-sized cover. */}
       <header className="max-w-[56rem] border-s-2 border-gold/70 ps-5 md:ps-7">
         <p className="sv-eyebrow">{t.menu.eyebrow}</p>
-        <h1 className="mt-2 font-serif text-[clamp(2rem,4vw,3.25rem)] leading-[0.98] text-ink">
+        <h1 className="mt-2 font-serif text-[clamp(1.8rem,8vw,3.25rem)] leading-[1.05] text-ink">
           {t.menu.title}
         </h1>
         <p className="mt-4 max-w-[60ch] text-[0.9375rem] leading-7 text-muted-foreground">
@@ -95,7 +95,7 @@ export default function Menu() {
       <nav
         aria-label={t.menu.title}
         className="mt-8 -mx-4 border-y border-line bg-paper px-4 py-3 sm:mx-0 sm:px-0">
-        <div className="flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible" role="tablist">
+        <div className="sv-scrollbar-none flex snap-x gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible" role="tablist">
           {MENU.map(category => {
             const selected = !isSearching && activeCategory === category.id;
             return (
@@ -108,7 +108,7 @@ export default function Menu() {
                   setQuery("");
                   setActiveCategory(category.id);
                 }}
-                className={`min-h-10 shrink-0 border px-4 text-[0.8125rem] transition-colors ${
+                className={`min-h-11 shrink-0 snap-start border px-4 text-[0.8125rem] transition-colors ${
                   selected
                     ? "border-turquoise bg-turquoise text-white"
                     : "border-line bg-white text-ink hover:border-pistachio"
@@ -126,7 +126,7 @@ export default function Menu() {
       )}
 
       {/* Cards replace the long accordion: several dishes are visible at once. */}
-      <div className="mt-10 space-y-12 md:mt-12">
+      <div className="mt-8 space-y-10 md:mt-12 md:space-y-12">
         {visibleCategories.map(category => (
           <section key={category.id} aria-labelledby={`menu-category-${category.id}`}>
             <div className="mb-5 flex items-baseline justify-between border-b border-ink/15 pb-3">
@@ -136,7 +136,7 @@ export default function Menu() {
               <span className="sv-eyebrow text-[0.625rem]">{category.items.length}</span>
             </div>
 
-            <ul className="sv-stagger grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+            <ul className="sv-stagger grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
               {category.items.map(item => {
                 const desc = itemDesc(item, lang);
                 const title = itemName(item, lang);
@@ -148,7 +148,7 @@ export default function Menu() {
                       loading="lazy"
                       className="aspect-[4/3] w-full object-cover"
                     />
-                    <div className="flex min-h-[8.25rem] flex-1 flex-col p-3 sm:min-h-[9.5rem] sm:p-4">
+                    <div className="flex min-h-[7.5rem] flex-1 flex-col p-4 min-[430px]:p-3 sm:min-h-[9.5rem] sm:p-4">
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="font-serif text-[0.9375rem] leading-[1.15] text-ink sm:text-[1.0625rem]">
                           {title}
@@ -178,10 +178,10 @@ export default function Menu() {
 
       <p className="mt-8 text-[0.8125rem] text-muted-foreground">{t.menu.noAlcoholNote}</p>
 
-      <SectionDivider motif="vine" className="mt-16" />
+      <SectionDivider motif="vine" className="mt-12 md:mt-16" />
 
       {/* QR block — both the code and the copied link resolve to /menu. */}
-      <section className="mt-14 grid items-center gap-10 border border-line bg-white p-8 md:grid-cols-[auto_1fr] md:p-12">
+      <section className="mt-10 grid items-center gap-7 border border-line bg-white p-5 sm:p-8 md:mt-14 md:grid-cols-[auto_1fr] md:gap-10 md:p-12">
         <div className="mx-auto">
           {qr ? (
             <img
@@ -206,12 +206,12 @@ export default function Menu() {
             className="mt-5 border border-line bg-paper px-4 py-3 font-mono text-[0.8125rem] break-all text-ink">
             {menuUrl}
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-5 grid gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
             <button
               type="button"
               onClick={copyLink}
               data-press
-              className="flex min-h-12 items-center gap-2.5 bg-turquoise px-6 text-[0.875rem] text-white transition-colors hover:bg-deep">
+              className="flex min-h-12 items-center justify-center gap-2.5 bg-turquoise px-6 text-[0.875rem] text-white transition-colors hover:bg-deep">
               <Link2 className="size-4" strokeWidth={1.5} />
               {t.menu.copyLink}
             </button>
@@ -220,7 +220,7 @@ export default function Menu() {
                 href={qr}
                 download="sweet-village-menu-qr.png"
                 data-press
-                className="flex min-h-12 items-center border border-line px-6 text-[0.875rem] text-ink transition-colors hover:border-pistachio">
+                className="flex min-h-12 items-center justify-center border border-line px-6 text-[0.875rem] text-ink transition-colors hover:border-pistachio">
                 QR · PNG
               </a>
             )}

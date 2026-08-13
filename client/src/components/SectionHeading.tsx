@@ -27,9 +27,9 @@ export default function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <h2 className="text-[clamp(1.6rem,3.4vw,2.4rem)] text-ink">{title}</h2>
+      <h2 className="text-[clamp(1.5rem,6.8vw,2.4rem)] leading-[1.16] text-ink">{title}</h2>
       {intro && (
-        <p className="mt-5 max-w-[62ch] text-[0.975rem] text-muted-foreground">{intro}</p>
+        <p className="mt-4 max-w-[62ch] text-[0.9375rem] text-muted-foreground md:mt-5 md:text-[0.975rem]">{intro}</p>
       )}
     </header>
   );

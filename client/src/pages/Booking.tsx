@@ -162,7 +162,7 @@ export default function Booking() {
   }
 
   return (
-    <div className="container py-16 md:py-20">
+    <div className="container py-10 md:py-20">
       <div className="mx-auto max-w-2xl">
         <SectionHeading
           eyebrow={t.booking.eyebrow}
@@ -170,7 +170,7 @@ export default function Booking() {
           intro={t.booking.intro}
         />
 
-        <form onSubmit={onSubmit} className="mt-12 space-y-7" noValidate>
+        <form onSubmit={onSubmit} className="mt-9 space-y-6 md:mt-12 md:space-y-7" noValidate>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label htmlFor="name" className="sv-eyebrow mb-2.5 block">
@@ -264,8 +264,8 @@ export default function Booking() {
             </div>
           )}
 
-          <div className="grid gap-5 sm:grid-cols-3">
-            <div>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5">
+            <div className="col-span-2 sm:col-span-1">
               <label htmlFor="checkIn" className="sv-eyebrow mb-2.5 block">
                 {t.booking.checkIn}
               </label>
@@ -322,7 +322,7 @@ export default function Booking() {
             />
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="grid gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
             <button
               type="submit"
               disabled={isSubmitting}
@@ -350,7 +350,7 @@ export default function Booking() {
           </div>
         </form>
 
-        <SectionDivider motif="vine" className="mt-14" />
+        <SectionDivider motif="vine" className="mt-10 md:mt-14" />
 
         <a
           href={`tel:${CONTACT.phone}`}
