@@ -4,20 +4,34 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm build:vercel",
   "outputDirectory": "dist/public",
-  "routes": [
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/ka", "destination": "/", "permanent": true },
+    { "source": "/ka/:path*", "destination": "/:path*", "permanent": true }
+  ],
+  "headers": [
     {
-      "handle": "filesystem"
+      "source": "/admin/:path*",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     },
     {
-      "src": "/admin(.*)",
-      "headers": {
-        "X-Robots-Tag": "noindex, nofollow"
-      },
-      "dest": "/index.html"
+      "source": "/admin",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     },
     {
-      "src": "/((?!api/).*)",
-      "dest": "/index.html"
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "(.*)\\.vercel\\.app" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    },
+    {
+      "source": "/(favicon.svg|favicon-32.png|apple-touch-icon.png|manifest.webmanifest)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
+    },
+    {
+      "source": "/(icons|og)/:file*",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
     }
-  ]
+  ],
+  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
 }

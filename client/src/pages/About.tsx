@@ -3,10 +3,13 @@ import ShareButton from "@/components/ShareButton";
 import { SectionDivider } from "@/components/Ornaments";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { breadcrumbs, lodgingBusiness } from "@/seo/jsonld";
 
 export default function About() {
-  const { t } = useI18n();
-  const { capacity, attractions, about, menu } = useVenue();
+  const { t, lang } = useI18n();
+  const venue = useVenue();
+  const { capacity, attractions, about, menu } = venue;
   const prometheus = attractions[0]?.minutes ?? 0;
 
   const stats = [
@@ -18,7 +21,14 @@ export default function About() {
 
   return (
     <div className="container py-10 md:py-20">
-      <SectionHeading eyebrow={t.about.eyebrow} title={t.about.title} />
+      <Seo path="/about" title={t.meta.pages.about.title} description={t.meta.pages.about.description} image={about.photos.main} />
+      <JsonLd
+        data={[
+          lodgingBusiness({ lang, name: t.brand.name, description: t.meta.pages.about.description, venue }),
+          breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.about, path: "/about" }]),
+        ]}
+      />
+      <SectionHeading as="h1" eyebrow={t.about.eyebrow} title={t.about.title} />
 
       <div className="mt-9 grid gap-9 md:mt-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
         <div className="space-y-6 text-[0.975rem] text-muted-foreground">

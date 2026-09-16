@@ -8,6 +8,8 @@ import { getStayExperienceCopy, STAY_FILTER_UNITS, type GuestFilter } from "@/li
 import { useVenue } from "@/content/hooks";
 import type { UnitId } from "@shared/venue";
 import { useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { breadcrumbs } from "@/seo/jsonld";
 
 const FILTERS: GuestFilter[] = ["all", "couple", "four", "six", "whole"];
 
@@ -17,12 +19,14 @@ export default function Stay() {
   const copy = getStayExperienceCopy(lang);
   const [filter, setFilter] = useState<GuestFilter>("all");
   const visibleUnits = filter === "all" || filter === "whole" ? units : units.filter(unit => STAY_FILTER_UNITS[filter].includes(unit.id));
-  const unitHref = (unit: UnitId) => `/booking?interest=cottage&unit=${unit}&lang=${lang}`;
+  const unitHref = (unit: UnitId) => `/booking?interest=cottage&unit=${unit}`;
 
   return (
     <div className="pb-4">
+      <Seo path="/stay" title={t.meta.pages.stay.title} description={t.meta.pages.stay.description} image={units[0]?.cover} />
+      <JsonLd data={breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.stay, path: "/stay" }])} />
       <section className="container pt-10 md:pt-20">
-        <SectionHeading eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro} />
+        <SectionHeading as="h1" eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro} />
 
         <dl className="mt-8 grid grid-cols-3 gap-0 border-y border-line py-5 sm:mt-12 sm:py-6">
           {[
@@ -64,7 +68,7 @@ export default function Stay() {
               <h2 className="mt-3 max-w-xl text-[clamp(1.65rem,3.3vw,2.65rem)] leading-tight">{copy.whole.title}</h2>
               <p className="mt-5 max-w-2xl text-[0.9375rem] leading-7 text-white/80">{copy.whole.body}</p>
             </div>
-            <Link href={`/booking?interest=whole&guests=${capacity.maxGuests}&lang=${lang}`} data-press className="inline-flex min-h-12 items-center justify-center gap-2 bg-gold px-6 text-[0.875rem] text-ink transition-colors hover:bg-white">
+            <Link href={`/booking?interest=whole&guests=${capacity.maxGuests}`} data-press className="inline-flex min-h-12 items-center justify-center gap-2 bg-gold px-6 text-[0.875rem] text-ink transition-colors hover:bg-white">
               {copy.whole.cta}<ArrowUpRight className="size-4" strokeWidth={1.5} />
             </Link>
           </div>
@@ -74,14 +78,14 @@ export default function Stay() {
           <div className="grid gap-x-6 gap-y-8 md:grid-cols-2 lg:gap-x-8 lg:gap-y-14">
             {visibleUnits.map(unit => (
               <article key={unit.id} className="group border-b border-line pb-8">
-                <Link href={`/stay/${unit.id}?lang=${lang}`} className="relative block overflow-hidden bg-pistachio/10" aria-label={`${unit.title} — ${copy.card.askAbout}`}>
+                <Link href={`/stay/${unit.id}`} className="relative block overflow-hidden bg-pistachio/10" aria-label={`${unit.title} — ${copy.card.askAbout}`}>
                   <img src={unit.cover} alt={unit.title} loading={unit.id === "small-a" ? "eager" : "lazy"} className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
                   <span className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-ink/78 px-4 py-2.5 text-[0.75rem] text-white">
                     <span>{copy.card.sleeps} {unit.maxGuests} {t.common.guests} · {unit.beds} {t.common.beds}</span><ArrowUpRight className="size-3.5" />
                   </span>
                 </Link>
                 <div className="pt-4 sm:pt-5">
-                  <h2 className="text-[clamp(1.25rem,2.2vw,1.65rem)] text-ink"><Link href={`/stay/${unit.id}?lang=${lang}`} className="inline-flex min-h-11 items-center hover:text-turquoise">{unit.title}</Link></h2>
+                  <h2 className="text-[clamp(1.25rem,2.2vw,1.65rem)] text-ink"><Link href={`/stay/${unit.id}`} className="inline-flex min-h-11 items-center hover:text-turquoise">{unit.title}</Link></h2>
                   {unit.bestFor && <p className="mt-2 text-[0.875rem] text-turquoise"><span className="font-medium text-ink">{copy.card.bestFor}: </span>{unit.bestFor}</p>}
                   <p className="mt-3 max-w-[62ch] text-[0.875rem] leading-6 text-muted-foreground">{unit.body}</p>
                   <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 border-y border-line py-4 text-[0.75rem] text-ink">

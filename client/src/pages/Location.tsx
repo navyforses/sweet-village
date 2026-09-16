@@ -5,9 +5,11 @@ import ShareButton from "@/components/ShareButton";
 import { loadGoogleMaps } from "@/lib/loadMaps";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { breadcrumbs } from "@/seo/jsonld";
 
 export default function Location() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { location, attractions } = useVenue();
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -99,7 +101,10 @@ export default function Location() {
 
   return (
     <div className="container py-10 md:py-20">
+      <Seo path="/location" title={t.meta.pages.location.title} description={t.meta.pages.location.description} />
+      <JsonLd data={breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.location, path: "/location" }])} />
       <SectionHeading
+        as="h1"
         eyebrow={t.location.eyebrow}
         title={t.location.title}
         intro={t.location.intro}

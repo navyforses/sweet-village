@@ -5,16 +5,26 @@ import { getEventPageCopy } from "@/lib/eventDetailCopy";
 import { VENUE_SPACE } from "@shared/venue";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { breadcrumbs, eventVenue } from "@/seo/jsonld";
 
 
 export default function Events() {
   const { lang, t } = useI18n();
   const copy = getEventPageCopy(lang);
-  const { contact, events } = useVenue();
+  const venue = useVenue();
+  const { contact, events } = venue;
   const masterclass = events.events.find(event => event.id === "masterclass");
 
   return (
     <div>
+      <Seo path="/events" title={t.meta.pages.events.title} description={t.meta.pages.events.description} image={events.hero} />
+      <JsonLd
+        data={[
+          eventVenue({ lang, name: `${t.brand.name} — ${t.nav.events}`, description: t.meta.pages.events.description, venue, maxGuests: VENUE_SPACE.coveredSeats, events: events.events }),
+          breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.events, path: "/events" }]),
+        ]}
+      />
       <div className="relative h-[54svh] min-h-[22rem] max-h-[35rem] overflow-hidden md:h-[58vh] md:min-h-[24rem] md:max-h-[44rem]">
         <img
           src={events.hero}
@@ -70,7 +80,7 @@ export default function Events() {
                 className="sv-card group flex flex-col overflow-hidden"
               >
                 <Link
-                  href={`/events/${event.id}?lang=${lang}`}
+                  href={`/events/${event.id}`}
                   className="block aspect-[4/3] overflow-hidden bg-pistachio/10"
                 >
                   <img
@@ -91,7 +101,7 @@ export default function Events() {
                       {event.minGuests}–{event.maxGuests} {copy.guests}
                     </span>
                     <Link
-                      href={`/events/${event.id}?lang=${lang}`}
+                      href={`/events/${event.id}`}
                       aria-label={info.title}
                       className="sv-touch-target inline-flex items-center justify-center border border-line text-turquoise transition-colors hover:border-turquoise hover:bg-turquoise hover:text-white"
                     >
@@ -142,7 +152,7 @@ export default function Events() {
 
         <div className="mt-10 grid gap-2.5 sm:mt-14 sm:flex sm:flex-wrap sm:items-center sm:gap-3.5">
           <Link
-            href={`/booking?interest=whole&lang=${lang}`}
+            href="/booking?interest=whole"
             data-press
             className="flex min-h-12 items-center justify-center bg-turquoise px-7 text-[0.875rem] text-white transition-colors hover:bg-deep"
           >

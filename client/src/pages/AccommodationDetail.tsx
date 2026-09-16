@@ -6,6 +6,8 @@ import ShareButton from "@/components/ShareButton";
 import { getAccommodationDetailCopy } from "@/lib/accommodationDetailCopy";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { accommodationUnit, breadcrumbs } from "@/seo/jsonld";
 import NotFound from "./NotFound";
 
 export default function AccommodationDetail() {
@@ -38,19 +40,26 @@ export default function AccommodationDetail() {
   if (!unit) return <NotFound />;
 
   const captionFor = (index: number) => unit.gallery[index]?.caption || copy.gallery;
-  const bookingHref = `/booking?interest=cottage&unit=${unit.id}&lang=${lang}`;
+  const bookingHref = `/booking?interest=cottage&unit=${unit.id}`;
   const showPreviousPhoto = () => setActivePhoto(current => current === null ? 0 : (current - 1 + unit.gallery.length) % unit.gallery.length);
   const showNextPhoto = () => setActivePhoto(current => current === null ? 0 : (current + 1) % unit.gallery.length);
   const active = activePhoto === null ? null : Math.min(activePhoto, unit.gallery.length - 1);
 
   return (
     <div className="pb-6">
+      <Seo path={`/stay/${unit.id}`} title={`${unit.title} — ${t.nav.stay} | ${t.brand.name}`} description={unit.body} image={unit.cover} />
+      <JsonLd
+        data={[
+          accommodationUnit(lang, unit, `${unit.nightlyPrice} ${t.common.lari} / ${t.common.perNight}`),
+          breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.stay, path: "/stay" }, { name: unit.title, path: `/stay/${unit.id}` }]),
+        ]}
+      />
       <section className="container pt-6 md:pt-14">
-        <Link href={`/stay?lang=${lang}`} className="inline-flex min-h-11 items-center gap-2 text-[0.8125rem] text-turquoise hover:text-deep">
+        <Link href="/stay" className="inline-flex min-h-11 items-center gap-2 text-[0.8125rem] text-turquoise hover:text-deep">
           <ArrowLeft className="size-4 rtl:rotate-180" strokeWidth={1.5} />{copy.back}
         </Link>
         <div className="mt-5 grid gap-7 lg:mt-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-10">
-          <SectionHeading eyebrow={copy.gallery} title={unit.title} intro={unit.body} />
+          <SectionHeading as="h1" eyebrow={copy.gallery} title={unit.title} intro={unit.body} />
           <div className="border-t border-line pt-5 lg:border-t-0 lg:border-s lg:pt-0 lg:ps-8">
             <p className="sv-eyebrow">{copy.facts}</p>
             <dl className="mt-5 grid grid-cols-3 gap-3 text-ink">

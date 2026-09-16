@@ -5,6 +5,17 @@ const es = {
     title: "Sweet Village — Cabañas, piscina y restaurante en Tskaltubo",
     description:
       "Cabañas de madera, piscina al aire libre, restaurante georgiano y espacio cubierto para eventos en el pueblo de Kvilishori, Tskaltubo.",
+    pages: {
+      home: { title: "Sweet Village — Cabañas, piscina y restaurante junto a la cueva de Prometeo", description: "Cabañas de madera, piscina al aire libre, restaurante georgiano y espacio cubierto en un jardín en Kvilishori, Tskaltubo — a 2 minutos de la cueva de Prometeo y 20 de Kutaisi." },
+      stay: { title: "Cabañas y habitaciones en Tskaltubo junto a la cueva de Prometeo — Sweet Village", description: "Cinco alojamientos en un mismo jardín, hasta 18 huéspedes: cabañas de madera y habitaciones con piscina, aparcamiento gratuito y desayuno. Precios y reserva." },
+      menu: { title: "Carta del restaurante — cocina georgiana en Tskaltubo | Sweet Village", description: "Jachapuri, jinkali, mtsvadi, chakapuli, ensaladas y bebidas — 9 categorías con precios en lari. Una carta en línea siempre actualizada." },
+      events: { title: "Bodas y celebraciones en la naturaleza cerca de Kutaisi — Sweet Village", description: "Espacio cubierto en el jardín y banquete al aire libre: bodas, compromisos, cumpleaños, eventos de empresa y fiestas junto a la piscina. Kvilishori, Tskaltubo." },
+      pool: { title: "Piscina al aire libre en Tskaltubo — entrada de día | Sweet Village", description: "Piscina exterior en un jardín verde a 20 minutos de Kutaisi. Precios de la entrada de día para adultos y niños, horarios, temporada y normas." },
+      location: { title: "Cómo llegar — Kvilishori, junto a la cueva de Prometeo | Sweet Village", description: "Mapa y distancias: cueva de Prometeo a 2 minutos, Kutaisi y el aeropuerto, Sataplia, cañones de Okatse y Martvili. Dirección y horario." },
+      about: { title: "Sobre nosotros — Sweet Village, Kvilishori", description: "Un lugar familiar en Kvilishori: jardín verde, cabañas de madera, piscina y banquetes georgianos caseros. Nuestra historia, cifras y fotos." },
+      booking: { title: "Reservar — Sweet Village", description: "Formulario de solicitud para una cabaña, un evento, la piscina o un banquete. Respondemos por teléfono o WhatsApp." },
+      notFound: { title: "Página no encontrada — Sweet Village", description: "Este enlace ya no existe. Vuelve a la página principal." },
+    },
   },
   brand: {
     name: "Sweet Village",

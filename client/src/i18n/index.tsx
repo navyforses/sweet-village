@@ -1,5 +1,6 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo } from "react";
 import type { ReactNode } from "react";
+import { useLocation, useSearch } from "wouter";
 import { deepMerge } from "@shared/deepMerge";
 import { ContentContext } from "@/content/context";
 import ka, { type Dict } from "./locales/ka";
@@ -9,6 +10,7 @@ import ar from "./locales/ar";
 import fr from "./locales/fr";
 import es from "./locales/es";
 import { LANGS, type Lang, isRtl } from "./types";
+import { localePath, stripLocale, upgradeLegacyLangUrl } from "./paths";
 
 /**
  * Locale modules are translated from ka.ts, so they share its shape. They are
@@ -19,26 +21,6 @@ export const DICTS = { ka, en, ru, ar, fr, es } as unknown as Record<Lang, Dict>
 
 const STORAGE_KEY = "sv-lang";
 
-function detectLang(): Lang {
-  if (typeof window === "undefined") return "ka";
-
-  // 1. Explicit ?lang= wins (used by QR codes and shared links).
-  const param = new URLSearchParams(window.location.search).get("lang");
-  if (param && (LANGS as readonly string[]).includes(param)) return param as Lang;
-
-  // 2. Returning visitor's stored choice.
-  const stored = window.localStorage.getItem(STORAGE_KEY);
-  if (stored && (LANGS as readonly string[]).includes(stored)) return stored as Lang;
-
-  // 3. Browser language.
-  for (const nav of navigator.languages ?? [navigator.language]) {
-    const base = nav.toLowerCase().split("-")[0];
-    if ((LANGS as readonly string[]).includes(base)) return base as Lang;
-  }
-
-  return "ka";
-}
-
 interface I18nValue {
   lang: Lang;
   setLang: (l: Lang) => void;
@@ -48,8 +30,16 @@ interface I18nValue {
 
 const I18nContext = createContext<I18nValue | null>(null);
 
+/**
+ * The language is a function of the URL: `/en/stay` is English, `/stay` is
+ * Georgian. That gives every language its own crawlable address (hreflang,
+ * canonical, sitemap) instead of a `?lang=` parameter that search engines
+ * collapse into one page.
+ */
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("ka");
+  const [location, navigate] = useLocation();
+  const search = useSearch();
+  const { lang, path } = stripLocale(location);
   // Owner-edited texts (admin panel) are layered on top of the static
   // dictionary, after the authentic-copy overlay applied at module load.
   const texts = useContext(ContentContext)?.content.texts;
@@ -58,28 +48,31 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     return patch && Object.keys(patch).length > 0 ? deepMerge(DICTS[lang], patch) : DICTS[lang];
   }, [lang, texts]);
 
-  // Detect after mount so SSR/first paint stays deterministic.
+  // Legacy `?lang=xx` links (old QR codes, shares) move to the prefixed URL once.
   useEffect(() => {
-    setLangState(detectLang());
-  }, []);
+    const upgraded = upgradeLegacyLangUrl(location, search);
+    if (upgraded) navigate(upgraded, { replace: true });
+  }, [location, search, navigate]);
 
   useEffect(() => {
     const html = document.documentElement;
     html.lang = lang;
     html.dir = isRtl(lang) ? "rtl" : "ltr";
-    document.title = dict.meta.title;
-    const desc = document.querySelector('meta[name="description"]');
-    if (desc) desc.setAttribute("content", dict.meta.description);
-  }, [lang, dict]);
-
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l);
     try {
-      window.localStorage.setItem(STORAGE_KEY, l);
+      window.localStorage.setItem(STORAGE_KEY, lang);
     } catch {
       /* private browsing */
     }
-  }, []);
+  }, [lang]);
+
+  /** Switching language keeps the visitor on the same page, in the other language's URL. */
+  const setLang = useCallback(
+    (l: Lang) => {
+      const query = search ? `?${search.replace(/^\?/, "")}` : "";
+      navigate(`${localePath(l, path)}${query}`);
+    },
+    [navigate, path, search],
+  );
 
   const value = useMemo<I18nValue>(
     () => ({ lang, setLang, t: dict, rtl: isRtl(lang) }),

@@ -5,17 +5,22 @@ import { Dot, SectionDivider } from "@/components/Ornaments";
 import { useVenue } from "@/content/hooks";
 import { VENUE_SPACE } from "@shared/venue";
 import { isLocalSegment, useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { lodgingBusiness, webSite } from "@/seo/jsonld";
 
 function Hero() {
-  const { t } = useI18n();
-  const { home, contact } = useVenue();
+  const { t, lang } = useI18n();
+  const venue = useVenue();
+  const { home, contact } = venue;
 
   return (
     <section className="relative bg-background pb-10 md:pb-20">
+      <Seo path="/" title={t.meta.pages.home.title} description={t.meta.pages.home.description} image={home.hero} />
+      <JsonLd data={[webSite(lang, t.brand.name), lodgingBusiness({ lang, name: t.brand.name, description: t.meta.pages.home.description, venue })]} />
       <div className="relative h-[52svh] min-h-[21rem] max-h-[31rem] w-full overflow-hidden md:h-[70vh] md:min-h-[27rem] md:max-h-none">
         <img
           src={home.hero}
-          alt={t.brand.name}
+          alt={`${t.brand.name} — ${t.hero.title}`}
           fetchPriority="high"
           decoding="async"
           className="absolute inset-0 size-full object-cover object-center"
