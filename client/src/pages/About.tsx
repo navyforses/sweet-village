@@ -2,17 +2,19 @@ import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
 import { SectionDivider } from "@/components/Ornaments";
 import { PHOTOS } from "@/lib/assets";
-import { ATTRACTIONS, CAPACITY } from "@shared/venue";
+import { ATTRACTIONS } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
 import { MENU_ITEM_COUNT } from "@shared/menuData";
 import { useI18n } from "@/i18n";
 
 export default function About() {
   const { t } = useI18n();
+  const { capacity } = useVenue();
   const prometheus = ATTRACTIONS[0].minutes;
 
   const stats = [
-    { value: CAPACITY.units, label: t.about.stats.units },
-    { value: CAPACITY.maxGuests, label: t.about.stats.guests },
+    { value: capacity.units, label: t.about.stats.units },
+    { value: capacity.maxGuests, label: t.about.stats.guests },
     { value: MENU_ITEM_COUNT, label: t.about.stats.dishes },
     { value: prometheus, label: t.about.stats.minutes },
   ];

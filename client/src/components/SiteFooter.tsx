@@ -1,11 +1,12 @@
 import { Link } from "wouter";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { Borjgali, SectionDivider } from "./Ornaments";
-import { CONTACT } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 
 export default function SiteFooter() {
   const { t } = useI18n();
+  const { contact, location } = useVenue();
 
   const pages = [
     { href: "/stay", label: t.nav.stay },
@@ -29,7 +30,7 @@ export default function SiteFooter() {
             </div>
             <p className="sv-eyebrow">{t.brand.tagline}</p>
             <p className="mt-5 max-w-[38ch] text-[0.875rem] text-muted-foreground">
-              {t.location.addressValue}
+              {location.address}
             </p>
           </div>
 
@@ -53,18 +54,18 @@ export default function SiteFooter() {
             <ul className="space-y-3.5 text-[0.875rem]">
               <li>
                 <a
-                  href={`tel:${CONTACT.phone}`}
+                  href={`tel:${contact.phone}`}
                   className="flex min-h-11 items-center gap-2.5 text-ink hover:text-wine">
                   <Phone className="size-3.5 shrink-0 text-turquoise" strokeWidth={1.5} />
-                  <span dir="ltr">{CONTACT.phoneDisplay}</span>
+                  <span dir="ltr">{contact.phoneDisplay}</span>
                 </a>
               </li>
               <li>
                 <a
-                  href={`mailto:${CONTACT.email}`}
+                  href={`mailto:${contact.email}`}
                   className="flex min-h-11 items-center gap-2.5 break-all text-ink hover:text-wine">
                   <Mail className="size-3.5 shrink-0 text-turquoise" strokeWidth={1.5} />
-                  <span dir="ltr">{CONTACT.email}</span>
+                  <span dir="ltr">{contact.email}</span>
                 </a>
               </li>
               <li className="flex items-start gap-2.5 text-muted-foreground">
@@ -76,7 +77,7 @@ export default function SiteFooter() {
             <h3 className="sv-eyebrow mt-8 mb-4">{t.footer.follow}</h3>
             <div className="flex gap-2.5">
               <a
-                href={CONTACT.facebookUrl}
+                href={contact.facebookUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -84,7 +85,7 @@ export default function SiteFooter() {
                 <Facebook className="size-4" strokeWidth={1.5} />
               </a>
               <a
-                href={CONTACT.instagramUrl}
+                href={contact.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"

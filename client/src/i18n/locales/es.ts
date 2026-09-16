@@ -95,28 +95,6 @@ const es = {
     title: "Cabañas y habitaciones",
     intro:
       "Cinco alojamientos independientes en un mismo jardín. La capacidad total confirmada por el propietario es de 18 huéspedes.",
-    units: {
-      "small-a": {
-        title: "Cabaña del Jardín 1",
-        body: "Una cabaña de madera independiente en el jardín, con un estudio luminoso, cama doble, sofá, cocina compacta y porche privado cubierto. Esta cabaña admite un máximo de dos huéspedes.",
-      },
-      "small-b": {
-        title: "Cabaña del Jardín 2",
-        body: "Cabaña idéntica a la primera — a menudo reservada junto con la otra por dos parejas o un grupo de amigos que necesitan entradas separadas.",
-      },
-      "large-a": {
-        title: "Dúplex Familiar A",
-        body: "Habitación de dos pisos en la cabaña grande, con entrada independiente. Dos camas en la planta baja y dos en el ático — cuatro huéspedes cómodamente.",
-      },
-      "large-b": {
-        title: "Dúplex Familiar B",
-        body: "La segunda mitad de la cabaña grande, también de dos pisos e independiente. Reservando ambas habitaciones juntas, ocho huéspedes pueden alojarse en una sola casa.",
-      },
-      grand: {
-        title: "Casa con vistas a la piscina",
-        body: "Alojamiento de madera de dos niveles con balcón blanco directamente sobre la piscina. Abajo hay una cama doble, cocina compacta y sala de estar; el altillo tiene tres camas individuales. Con el sofá cama admite hasta 6 huéspedes.",
-      },
-    },
     facilities: {
       title: "Qué incluye",
       items: [

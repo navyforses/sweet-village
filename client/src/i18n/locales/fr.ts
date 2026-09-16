@@ -92,28 +92,6 @@ const fr = {
     "eyebrow": "Hébergement",
     "title": "Cabanes et chambres",
     "intro": "Cinq hébergements indépendants dans un même jardin. La capacité totale confirmée par le propriétaire est de 18 personnes.",
-    "units": {
-      "small-a": {
-        "title": "Chalet du Jardin 1",
-        "body": "Un chalet en bois indépendant au cœur du jardin, avec un studio lumineux, un lit double, un canapé, une kitchenette et une véranda privée couverte. Ce chalet accueille au maximum deux personnes."
-      },
-      "small-b": {
-        "title": "Chalet du Jardin 2",
-        "body": "Le même cottage que I — souvent réservé ensemble par deux couples ou un groupe d'amis, nécessitant une entrée séparée."
-      },
-      "large-a": {
-        "title": "Duplex Familial A",
-        "body": "Niveau deux dans le grand cottage, avec entrée indépendante. Deux lits au rez-de-chaussée et deux lits dans le grenier — quatre invités confortablement."
-      },
-      "large-b": {
-        "title": "Duplex Familial B",
-        "body": "Deuxième moitié du grand cottage, également à deux étages et indépendante. Deux chambres; ensemble, huit invités peuvent loger dans une seule habitation."
-      },
-      "grand": {
-        "title": "Maison avec vue sur la piscine",
-        "body": "Un hébergement en bois sur deux niveaux, avec balcon blanc donnant directement sur la piscine. En bas : lit double, kitchenette et coin salon ; dans le loft : trois lits simples. Jusqu’à 6 personnes avec le canapé-lit."
-      }
-    },
     "facilities": {
       "title": "Ce qui est inclus",
       "items": [

@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
+import { deepMerge } from "@shared/deepMerge";
+import { ContentContext } from "@/content/context";
 import ka, { type Dict } from "./locales/ka";
 import en from "./locales/en";
 import ru from "./locales/ru";
@@ -48,6 +50,13 @@ const I18nContext = createContext<I18nValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("ka");
+  // Owner-edited texts (admin panel) are layered on top of the static
+  // dictionary, after the authentic-copy overlay applied at module load.
+  const texts = useContext(ContentContext)?.content.texts;
+  const dict = useMemo<Dict>(() => {
+    const patch = texts?.[lang];
+    return patch && Object.keys(patch).length > 0 ? deepMerge(DICTS[lang], patch) : DICTS[lang];
+  }, [lang, texts]);
 
   // Detect after mount so SSR/first paint stays deterministic.
   useEffect(() => {
@@ -58,11 +67,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const html = document.documentElement;
     html.lang = lang;
     html.dir = isRtl(lang) ? "rtl" : "ltr";
-    const dict = DICTS[lang];
     document.title = dict.meta.title;
     const desc = document.querySelector('meta[name="description"]');
     if (desc) desc.setAttribute("content", dict.meta.description);
-  }, [lang]);
+  }, [lang, dict]);
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
@@ -74,8 +82,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<I18nValue>(
-    () => ({ lang, setLang, t: DICTS[lang], rtl: isRtl(lang) }),
-    [lang, setLang],
+    () => ({ lang, setLang, t: dict, rtl: isRtl(lang) }),
+    [lang, setLang, dict],
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

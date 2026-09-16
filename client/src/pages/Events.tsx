@@ -2,7 +2,8 @@ import { Link } from "wouter";
 import { ArrowUpRight, ChefHat, Info, Phone, Users } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
 import { getEventPageCopy } from "@/lib/eventDetailCopy";
-import { CONTACT, EVENT_TYPES, VENUE_SPACE } from "@shared/venue";
+import { EVENT_TYPES, VENUE_SPACE } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 
 const REAL_SPACE_PHOTOS = [
@@ -16,6 +17,7 @@ const REAL_SPACE_PHOTOS = [
 export default function Events() {
   const { lang, t } = useI18n();
   const copy = getEventPageCopy(lang);
+  const { contact } = useVenue();
 
   return (
     <div>
@@ -153,13 +155,13 @@ export default function Events() {
             {t.events.cta}
           </Link>
           <a
-            href={`tel:${CONTACT.phone}`}
+            href={`tel:${contact.phone}`}
             dir="ltr"
             data-press
             className="flex min-h-12 items-center justify-center gap-2.5 border border-line bg-white px-7 text-[0.875rem] text-ink transition-colors hover:border-pistachio"
           >
             <Phone className="size-4 text-turquoise" strokeWidth={1.5} />
-            {CONTACT.phoneDisplay}
+            {contact.phoneDisplay}
           </a>
         </div>
 

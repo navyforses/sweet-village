@@ -5,7 +5,19 @@
   "buildCommand": "pnpm build:vercel",
   "outputDirectory": "dist/public",
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/admin(.*)",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow"
+      },
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }

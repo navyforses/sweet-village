@@ -1,0 +1,2 @@
+# Test files are never functions or build inputs on Vercel.
+**/*.test.ts

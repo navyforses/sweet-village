@@ -47,6 +47,7 @@ The following rules are business and UX constraints, not optional implementation
 | `/booking` | `client/src/pages/Booking.tsx` | Booking request form and WhatsApp fallback | `shared/booking.ts`, `server/booking.ts`, `api/booking.ts` |
 | `/404` | `client/src/pages/NotFound.tsx` | Not-found page | `client/src/components/Ornaments.tsx` |
 | `/migration` | `client/src/pages/BlobMigration.tsx` | **Temporary Vercel Blob migration utility. Do not expose as a customer feature.** | `api/migrate-assets.ts` |
+| `/admin`, `/admin/login`, `/admin/units`, `/admin/units/:unitId`, `/admin/home`, `/admin/contact` | `client/src/admin/AdminApp.tsx` | **Owner admin panel** (Georgian only, `noindex`, rendered without the public chrome). Edits prices, unit copy, galleries, homepage photos, contact and location. | `shared/content.ts`, `shared/contentSchema.ts`, `api/admin/[action].ts`, `api/content.ts` |
 
 ### Global layout and reusable UI
 
@@ -98,6 +99,8 @@ Do not duplicate business facts in components. The following files are the proje
 | Menu descriptions | `shared/menuDescriptions.ts` | Used for compact, card-oriented menu UX. |
 | Menu translations | `shared/menuTranslations.ts` | Preserve all six language entries when editing an item. |
 | Booking validation and message formatting | `shared/booking.ts` | Shared by the UI and Vercel booking API. Update tests if validation changes. |
+| **Owner-editable content (runtime)** | `shared/content.ts` (types, `DEFAULT_CONTENT`), `shared/contentSchema.ts` (zod), `shared/unitCopy.ts`, `shared/venuePhotos.ts` | The compiled constants above are **defaults**. Once the owner saves a section in `/admin`, the saved value (Neon `site_content` table) overrides the default on the public site. Prices, unit names/descriptions/captions, homepage photos, contact and coordinates are all owner-editable today; pool, events, page texts and the menu follow in later phases. |
+| Content delivery | `api/content.ts` → `client/src/content/ContentProvider.tsx` → `useVenue()` (`client/src/content/hooks.ts`) | Public site renders defaults on first paint, then overlays `GET /api/content` (edge-cached 60 s). Page texts patch the locale dictionary inside `I18nProvider` after `authenticCopy`. |
 | Legacy/Manus booking persistence | `server/booking.ts`, `server/db.ts`, `server/routers.ts` | Current managed-runtime flow. |
 | Vercel/Neon/Resend booking flow | `api/booking.ts`, `drizzle/neonSchema.ts`, `drizzle.neon.config.ts` | Prepared code; requires environment variables and a real Neon migration. |
 
@@ -129,6 +132,8 @@ Do not present the property as six cottages. The current, confirmed product mode
 | `api/migrate-assets.ts`, `client/src/pages/BlobMigration.tsx` | Temporary migration experiment; not a customer-facing feature and should be removed in a later cleanup task |
 
 > **Media safety rule.** Never hard-code a new image URL in a random page. Put it in the registry or the relevant shared data file first, then reference the canonical identifier.
+
+Owner uploads from the admin panel are downscaled in the browser (max 2400 px, WebP or JPEG) and stored under `sweet-village/uploads/<year>/` in the same Blob store through `POST /api/admin/upload` (`@vercel/blob/client`). Their absolute URLs pass through `assetUrl()` untouched.
 
 ## 7. Booking flow
 
@@ -193,6 +198,9 @@ Never put real values in Git, source code, screenshots, or chat. `VERCEL_ENVIRON
 | `BLOB_READ_WRITE_TOKEN` | Blob scripts and Vercel build migration | Connected in Vercel; do not reveal or commit it |
 | `VITE_SWEET_VILLAGE_ASSET_ORIGIN` | `client/src/lib/assetUrl.ts` | Blob public origin; production currently renders public Blob URLs successfully |
 | `VITE_GOOGLE_MAPS_API_KEY` | `client/src/lib/loadMaps.ts` | Browser-visible but referrer-restricted Google Maps key |
+| `ADMIN_PASSWORD_HASH` | `api/_lib/adminAuth.ts` | scrypt hash of the owner's admin password (`pnpm admin:hash-password`); required for `/admin` |
+| `ADMIN_SESSION_SECRET` | `api/_lib/adminAuth.ts` | HS256 secret for the admin session cookie (≥32 chars); rotating it logs everyone out |
+| `ANTHROPIC_API_KEY` | `api/_lib/admin/translate.ts` | Enables the "translate to all languages" button (Claude API); optional |
 
 ## 11. Deployment and migration state
 
@@ -206,6 +214,10 @@ Never put real values in Git, source code, screenshots, or chat. `VERCEL_ENVIRON
 | Neon + Resend | Architecture and code prepared | Create/configure services and run end-to-end booking QA before enabling production claims |
 | Custom domain | Purchased and connected | Canonical production URL is `https://www.sweet-village.com/` |
 
+## 11a. Local development of the Vercel runtime
+
+`pnpm dev` starts the legacy Manus Express server. For the Vercel functions and the admin panel run `pnpm dev:api` instead: `scripts/dev-api.ts` mounts `api/*.ts` on Express exactly as Vercel routes them and serves the Vite client on `http://localhost:3000`. Put `NEON_DATABASE_URL`, `ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET`, `ANTHROPIC_API_KEY` and `BLOB_READ_WRITE_TOKEN` in a git-ignored `.env.local`.
+
 ## 12. QA and tests
 
 Run the following before committing feature changes:
@@ -215,7 +227,7 @@ pnpm test
 pnpm check
 ```
 
-The current suite covers booking validation, booking API behavior, menu completeness, venue/inventory data, maps proxy behavior, authentic copy, asset URL resolution, Blob migration source integrity, and client-side map loading. The most recent local baseline is **61 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
+The current suite covers booking validation, booking API behavior (including owner-edited guest limits), menu completeness, venue/inventory data, the content model and its defaults, content resolution, admin authentication, the admin API dispatcher (login, content, upload, translate with mocked Neon and Anthropic clients), maps proxy behavior, authentic copy, asset URL resolution, upload naming, Blob migration source integrity, and client-side map loading. The most recent local baseline is **114 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
 
 Visual QA must cover desktop, mobile, and Arabic RTL for any touched public page. Text changes also require checking that each changed user-facing message exists in all six locale files or is intentionally language-specific.
 
@@ -239,7 +251,10 @@ The current public domain has been checked in a browser and through HTTP headers
 
 | Request | First file to inspect | Usually also affects |
 |---|---|---|
-| Change a cottage price/capacity/gallery | `shared/venue.ts` | locales, Stay/Accommodation detail tests |
+| Change a cottage price/capacity/gallery | **Use `/admin/units`** (owner). Code defaults: `shared/venue.ts`, `shared/unitCopy.ts` | `shared/content.test.ts`, `server/venue.test.ts` |
+| Change the homepage cover or section photos | **Use `/admin/home`** (owner). Code defaults: `shared/venuePhotos.ts` | `client/src/lib/assets.ts` |
+| Change phone/WhatsApp/email/socials/coordinates | **Use `/admin/contact`** (owner). Code defaults: `shared/venue.ts` `CONTACT`/`LOCATION` | `api/booking.ts` reads the same section |
+| Add an editable section to the admin | `shared/content.ts` + `shared/contentSchema.ts` | `client/src/content/resolve.ts`, `client/src/admin/pages/*`, tests |
 | Add or change a menu dish | `shared/menuData.ts` | descriptions, translations, photo registry, menu tests |
 | Change page text | `client/src/i18n/locales/ka.ts` | five other locale files and possibly `authenticCopy.ts` |
 | Change home priority/sections | `client/src/pages/Home.tsx` | i18n keys and responsive QA |

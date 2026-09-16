@@ -1,3 +1,5 @@
+import { deepMerge } from "@shared/deepMerge";
+
 type LocaleCode = "ka" | "en" | "ru" | "ar" | "fr" | "es";
 type LocalePatch = Record<string, unknown>;
 
@@ -124,18 +126,6 @@ export const AUTHENTIC_COPY: Record<LocaleCode, LocalePatch> = {
   },
 };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
-}
-
-function merge<T extends Record<string, unknown>>(base: T, patch: LocalePatch): T {
-  const next: Record<string, unknown> = { ...base };
-  for (const [key, value] of Object.entries(patch)) {
-    next[key] = isRecord(value) && isRecord(next[key]) ? merge(next[key], value) : value;
-  }
-  return next as T;
-}
-
 export function applyAuthenticCopy<T extends Record<string, unknown>>(locale: T, code: LocaleCode): T {
-  return merge(locale, AUTHENTIC_COPY[code]);
+  return deepMerge(locale, AUTHENTIC_COPY[code]);
 }

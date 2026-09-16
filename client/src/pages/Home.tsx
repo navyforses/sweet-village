@@ -2,19 +2,20 @@ import { Link } from "wouter";
 import { ArrowRight, Clock, MapPin, Phone } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import { Dot, SectionDivider } from "@/components/Ornaments";
-import { HOME_PHOTOS, HOME_GALLERY } from "@/lib/assets";
-import { ATTRACTIONS, CAPACITY, CONTACT, POOL, UNITS, VENUE_SPACE } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
+import { ATTRACTIONS, POOL, VENUE_SPACE } from "@shared/venue";
 import { MENU_ITEM_COUNT } from "@shared/menuData";
 import { isLocalSegment, useI18n } from "@/i18n";
 
 function Hero() {
   const { t } = useI18n();
+  const { home, contact } = useVenue();
 
   return (
     <section className="relative bg-background pb-10 md:pb-20">
       <div className="relative h-[52svh] min-h-[21rem] max-h-[31rem] w-full overflow-hidden md:h-[70vh] md:min-h-[27rem] md:max-h-none">
         <img
-          src={HOME_PHOTOS.hero}
+          src={home.hero}
           alt={t.brand.name}
           fetchPriority="high"
           decoding="async"
@@ -44,7 +45,7 @@ function Hero() {
               </p>
               <div className="mt-5 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
                 <a
-                  href={`tel:${CONTACT.phone}`}
+                  href={`tel:${contact.phone}`}
                   data-press
                   className="flex min-h-12 items-center justify-center gap-2 bg-turquoise px-4 text-center text-[0.8125rem] text-white transition-colors hover:bg-deep sm:px-7 sm:text-[0.875rem]">
                   <Phone className="size-4" strokeWidth={1.5} />
@@ -89,12 +90,13 @@ function Highlights() {
 /** Cube grid of the four business lines, ordered by audience segment. */
 function Services() {
   const { t, lang } = useI18n();
+  const { home, capacity } = useVenue();
 
   const cards = [
     {
       key: "events",
       href: "/events",
-      photo: HOME_PHOTOS.events,
+      photo: home.services.events,
       title: t.services.events.title,
       body: t.services.events.body,
       meta: `${VENUE_SPACE.coveredSeats} ${t.events.capacityLabel}`,
@@ -102,7 +104,7 @@ function Services() {
     {
       key: "pool",
       href: "/pool",
-      photo: HOME_PHOTOS.pool,
+      photo: home.services.pool,
       title: t.services.pool.title,
       body: t.services.pool.body,
       meta: `${POOL.adult} ${t.common.lari} · ${t.pool.adultLabel}`,
@@ -110,7 +112,7 @@ function Services() {
     {
       key: "restaurant",
       href: "/menu",
-      photo: HOME_PHOTOS.restaurant,
+      photo: home.services.restaurant,
       title: t.services.restaurant.title,
       body: t.services.restaurant.body,
       meta: t.restaurant.itemsCount,
@@ -118,10 +120,10 @@ function Services() {
     {
       key: "stay",
       href: "/stay",
-      photo: HOME_PHOTOS.stay,
+      photo: home.services.stay,
       title: t.services.stay.title,
       body: t.services.stay.body,
-      meta: `${CAPACITY.units} · ${CAPACITY.maxGuests} ${t.common.guests}`,
+      meta: `${capacity.units} · ${capacity.maxGuests} ${t.common.guests}`,
     },
   ];
 
@@ -165,7 +167,8 @@ function Services() {
 
 function StayTeaser() {
   const { t } = useI18n();
-  const cheapest = Math.min(...UNITS.map(u => u.nightlyPrice));
+  const { units, capacity, home } = useVenue();
+  const cheapest = Math.min(...units.map(u => u.nightlyPrice));
 
   return (
     <section className="container py-14 md:py-28">
@@ -175,15 +178,15 @@ function StayTeaser() {
           <dl className="mt-8 grid grid-cols-3 gap-3 border-y border-line py-6 sm:mt-10 sm:gap-6 sm:py-7">
             <div>
               <dt className="sv-eyebrow mb-2">{t.about.stats.units}</dt>
-              <dd className="font-serif text-[1.75rem] text-turquoise">{CAPACITY.units}</dd>
+              <dd className="font-serif text-[1.75rem] text-turquoise">{capacity.units}</dd>
             </div>
             <div>
               <dt className="sv-eyebrow mb-2">{t.common.beds}</dt>
-              <dd className="font-serif text-[1.75rem] text-turquoise">{CAPACITY.beds}</dd>
+              <dd className="font-serif text-[1.75rem] text-turquoise">{capacity.beds}</dd>
             </div>
             <div>
               <dt className="sv-eyebrow mb-2">{t.about.stats.guests}</dt>
-              <dd className="font-serif text-[1.75rem] text-turquoise">{CAPACITY.maxGuests}</dd>
+              <dd className="font-serif text-[1.75rem] text-turquoise">{capacity.maxGuests}</dd>
             </div>
           </dl>
           <p className="mt-7 text-[0.875rem] text-muted-foreground">
@@ -200,19 +203,19 @@ function StayTeaser() {
 
         <div className="order-1 grid grid-cols-2 gap-2.5 sm:gap-4 lg:order-2">
           <img
-            src={HOME_PHOTOS.cottageExterior}
+            src={home.stayTeaser.exterior}
             alt=""
             loading="lazy"
             className="col-span-2 aspect-[16/10] w-full object-cover"
           />
           <img
-            src={HOME_PHOTOS.cottageBedroom}
+            src={home.stayTeaser.bedroom}
             alt=""
             loading="lazy"
             className="aspect-square w-full object-cover"
           />
           <img
-            src={HOME_PHOTOS.cottageStudio}
+            src={home.stayTeaser.studio}
             alt=""
             loading="lazy"
             className="aspect-square w-full object-cover"
@@ -268,11 +271,12 @@ function LocationTeaser() {
 
 function Gallery() {
   const { t } = useI18n();
+  const { home } = useVenue();
   return (
     <section className="container py-14 md:py-28">
       <SectionHeading eyebrow={t.gallery.eyebrow} title={t.gallery.title} align="center" />
       <div className="mt-9 grid grid-cols-2 gap-2 md:mt-14 md:grid-cols-4 md:gap-3">
-        {HOME_GALLERY.map((src, i) => (
+        {home.gallery.map((src, i) => (
           <figure
             key={i}
             className={`overflow-hidden ${i % 5 === 0 ? "col-span-2 aspect-[16/10]" : "aspect-square"}`}>
@@ -291,6 +295,7 @@ function Gallery() {
 
 function BookingBand() {
   const { t } = useI18n();
+  const { contact } = useVenue();
   return (
     <section className="border-t border-line bg-pistachio/12">
       <div className="container py-12 text-center md:py-20">
@@ -307,12 +312,12 @@ function BookingBand() {
             {t.nav.book}
           </Link>
           <a
-            href={`tel:${CONTACT.phone}`}
+            href={`tel:${contact.phone}`}
             data-press
             dir="ltr"
             className="flex min-h-12 items-center gap-2.5 border border-ink/20 px-8 text-[0.875rem] text-ink transition-colors hover:border-ink/45">
             <Phone className="size-4 text-turquoise" strokeWidth={1.5} />
-            {CONTACT.phoneDisplay}
+            {contact.phoneDisplay}
           </a>
         </div>
       </div>

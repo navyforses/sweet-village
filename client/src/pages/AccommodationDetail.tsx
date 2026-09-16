@@ -3,17 +3,17 @@ import { Link, useRoute } from "wouter";
 import { ArrowLeft, ArrowUpRight, BedDouble, ChevronLeft, ChevronRight, Images, Layers, Users, X } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
-import { getAccommodationDetailCopy, getPoolViewHouseCaptions } from "@/lib/accommodationDetailCopy";
-import { CAPACITY, UNITS, type UnitId } from "@shared/venue";
+import { getAccommodationDetailCopy } from "@/lib/accommodationDetailCopy";
+import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
-import { assetUrl } from "@/lib/assetUrl";
 import NotFound from "./NotFound";
 
 export default function AccommodationDetail() {
   const [, params] = useRoute("/stay/:unitId");
   const { lang, t } = useI18n();
+  const { units, capacity } = useVenue();
   const copy = getAccommodationDetailCopy(lang);
-  const unit = UNITS.find(candidate => candidate.id === params?.unitId);
+  const unit = units.find(candidate => candidate.id === params?.unitId);
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
   const galleryLength = unit?.gallery.length ?? 0;
 
@@ -37,17 +37,11 @@ export default function AccommodationDetail() {
 
   if (!unit) return <NotFound />;
 
-  const info = t.stay.units[unit.id as UnitId];
-  const captions = unit.id === "grand"
-    ? getPoolViewHouseCaptions(lang)
-    : unit.id === "small-a" || unit.id === "small-b"
-    ? copy.gardenCottageCaptions
-    : unit.id === "large-a" || unit.id === "large-b"
-      ? copy.largeCottageCaptions
-      : copy.captions;
+  const captionFor = (index: number) => unit.gallery[index]?.caption || copy.gallery;
   const bookingHref = `/booking?interest=cottage&unit=${unit.id}&lang=${lang}`;
   const showPreviousPhoto = () => setActivePhoto(current => current === null ? 0 : (current - 1 + unit.gallery.length) % unit.gallery.length);
   const showNextPhoto = () => setActivePhoto(current => current === null ? 0 : (current + 1) % unit.gallery.length);
+  const active = activePhoto === null ? null : Math.min(activePhoto, unit.gallery.length - 1);
 
   return (
     <div className="pb-6">
@@ -56,7 +50,7 @@ export default function AccommodationDetail() {
           <ArrowLeft className="size-4 rtl:rotate-180" strokeWidth={1.5} />{copy.back}
         </Link>
         <div className="mt-5 grid gap-7 lg:mt-7 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:gap-10">
-          <SectionHeading eyebrow={copy.gallery} title={info.title} intro={info.body} />
+          <SectionHeading eyebrow={copy.gallery} title={unit.title} intro={unit.body} />
           <div className="border-t border-line pt-5 lg:border-t-0 lg:border-s lg:pt-0 lg:ps-8">
             <p className="sv-eyebrow">{copy.facts}</p>
             <dl className="mt-5 grid grid-cols-3 gap-3 text-ink">
@@ -71,9 +65,9 @@ export default function AccommodationDetail() {
       <section className="mt-8 md:container md:mt-12">
         <div className="sv-scrollbar-none grid snap-x snap-mandatory grid-flow-col auto-cols-[88%] gap-2 overflow-x-auto px-4 pb-2 md:h-[clamp(300px,34vw,420px)] md:snap-none md:grid-flow-row md:auto-cols-auto md:grid-cols-4 md:grid-rows-2 md:gap-2 md:overflow-visible md:px-0 md:pb-0">
           {unit.gallery.map((photo, index) => (
-            <button key={photo} type="button" onClick={() => setActivePhoto(index)} className={`group relative aspect-[4/3] snap-start overflow-hidden bg-pistachio/10 text-start md:aspect-auto md:h-full ${index === 0 ? "md:col-span-2 md:row-span-2" : unit.gallery.length <= 3 ? "md:col-span-2" : ""} ${index > 4 ? "md:hidden" : ""}`} aria-label={`${captions[index] ?? copy.gallery}: ${info.title}`}>
-              <img src={assetUrl(photo)} alt={`${info.title} — ${captions[index] ?? copy.gallery}`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
-              <span className="absolute inset-x-0 bottom-0 bg-ink/72 px-4 py-2.5 text-[0.75rem] text-white">{captions[index] ?? copy.gallery}</span>
+            <button key={`${photo.url}-${index}`} type="button" onClick={() => setActivePhoto(index)} className={`group relative aspect-[4/3] snap-start overflow-hidden bg-pistachio/10 text-start md:aspect-auto md:h-full ${index === 0 ? "md:col-span-2 md:row-span-2" : unit.gallery.length <= 3 ? "md:col-span-2" : ""} ${index > 4 ? "md:hidden" : ""}`} aria-label={`${captionFor(index)}: ${unit.title}`}>
+              <img src={photo.url} alt={`${unit.title} — ${captionFor(index)}`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
+              <span className="absolute inset-x-0 bottom-0 bg-ink/72 px-4 py-2.5 text-[0.75rem] text-white">{captionFor(index)}</span>
               {index === 4 && unit.gallery.length > 5 && (
                 <span className="absolute end-3 top-3 hidden items-center gap-1.5 bg-white/95 px-3 py-2 text-[0.75rem] text-ink shadow-sm md:inline-flex">
                   <Images className="size-4" strokeWidth={1.5} />{copy.showAll} ({unit.gallery.length})
@@ -97,19 +91,19 @@ export default function AccommodationDetail() {
             <Link href={bookingHref} data-press className="inline-flex min-h-12 items-center justify-center gap-2 bg-turquoise px-6 text-[0.875rem] text-white transition-colors hover:bg-deep">{copy.book}<ArrowUpRight className="size-4" strokeWidth={1.5} /></Link>
           </div>
         </div>
-        <p className="mt-6 text-[0.75rem] text-muted-foreground">{CAPACITY.units} {t.about.stats.units} · {CAPACITY.beds} {t.common.beds} · {CAPACITY.maxGuests} {t.common.guests}</p>
+        <p className="mt-6 text-[0.75rem] text-muted-foreground">{capacity.units} {t.about.stats.units} · {capacity.beds} {t.common.beds} · {capacity.maxGuests} {t.common.guests}</p>
         <ShareButton className="mt-14 justify-center" />
       </section>
 
-      {activePhoto !== null && (
+      {active !== null && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/92 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:p-4" role="dialog" aria-modal="true" aria-label={copy.gallery} onClick={() => setActivePhoto(null)}>
           <div className="relative flex max-h-full w-full max-w-6xl items-center justify-center" onClick={event => event.stopPropagation()}>
             <button type="button" onClick={() => setActivePhoto(null)} className="absolute end-3 top-3 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise" aria-label={copy.close}><X className="size-5" /></button>
             {unit.gallery.length > 1 && <button type="button" onClick={showPreviousPhoto} className="absolute start-2 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise sm:start-4" aria-label={copy.previousPhoto}><ChevronLeft className="size-6 rtl:rotate-180" /></button>}
             <figure className="flex max-h-[90vh] max-w-full flex-col items-center">
-              <img src={assetUrl(unit.gallery[activePhoto])} alt={`${info.title} — ${captions[activePhoto] ?? copy.gallery}`} className="max-h-[76svh] max-w-full object-contain sm:max-h-[82vh]" />
+              <img src={unit.gallery[active].url} alt={`${unit.title} — ${captionFor(active)}`} className="max-h-[76svh] max-w-full object-contain sm:max-h-[82vh]" />
               <figcaption className="mt-3 bg-ink/80 px-4 py-2 text-center text-[0.78rem] text-white">
-                {activePhoto + 1} / {unit.gallery.length} · {captions[activePhoto] ?? copy.gallery}
+                {active + 1} / {unit.gallery.length} · {captionFor(active)}
               </figcaption>
             </figure>
             {unit.gallery.length > 1 && <button type="button" onClick={showNextPhoto} className="absolute end-2 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise sm:end-4" aria-label={copy.nextPhoto}><ChevronRight className="size-6 rtl:rotate-180" /></button>}
