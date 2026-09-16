@@ -4,7 +4,6 @@ import SectionHeading from "@/components/SectionHeading";
 import { Dot, SectionDivider } from "@/components/Ornaments";
 import { useVenue } from "@/content/hooks";
 import { VENUE_SPACE } from "@shared/venue";
-import { MENU_ITEM_COUNT } from "@shared/menuData";
 import { isLocalSegment, useI18n } from "@/i18n";
 
 function Hero() {
@@ -349,7 +348,6 @@ export default function Home() {
       )}
       <Gallery />
       <BookingBand />
-      <span className="hidden">{MENU_ITEM_COUNT}</span>
     </>
   );
 }

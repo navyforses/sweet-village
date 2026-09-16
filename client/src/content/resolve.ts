@@ -11,6 +11,9 @@ import {
   type ContactSection,
   type EventContent,
   type Lang,
+  type MenuCategoryContent,
+  type MenuItemContent,
+  type MenuSection,
   type Photo,
   type PoolSection,
   type SiteContent,
@@ -20,6 +23,7 @@ import {
 } from "@shared/content";
 import { deepMerge, isRecord } from "@shared/deepMerge";
 import type { EventId, UnitId } from "@shared/venue";
+import { RAW_DISHES, RAW_PHOTOS } from "@shared/venuePhotos";
 import { assetUrl } from "@/lib/assetUrl";
 
 const isPhoto = (value: unknown): value is Photo => isRecord(value) && typeof value.url === "string" && value.url.length > 0;
@@ -106,6 +110,22 @@ export function sanitizeSparse(input: unknown): SparseContent {
   }
   const about = input.about;
   if (isRecord(about) && hasPhotos(about.photos, ["main", "detail1", "detail2"])) out.about = about;
+  const menu = input.menu;
+  if (
+    isRecord(menu) &&
+    Array.isArray(menu.categories) &&
+    menu.categories.length > 0 &&
+    menu.categories.every(
+      category =>
+        isRecord(category) &&
+        typeof category.id === "string" &&
+        isRecord(category.name) &&
+        Array.isArray(category.items) &&
+        category.items.every(item => isRecord(item) && typeof item.id === "number" && isRecord(item.name) && typeof item.price === "number"),
+    )
+  ) {
+    out.menu = menu;
+  }
   const texts = input.texts;
   if (isRecord(texts)) out.texts = texts;
   return out as SparseContent;
@@ -128,6 +148,7 @@ export function resolveContent(defaults: SiteContent, sparse: SparseContent): Si
     events: sparse.events ?? defaults.events,
     attractions: sparse.attractions ?? defaults.attractions,
     about: sparse.about ?? defaults.about,
+    menu: sparse.menu ?? defaults.menu,
     texts,
   };
   for (const key of SECTION_KEYS) {
@@ -179,6 +200,31 @@ export interface VenueAttraction {
 
 export type VenuePool = Omit<PoolSection, "photos"> & { photos: { main: string; side1: string; side2: string } };
 
+export interface VenueMenuItem {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  volume: string;
+  /** Browser URL of the dish photo, or the category's stock photo. */
+  photo: string;
+  /** Lower-cased names in every language, for the menu search box. */
+  searchText: string;
+}
+
+export interface VenueMenuCategory {
+  id: string;
+  name: string;
+  /** Visible dishes only; categories whose dishes are all hidden are dropped. */
+  items: VenueMenuItem[];
+}
+
+export interface VenueMenu {
+  categories: VenueMenuCategory[];
+  /** Number of visible dishes across every category. */
+  itemCount: number;
+}
+
 export interface Venue {
   lang: Lang;
   units: VenueUnit[];
@@ -195,6 +241,7 @@ export interface Venue {
   events: { hero: string; spacePhotos: string[]; events: VenueEvent[] };
   attractions: VenueAttraction[];
   about: { photos: { main: string; detail1: string; detail2: string } };
+  menu: VenueMenu;
 }
 
 const resolvePhoto = (photo: Photo, lang: Lang): VenuePhoto => ({ url: assetUrl(photo.url), caption: pickLang(photo.caption, lang) });
@@ -238,6 +285,31 @@ function resolvePool(pool: PoolSection): VenuePool {
   return { ...pool, photos: { main: assetUrl(pool.photos.main.url), side1: assetUrl(pool.photos.side1.url), side2: assetUrl(pool.photos.side2.url) } };
 }
 
+function resolveMenuItem(item: MenuItemContent, categoryId: string, lang: Lang): VenueMenuItem {
+  return {
+    id: item.id,
+    name: pickLang(item.name, lang),
+    description: pickLang(item.description, lang),
+    price: item.price,
+    volume: item.volume,
+    photo: assetUrl(item.photo?.url || RAW_DISHES[categoryId] || RAW_PHOTOS.restaurant),
+    searchText: Object.values(item.name).join(" ").toLowerCase(),
+  };
+}
+
+function resolveMenuCategory(category: MenuCategoryContent, lang: Lang): VenueMenuCategory {
+  return {
+    id: category.id,
+    name: pickLang(category.name, lang),
+    items: category.items.filter(item => !item.hidden).map(item => resolveMenuItem(item, category.id, lang)),
+  };
+}
+
+function resolveMenu(menu: MenuSection, lang: Lang): VenueMenu {
+  const categories = menu.categories.map(category => resolveMenuCategory(category, lang)).filter(category => category.items.length > 0);
+  return { categories, itemCount: categories.reduce((count, category) => count + category.items.length, 0) };
+}
+
 function resolveAbout(about: AboutSection) {
   return { photos: { main: assetUrl(about.photos.main.url), detail1: assetUrl(about.photos.detail1.url), detail2: assetUrl(about.photos.detail2.url) } };
 }
@@ -275,5 +347,6 @@ export function resolveVenue(content: SiteContent, lang: Lang): Venue {
     },
     attractions: content.attractions.attractions.map(item => resolveAttraction(item, lang)),
     about: resolveAbout(content.about),
+    menu: resolveMenu(content.menu, lang),
   };
 }

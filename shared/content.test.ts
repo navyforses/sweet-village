@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { capacityOf, DEFAULT_CONTENT, isSectionKey, pickLang, SECTION_KEYS } from "./content";
+import { capacityOf, DEFAULT_CONTENT, isSectionKey, nextMenuItemId, pickLang, SECTION_KEYS, visibleMenuItemCount } from "./content";
 import { isAllowedImageRef, parseSection, SECTION_SCHEMAS, sectionIssues, unitSchema } from "./contentSchema";
 import { ATTRACTIONS, CAPACITY, CONTACT, EVENT_TYPES, LOCATION, POOL, UNITS } from "./venue";
-import { HOME_GALLERY_REFS, HOME_PHOTO_REFS } from "./venuePhotos";
+import { MENU, MENU_ITEM_COUNT } from "./menuData";
+import { EN_RU_DESCRIPTIONS } from "./menuDescriptions";
+import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS } from "./menuTranslations";
+import { HOME_GALLERY_REFS, HOME_PHOTO_REFS, RAW_MENU_ITEM_PHOTOS } from "./venuePhotos";
 
 describe("default content", () => {
   it("validates against every section schema", () => {
@@ -86,6 +89,55 @@ describe("phase 2 defaults", () => {
   });
 });
 
+describe("phase 3 defaults", () => {
+  it("folds the printed menu, translations, descriptions and photos into one object per dish", () => {
+    const { menu } = DEFAULT_CONTENT;
+    expect(menu.categories.map(category => category.id)).toEqual(MENU.map(category => category.id));
+    expect(visibleMenuItemCount(menu)).toBe(MENU_ITEM_COUNT);
+    expect(nextMenuItemId(menu)).toBe(69);
+    for (const [index, category] of menu.categories.entries()) {
+      const source = MENU[index];
+      expect(category.name).toEqual({ ka: source.ka, en: source.en, ru: source.ru, ...CATEGORY_TRANSLATIONS[source.id] });
+      expect(category.items.map(item => item.id)).toEqual(source.items.map(item => item.id));
+      for (const [itemIndex, item] of category.items.entries()) {
+        const printed = source.items[itemIndex];
+        expect(item.name.ka).toBe(printed.ka);
+        expect(item.name.en).toBe(printed.en);
+        expect(item.name.ru).toBe(printed.ru);
+        expect(item.name.ar).toBe(ITEM_TRANSLATIONS[printed.id].ar.name);
+        expect(item.name.fr).toBe(ITEM_TRANSLATIONS[printed.id].fr.name);
+        expect(item.description.ka).toBe(printed.descKa ?? "");
+        expect(item.description.en).toBe(EN_RU_DESCRIPTIONS[printed.id].en);
+        expect(item.description.es).toBe(ITEM_TRANSLATIONS[printed.id].es.desc);
+        expect(item.price).toBe(printed.price);
+        expect(item.volume).toBe(printed.volume ?? "");
+        expect(item.photo?.url).toBe(RAW_MENU_ITEM_PHOTOS[printed.id]);
+        expect(item.hidden).toBe(false);
+      }
+    }
+    const water = menu.categories.find(category => category.id === "soft")?.items.find(item => item.id === 65);
+    expect(water?.volume).toBe("1.0 L");
+  });
+
+  it("rejects impossible menu facts", () => {
+    const { menu } = DEFAULT_CONTENT;
+    const [first, second, ...rest] = menu.categories;
+    const dish = first.items[0];
+    expect(sectionIssues("menu", { categories: [{ ...first, items: [{ ...dish, price: -1 }, ...first.items.slice(1)] }, second, ...rest] })).not.toBeNull();
+    expect(sectionIssues("menu", { categories: [{ ...first, items: [{ ...dish, price: 7.125 }, ...first.items.slice(1)] }, second, ...rest] })).not.toBeNull();
+    expect(sectionIssues("menu", { categories: [{ ...first, items: [{ ...dish, price: 7.5 }, ...first.items.slice(1)] }, second, ...rest] })).toBeNull();
+    expect(sectionIssues("menu", { categories: [{ ...first, items: [{ ...dish, name: { ...dish.name, ka: "" } }, ...first.items.slice(1)] }, second, ...rest] })).not.toBeNull();
+    expect(sectionIssues("menu", { categories: [first, { ...second, items: [dish, ...second.items] }, ...rest] })).not.toBeNull();
+    expect(sectionIssues("menu", { categories: [first, first, ...rest] })).not.toBeNull();
+    expect(sectionIssues("menu", { categories: [{ ...first, id: "Cold Dishes" }, second, ...rest] })).not.toBeNull();
+    expect(sectionIssues("menu", { categories: [] })).not.toBeNull();
+    expect(sectionIssues("menu", { categories: [{ ...first, items: [{ ...dish, photo: { url: "https://evil.example/x.jpg" } }] }] })).not.toBeNull();
+    const withoutPhoto = { ...dish, description: { ka: "", en: "", ru: "", ar: "", fr: "", es: "" }, hidden: true };
+    delete (withoutPhoto as { photo?: unknown }).photo;
+    expect(sectionIssues("menu", { categories: [{ ...first, items: [withoutPhoto] }] })).toBeNull();
+  });
+});
+
 describe("pickLang", () => {
   it("falls back from the requested language to English and then Georgian", () => {
     const text = { ka: "ქართული", en: "", ru: "", ar: "", fr: "", es: "" };
@@ -98,7 +150,8 @@ describe("pickLang", () => {
 
   it("recognises section keys", () => {
     expect(isSectionKey("units")).toBe(true);
-    expect(isSectionKey("menu")).toBe(false);
+    expect(isSectionKey("menu")).toBe(true);
+    expect(isSectionKey("bookings")).toBe(false);
     expect(isSectionKey(42)).toBe(false);
   });
 });
