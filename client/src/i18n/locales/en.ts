@@ -95,28 +95,6 @@ const en = {
     title: "Cottages and rooms",
     intro:
       "Five independent units in one garden. All interiors feature pine wood, warm lighting, and botanical curtains. The owner-confirmed total capacity is 18 guests.",
-    units: {
-      "small-a": {
-        title: "Garden Cottage 1",
-        body: "A private wooden cottage in the green garden, with a bright studio interior, double bed, sofa, compact kitchenette, and its own covered porch. This cottage is for a maximum of two guests.",
-      },
-      "small-b": {
-        title: "Garden Cottage 2",
-        body: "Identical to the first cottage — often booked together by two couples or a group of friends who need separate entrances.",
-      },
-      "large-a": {
-        title: "Family Duplex A",
-        body: "A two-story room in the large cottage with a separate entrance. Two beds on the ground floor and two in the attic — comfortably sleeps four guests.",
-      },
-      "large-b": {
-        title: "Family Duplex B",
-        body: "The other half of the large cottage, also two-story and independent. Booking both rooms together accommodates eight guests in one house.",
-      },
-      grand: {
-        title: "Pool View House",
-        body: "A two-level wooden suite with a white balcony directly overlooking the pool. The lower floor has a double bed, compact kitchen and lounge; the loft has three single beds, with space for 6 guests using the sofa bed.",
-      },
-    },
     facilities: {
       title: "What's included",
       items: [

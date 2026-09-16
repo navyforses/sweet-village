@@ -1,5 +1,7 @@
-export const LANGS = ["ka", "en", "ru", "ar", "fr", "es"] as const;
-export type Lang = (typeof LANGS)[number];
+import { LANGS, type Lang } from "@shared/langs";
+
+export { LANGS };
+export type { Lang };
 
 /** Language names written in their own script — never flags. */
 export const LANG_NAMES: Record<Lang, string> = {

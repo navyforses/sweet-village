@@ -3,7 +3,8 @@ import { Check, Loader2, Phone, Send } from "lucide-react";
 import { toast } from "sonner";
 import SectionHeading from "@/components/SectionHeading";
 import { SectionDivider } from "@/components/Ornaments";
-import { CONTACT, UNITS, type UnitId } from "@shared/venue";
+import type { UnitId } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 
 type Interest = "cottage" | "event" | "pool" | "restaurant" | "whole";
@@ -15,6 +16,7 @@ const FIELD =
 
 export default function Booking() {
   const { t, lang } = useI18n();
+  const { units, contact } = useVenue();
   const [done, setDone] = useState(false);
 
   const [form, setForm] = useState({
@@ -29,7 +31,7 @@ export default function Booking() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const selectedUnit = UNITS.find(candidate => candidate.id === form.unit);
+  const selectedUnit = units.find(candidate => candidate.id === form.unit);
 
   // Accommodation cards link here with a preselected unit or whole-complex enquiry.
   useEffect(() => {
@@ -41,7 +43,7 @@ export default function Booking() {
     setForm(current => ({
       ...current,
       interest,
-      unit: interest === "cottage" && UNITS.some(candidate => candidate.id === unit) ? (unit as UnitId) : "",
+      unit: interest === "cottage" && units.some(candidate => candidate.id === unit) ? (unit as UnitId) : "",
       guests: guests && /^\d+$/.test(guests) ? guests : current.guests,
     }));
   }, []);
@@ -114,7 +116,7 @@ export default function Booking() {
       `${t.booking.unit}: ${t.booking.interestOptions[p.interest]}`,
     ];
     if (p.unit) {
-      lines.push(`${t.stay.eyebrow}: ${t.stay.units[p.unit].title}`);
+      lines.push(`${t.stay.eyebrow}: ${units.find(candidate => candidate.id === p.unit)?.title ?? p.unit}`);
     }
     if (p.checkIn || p.checkOut) {
       lines.push(`${t.booking.checkIn} → ${t.booking.checkOut}: ${p.checkIn || "—"} → ${p.checkOut || "—"}`);
@@ -122,7 +124,7 @@ export default function Booking() {
     if (p.guests) lines.push(`${t.booking.guests}: ${p.guests}`);
     if (p.notes) lines.push(`${t.booking.notes}: ${p.notes}`);
     window.open(
-      `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`,
+      `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`,
       "_blank",
       "noopener",
     );
@@ -149,12 +151,12 @@ export default function Booking() {
             </button>
           )}
           <a
-            href={`tel:${CONTACT.phone}`}
+            href={`tel:${contact.phone}`}
             dir="ltr"
             data-press
             className="mt-4 flex min-h-12 items-center justify-center gap-2.5 border border-line bg-white px-7 text-[0.875rem] text-ink transition-colors hover:border-pistachio">
             <Phone className="size-4 text-turquoise" strokeWidth={1.5} />
-            {CONTACT.phoneDisplay}
+            {contact.phoneDisplay}
           </a>
         </div>
       </div>
@@ -239,7 +241,7 @@ export default function Booking() {
                 id="unit"
                 value={form.unit}
                 onChange={e => {
-                  const nextUnit = UNITS.find(candidate => candidate.id === e.target.value);
+                  const nextUnit = units.find(candidate => candidate.id === e.target.value);
                   setForm(current => ({
                     ...current,
                     unit: e.target.value as "" | UnitId,
@@ -249,9 +251,9 @@ export default function Booking() {
                 }}
                 className={FIELD}>
                 <option value="">{t.booking.anyUnit}</option>
-                {UNITS.map(u => (
+                {units.map(u => (
                   <option key={u.id} value={u.id}>
-                    {t.stay.units[u.id as UnitId].title} — {t.common.upTo} {u.maxGuests}{" "}
+                    {u.title} — {t.common.upTo} {u.maxGuests}{" "}
                     {t.common.guests} — {u.nightlyPrice} {t.common.lari} / {t.common.perNight}
                   </option>
                 ))}
@@ -353,12 +355,12 @@ export default function Booking() {
         <SectionDivider motif="vine" className="mt-10 md:mt-14" />
 
         <a
-          href={`tel:${CONTACT.phone}`}
+          href={`tel:${contact.phone}`}
           dir="ltr"
           data-press
           className="mt-8 flex min-h-12 items-center justify-center gap-2.5 text-[0.9375rem] text-ink">
           <Phone className="size-4 text-turquoise" strokeWidth={1.5} />
-          {CONTACT.phoneDisplay}
+          {contact.phoneDisplay}
         </a>
       </div>
     </div>

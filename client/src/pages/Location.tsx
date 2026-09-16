@@ -3,17 +3,19 @@ import { Clock, MapPin, Navigation, Route } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
 import { loadGoogleMaps } from "@/lib/loadMaps";
-import { ATTRACTIONS, LOCATION } from "@shared/venue";
+import { ATTRACTIONS } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 
 export default function Location() {
   const { t } = useI18n();
+  const { location } = useVenue();
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   /** idle → loading → ready | failed. Drives the placeholder vs fallback. */
   const [mapState, setMapState] = useState<"loading" | "ready" | "failed">("loading");
 
-  const center = useMemo(() => ({ lat: LOCATION.lat, lng: LOCATION.lng }), []);
+  const center = useMemo(() => ({ lat: location.lat, lng: location.lng }), [location.lat, location.lng]);
 
   /** Property pin plus one pin per attraction, labelled with drive time. */
   const drawMarkers = useCallback(
@@ -134,7 +136,7 @@ export default function Location() {
           <h2 className="sv-eyebrow mb-3">{t.location.addressTitle}</h2>
           <p className="flex items-start gap-2.5 text-[0.9375rem] text-ink">
             <MapPin className="mt-1 size-4 shrink-0 text-turquoise" strokeWidth={1.5} />
-            {t.location.addressValue}
+            {location.address}
           </p>
           <a
             href={directionsUrl}

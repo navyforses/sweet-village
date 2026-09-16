@@ -172,6 +172,19 @@
 - [x] Vercel Blob-ზე ატვირთული ფოტო-აქტივების ქსელური/ვიზუალური შემოწმება მთავარ, მენიუსა და განთავსების გვერდებზე
 - [x] README.md-ის განახლება დასრულებული Vercel დომენისა და Blob media სტატუსით
 
+## მფლობელის ადმინპანელი (CMS)
+
+- [x] ფაზა 1: Neon `site_content`/`site_content_revisions`/`admin_login_attempts` სქემა და მიგრაცია (`drizzle/neon/0000_admin_content.sql`)
+- [x] ფაზა 1: `shared/content.ts` + `shared/contentSchema.ts` — units/home/contact/location/texts სექციები, `DEFAULT_CONTENT` კოდის კონსტანტებიდან
+- [x] ფაზა 1: `GET /api/content` და `api/admin/[action]` (login/logout/me/content/upload/translate), scrypt პაროლი + jose JWT cookie, CSRF header
+- [x] ფაზა 1: `ContentProvider`/`useVenue()` — public გვერდები ბაზის override-ს კითხულობენ, default-ები უცვლელი
+- [x] ფაზა 1: `/admin` — შესვლა, დაფა, კოტეჯები (ფასი/ტექსტი ×6/გალერეა), მთავარის ფოტოები, კონტაქტი და ლოკაცია; ავტო-თარგმანი Claude API-ით
+- [x] ფაზა 1: `api/booking.ts` ლიმიტები და WhatsApp ნომერი ბაზიდან (static fallback)
+- [ ] ფაზა 2: აუზი, ღონისძიებები, ღირსშესანიშნაობები, გვერდების ფოტოები და ტექსტები (`/admin/texts`)
+- [ ] ფაზა 3: მენიუ (68 კერძი) ადმინიდან
+- [ ] ფაზა 4: ვერსიების ისტორია/აღდგენა, დაჯავშნის მოთხოვნების სია
+- [ ] ოპერაცია: Neon პროექტი + `NEON_DATABASE_URL`, `pnpm db:neon:migrate`, `ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET`, `ANTHROPIC_API_KEY` Vercel-ში
+
 ## AI-readable პროექტის დოკუმენტაცია
 
 - [x] README.md-ის შექმნა: სრული არქიტექტურა, გვერდები, 6-ენოვანი სისტემა, მონაცემთა წყაროები, ფუნქციები, ტესტები, ინფრასტრუქტურა და მიმდინარე სტატუსი

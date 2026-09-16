@@ -1,9 +1,10 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { ContentProvider } from "./content/ContentProvider";
 import { I18nProvider } from "./i18n";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -19,6 +20,7 @@ const About = lazy(() => import("./pages/About"));
 const Booking = lazy(() => import("./pages/Booking"));
 const BlobMigration = lazy(() => import("./pages/BlobMigration"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const AdminApp = lazy(() => import("./admin/AdminApp"));
 
 function PageFallback() {
   return (
@@ -53,20 +55,46 @@ function Router() {
   );
 }
 
+/** The public site: owner content + six languages + shared chrome. */
+function PublicSite() {
+  return (
+    <ContentProvider>
+      <I18nProvider>
+        <TooltipProvider>
+          <Toaster position="top-center" />
+          <Layout>
+            <Suspense fallback={<PageFallback />}>
+              <Router />
+            </Suspense>
+          </Layout>
+        </TooltipProvider>
+      </I18nProvider>
+    </ContentProvider>
+  );
+}
+
+/**
+ * `/admin` is the owner's panel: Georgian-only, no public header/footer, no
+ * public content provider (it edits the content, it does not render it).
+ */
+function Shell() {
+  const [location] = useLocation();
+  const isAdmin = location === "/admin" || location.startsWith("/admin/");
+  if (isAdmin) {
+    return (
+      <Suspense fallback={<PageFallback />}>
+        <AdminApp />
+      </Suspense>
+    );
+  }
+  return <PublicSite />;
+}
+
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
-        <I18nProvider>
-          <TooltipProvider>
-            <Toaster position="top-center" />
-            <Layout>
-              <Suspense fallback={<PageFallback />}>
-                <Router />
-              </Suspense>
-            </Layout>
-          </TooltipProvider>
-        </I18nProvider>
+        <Shell />
       </ThemeProvider>
     </ErrorBoundary>
   );

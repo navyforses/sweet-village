@@ -1,5 +1,5 @@
 import { Phone } from "lucide-react";
-import { CONTACT } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 
 function WhatsAppIcon({ className = "" }: { className?: string }) {
@@ -16,9 +16,10 @@ function WhatsAppIcon({ className = "" }: { className?: string }) {
  */
 export default function FloatingContact() {
   const { t } = useI18n();
+  const { contact } = useVenue();
 
-  const waHref = `https://wa.me/${CONTACT.whatsapp}`;
-  const telHref = `tel:${CONTACT.phone}`;
+  const waHref = `https://wa.me/${contact.whatsapp}`;
+  const telHref = `tel:${contact.phone}`;
 
   return (
     <>
@@ -58,7 +59,7 @@ export default function FloatingContact() {
           href={telHref}
           data-press
           aria-label={t.common.call}
-          title={CONTACT.phoneDisplay}
+          title={contact.phoneDisplay}
           className="flex size-12 items-center justify-center border border-line bg-turquoise text-white transition-colors hover:bg-deep">
           <Phone className="size-5" strokeWidth={1.5} />
         </a>
@@ -66,4 +67,3 @@ export default function FloatingContact() {
     </>
   );
 }
-
