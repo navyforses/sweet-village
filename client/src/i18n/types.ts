@@ -13,11 +13,7 @@ export const LANG_NAMES: Record<Lang, string> = {
   es: "Español",
 };
 
-export const RTL_LANGS: Lang[] = ["ar"];
-
-export function isRtl(lang: Lang) {
-  return RTL_LANGS.includes(lang);
-}
+export { RTL_LANGS, isRtl } from "@shared/langsRtl";
 
 /**
  * Georgian visitors are mostly locals booking events, the pool and dining.

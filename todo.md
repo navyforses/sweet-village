@@ -187,7 +187,7 @@
 - [x] SEO-1: ენა URL-ის პრეფიქსში (`/en/stay`, ქართული root-ზე; `client/src/i18n/paths.ts`, wouter `Router base`), `?lang=` ბმულების ავტო-განახლება, `/ka/…` redirect
 - [x] SEO-1: `client/src/seo/` — თითო გვერდზე title/description/canonical/hreflang ×7/Open Graph/Twitter, JSON-LD (WebSite, LodgingBusiness, Restaurant+Menu, Accommodation, EventVenue, BreadcrumbList), 6-ენოვანი `meta.pages` ლოკალებში (ადმინიდან რედაქტირებადი)
 - [x] SEO-1: favicon/apple-touch-icon/manifest/OG სურათი, არაბლოკირებადი ფონტები, ერთი `<h1>` ყველა გვერდზე, Manus-ის ნარჩენების ამოღება public bundle-იდან (215 → 202 KB gz)
-- [ ] SEO-2: build-time პრერენდერი (სტატიკური HTML ყველა გვერდზე × 6 ენა), sitemap.xml, deploy hook ადმინიდან
+- [x] SEO-2: build-time პრერენდერი (`client/src/entry-server.tsx` + `scripts/prerender.ts`, React 19 `prerender`, 120 გვერდი × 6 ენა, `404.html`, `sitemap.xml` hreflang-ით), ბაზის კონტენტი build-ზე + `sv-content` embed hydration-ისთვის, `POST /api/admin/publish` deploy hook 90 წმ debounce-ით, ღამის `/api/cron-publish`
 - [ ] SEO-3: გზამკვლევის გვერდები (`guides` სექცია, ადმინი, 6 საწყისი სტატია), FAQ ბლოკები
 - [ ] SEO-4: სურათების srcset/Vercel Image Optimization, Lighthouse გაზომვა
 - [x] ფაზა 4: `/admin/history(/:section)` — ვერსიების სია, leaf-diff წინა ვერსიასთან და მიმდინარესთან ქართული ლეიბლებით, დადასტურებით დაბრუნება; `/admin/bookings` — read-only სია ზარის/WhatsApp ბმულებით

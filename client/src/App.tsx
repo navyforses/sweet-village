@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
 import { Route, Router, Switch, useLocation } from "wouter";
+import type { SparseContent } from "@shared/content";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ContentProvider } from "./content/ContentProvider";
@@ -69,9 +70,9 @@ function LocalizedRouter() {
 }
 
 /** The public site: owner content + six languages + shared chrome. */
-function PublicSite() {
+function PublicSite({ initialContent }: { initialContent?: SparseContent | null }) {
   return (
-    <ContentProvider>
+    <ContentProvider initial={initialContent}>
       <I18nProvider>
         <TooltipProvider>
           <Toaster position="top-center" />
@@ -86,7 +87,7 @@ function PublicSite() {
  * `/admin` is the owner's panel: Georgian-only, no public header/footer, no
  * public content provider (it edits the content, it does not render it).
  */
-function Shell() {
+function Shell({ initialContent }: { initialContent?: SparseContent | null }) {
   const [location] = useLocation();
   const isAdmin = location === "/admin" || location.startsWith("/admin/");
   if (isAdmin) {
@@ -96,14 +97,15 @@ function Shell() {
       </Suspense>
     );
   }
-  return <PublicSite />;
+  return <PublicSite initialContent={initialContent} />;
 }
 
-function App() {
+/** `initialContent` is only passed by the prerender entry; in the browser the provider reads the embedded JSON itself. */
+function App({ initialContent }: { initialContent?: SparseContent | null }) {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
-        <Shell />
+        <Shell initialContent={initialContent} />
       </ThemeProvider>
     </ErrorBoundary>
   );

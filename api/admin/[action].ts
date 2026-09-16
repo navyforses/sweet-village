@@ -8,6 +8,7 @@ import { translate } from "../_lib/admin/translate.js";
 import { revisions } from "../_lib/admin/revisions.js";
 import { restore } from "../_lib/admin/restore.js";
 import { bookings } from "../_lib/admin/bookings.js";
+import { publish } from "../_lib/admin/publish.js";
 
 /**
  * Single admin function. Vercel maps `/api/admin/<action>` to `req.query.action`;
@@ -26,6 +27,7 @@ const ACTIONS: Record<string, (req: ApiRequest, res: ApiResponse) => Promise<voi
   revisions,
   restore,
   bookings,
+  publish,
 };
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {

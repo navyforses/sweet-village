@@ -33,5 +33,6 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
     }
   ],
-  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
+  "rewrites": [{ "source": "/admin/:path*", "destination": "/admin/index.html" }],
+  "crons": [{ "path": "/api/cron-publish", "schedule": "0 3 * * *" }]
 }

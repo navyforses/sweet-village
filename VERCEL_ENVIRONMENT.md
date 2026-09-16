@@ -12,6 +12,8 @@ Vercel პროექტში დაამატეთ ეს მნიშვ�
 | `VITE_GOOGLE_MAPS_API_KEY` | Browser key მხოლოდ Maps JavaScript API-სთვის. | Google Cloud Console |
 | `ADMIN_PASSWORD_HASH` | მფლობელის ადმინპანელის (`/admin`) პაროლის scrypt ჰეში. თავად პაროლი არსად ინახება. | `pnpm admin:hash-password` (პაროლს ტერმინალში ფარულად ითხოვს) |
 | `ADMIN_SESSION_SECRET` | ადმინის სესიის (JWT cookie) ხელმოწერის საიდუმლო, მინიმუმ 32 სიმბოლო. შეცვლა ყველა აქტიურ სესიას აუქმებს. | `openssl rand -base64 48` |
+| `VERCEL_DEPLOY_HOOK_URL` | Deploy Hook-ის URL: ადმინში შენახვის შემდეგ საიტი ხელახლა იწყობა, რომ Google-ისთვის სტატიკური გვერდები (title, აღწერა, ტექსტი, sitemap) მფლობელის ბოლო ცვლილებებს ასახავდეს. მის გარეშე სტატიკური ვერსია მხოლოდ შემდეგ deploy-ზე განახლდება. | Vercel → Project → Settings → Git → Deploy Hooks → Create Hook (ბრენჩი `main`) |
+| `CRON_SECRET` | ღამის 03:00 UTC cron (`/api/cron-publish`) ამ საიდუმლოთი ავთენტიფიცირდება და, თუ შენახული კონტენტი ბოლო build-ზე ახალია, deploy hook-ს იძახებს. | `openssl rand -base64 32` (Vercel ავტომატურადაც ქმნის cron-ის ჩართვისას) |
 | `ANTHROPIC_API_KEY` | ადმინპანელის „თარგმნე ყველა ენაზე“ ღილაკი — Claude API-ით ავტომატური თარგმანი 5 ენაზე. | console.anthropic.com → API Keys (დააყენეთ თვიური ხარჯის ლიმიტი) |
 
 ## ადმინპანელი

@@ -10,7 +10,7 @@ import ar from "./locales/ar";
 import fr from "./locales/fr";
 import es from "./locales/es";
 import { LANGS, type Lang, isRtl } from "./types";
-import { localePath, stripLocale, upgradeLegacyLangUrl } from "./paths";
+import { localePath, stripLocale } from "./paths";
 
 /**
  * Locale modules are translated from ka.ts, so they share its shape. They are
@@ -47,12 +47,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const patch = texts?.[lang];
     return patch && Object.keys(patch).length > 0 ? deepMerge(DICTS[lang], patch) : DICTS[lang];
   }, [lang, texts]);
-
-  // Legacy `?lang=xx` links (old QR codes, shares) move to the prefixed URL once.
-  useEffect(() => {
-    const upgraded = upgradeLegacyLangUrl(location, search);
-    if (upgraded) navigate(upgraded, { replace: true });
-  }, [location, search, navigate]);
 
   useEffect(() => {
     const html = document.documentElement;

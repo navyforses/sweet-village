@@ -5,6 +5,7 @@
     "shared/**/*",
     "server/**/*",
     "scripts/dev-api.ts",
+    "scripts/prerender.ts",
     "scripts/hash-admin-password.ts"
   ],
   "exclude": [

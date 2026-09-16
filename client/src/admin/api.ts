@@ -83,6 +83,24 @@ export function useLogout() {
   });
 }
 
+/**
+ * Asks the server to rebuild the static pages. Fire-and-forget: a failure
+ * only delays when search engines see the change (the nightly cron catches
+ * up), so it never blocks or fails the save itself. A debounced request is
+ * retried once after the debounce window.
+ */
+export function requestPublish(retry = true): void {
+  adminFetch<{ triggered: boolean; retryAfterSeconds?: number }>("/api/admin/publish", { method: "POST" })
+    .then(result => {
+      if (!result.triggered && retry && result.retryAfterSeconds) {
+        window.setTimeout(() => requestPublish(false), (result.retryAfterSeconds + 5) * 1000);
+      }
+    })
+    .catch(() => {
+      /* not configured or transient — the nightly rebuild covers it */
+    });
+}
+
 export interface SectionResponse<K extends SectionKey = SectionKey> {
   key: K;
   value: SiteContent[K];
@@ -120,6 +138,7 @@ export function useSaveSection<K extends SectionKey>(key: K) {
     onSuccess: (data, input) => {
       client.setQueryData<SectionResponse<K>>(sectionQueryKey(key), { key, value: input.value, updatedAt: data.updatedAt, stored: true });
       client.invalidateQueries({ queryKey: ["site-content"] });
+      requestPublish();
     },
   });
 }
@@ -172,6 +191,7 @@ export function useRestore(key: SectionKey) {
       client.invalidateQueries({ queryKey: sectionQueryKey(key) });
       client.invalidateQueries({ queryKey: revisionsQueryKey(key) });
       client.invalidateQueries({ queryKey: ["site-content"] });
+      requestPublish();
     },
   });
 }
