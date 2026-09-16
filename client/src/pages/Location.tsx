@@ -3,13 +3,12 @@ import { Clock, MapPin, Navigation, Route } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
 import { loadGoogleMaps } from "@/lib/loadMaps";
-import { ATTRACTIONS } from "@shared/venue";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 
 export default function Location() {
   const { t } = useI18n();
-  const { location } = useVenue();
+  const { location, attractions } = useVenue();
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   /** idle → loading → ready | failed. Drives the placeholder vs fallback. */
@@ -39,8 +38,8 @@ export default function Location() {
       const bounds = new g.maps.LatLngBounds();
       bounds.extend(center);
 
-      for (const a of ATTRACTIONS) {
-        const info = t.location.attractions[a.id as keyof typeof t.location.attractions];
+      for (const a of attractions) {
+        const info = a;
         const el = document.createElement("div");
         el.style.cssText =
           "background:#fff;color:#2C3531;padding:5px 10px;font:400 11px/1.2 sans-serif;border:1px solid #93A889;white-space:nowrap";
@@ -64,7 +63,7 @@ export default function Location() {
 
       map.fitBounds(bounds, 56);
     },
-    [center, t],
+    [center, t, attractions],
   );
 
   useEffect(() => {
@@ -173,8 +172,8 @@ export default function Location() {
           </tr>
         </thead>
         <tbody className="divide-y divide-line">
-          {ATTRACTIONS.map(a => {
-            const info = t.location.attractions[a.id as keyof typeof t.location.attractions];
+          {attractions.map(a => {
+            const info = a;
             return (
               <tr key={a.id}>
                 <td className="py-4 pe-3 md:py-5 md:pe-4">

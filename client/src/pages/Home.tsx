@@ -3,7 +3,7 @@ import { ArrowRight, Clock, MapPin, Phone } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import { Dot, SectionDivider } from "@/components/Ornaments";
 import { useVenue } from "@/content/hooks";
-import { ATTRACTIONS, POOL, VENUE_SPACE } from "@shared/venue";
+import { VENUE_SPACE } from "@shared/venue";
 import { MENU_ITEM_COUNT } from "@shared/menuData";
 import { isLocalSegment, useI18n } from "@/i18n";
 
@@ -90,7 +90,7 @@ function Highlights() {
 /** Cube grid of the four business lines, ordered by audience segment. */
 function Services() {
   const { t, lang } = useI18n();
-  const { home, capacity } = useVenue();
+  const { home, capacity, pool } = useVenue();
 
   const cards = [
     {
@@ -107,7 +107,7 @@ function Services() {
       photo: home.services.pool,
       title: t.services.pool.title,
       body: t.services.pool.body,
-      meta: `${POOL.adult} ${t.common.lari} · ${t.pool.adultLabel}`,
+      meta: `${pool.adult} ${t.common.lari} · ${t.pool.adultLabel}`,
     },
     {
       key: "restaurant",
@@ -228,7 +228,8 @@ function StayTeaser() {
 
 function LocationTeaser() {
   const { t } = useI18n();
-  const top = ATTRACTIONS.slice(0, 5);
+  const { attractions } = useVenue();
+  const top = attractions.slice(0, 5);
 
   return (
     <section className="border-y border-line bg-white">
@@ -240,7 +241,7 @@ function LocationTeaser() {
         />
         <ul className="mt-9 divide-y divide-line border-y border-line md:mt-12">
           {top.map(a => {
-            const info = t.location.attractions[a.id as keyof typeof t.location.attractions];
+            const info = a;
             return (
               <li
                 key={a.id}

@@ -109,24 +109,6 @@ const fr = {
     "title": "Un espace où la fête se prolonge",
     "intro": "Une terrasse extérieure couverte dans le jardin — par temps de pluie comme de soleil. Notre cuisine prépare le banquet, le site vous est entièrement réservé, et les invités qui souhaitent passer la nuit seront logés dans des cottages.",
     "capacityLabel": "Invité",
-    "types": {
-      "wedding": {
-        "title": "Mariage",
-        "body": "Cérémonie dans le jardin, banquet dans la salle couverte, nuitée pour les proches dans les cottages."
-      },
-      "engagement": {
-        "title": "Fiançailles",
-        "body": "Une soirée intime et courte pour un petit cercle — repas, musique et jardin au coucher du soleil."
-      },
-      "birthday": {
-        "title": "Anniversaire",
-        "body": "Format journée près de la piscine ou dîner en soirée dans la salle. Pour les enfants, le jardin et la partie peu profonde de la piscine."
-      },
-      "corporate": {
-        "title": "Événement d’entreprise",
-        "body": "Journée d’équipe à une demi-heure de Koutaïssi — réunion, banquet et piscine sur place."
-      }
-    },
     "policy": {
       "title": "Conditions importantes",
       "body": "Pour les événements de plus de 20 invités, l’ensemble du complexe est à votre entière disposition. Ainsi, musique et bruit ne dérangeront pas les autres visiteurs et vous pourrez vous détendre sans contraintes."
@@ -172,40 +154,6 @@ const fr = {
     "title": "Où nous sommes et ce qui est proche",
     "intro": "Kvilishori, dans la municipalité de Tskaltoubo, au cœur de l’Imérétie. En passant une nuit, vous pourrez voir deux ou trois sites — grottes, canyons et la magnifique montagne Khvamli.",
     "driveTime": "En voiture",
-    "attractions": {
-      "prometheus": {
-        "title": "Grotte de Prométhée",
-        "note": "Stalactites, rivière souterraine et promenade en barque."
-      },
-      "tskaltubo": {
-        "title": "Station thermale de Tskaltoubo",
-        "note": "Eaux curatives et sanatoriums soviétiques abandonnés."
-      },
-      "sataplia": {
-        "title": "Réserve Sataplia",
-        "note": "Vélocité des dinosaures et belvédère de verre."
-      },
-      "kutaisi": {
-        "title": "Koutaïssi",
-        "note": "La capitale de l’Imérétie, la cathédrale Bagrat et l’aéroport international."
-      },
-      "gelati": {
-        "title": "Monastère de Gélati",
-        "note": "Site UNESCO, mosaïques du XIIe siècle."
-      },
-      "martvili": {
-        "title": "Canyon de Martvili",
-        "note": "Eaux émeraude et navigation entre les rochers."
-      },
-      "khvamli": {
-        "title": "Mont Khvamli",
-        "note": "Mont plat légendaire du Léchkhoum — berceau du mythe d'Amiran."
-      },
-      "okatse": {
-        "title": "Canyon d’Okatse",
-        "note": "Ponton suspendu au-dessus du canyon et cascade de Kinchi."
-      }
-    },
     "addressTitle": "Adresse",
     "addressValue": "Village de Kvilishori, municipalité de Tskaltoubo, Imérétie, Géorgie",
     "openTitle": "Horaires d’accueil",

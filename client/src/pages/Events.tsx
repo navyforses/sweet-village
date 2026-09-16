@@ -2,28 +2,22 @@ import { Link } from "wouter";
 import { ArrowUpRight, ChefHat, Info, Phone, Users } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
 import { getEventPageCopy } from "@/lib/eventDetailCopy";
-import { EVENT_TYPES, VENUE_SPACE } from "@shared/venue";
+import { VENUE_SPACE } from "@shared/venue";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 
-const REAL_SPACE_PHOTOS = [
-  "/events/real-11.jpg",
-  "/events/real-10.jpg",
-  "/events/real-07.jpg",
-  "/events/real-15.jpg",
-  "/events/real-09.jpg",
-] as const;
 
 export default function Events() {
   const { lang, t } = useI18n();
   const copy = getEventPageCopy(lang);
-  const { contact } = useVenue();
+  const { contact, events } = useVenue();
+  const masterclass = events.events.find(event => event.id === "masterclass");
 
   return (
     <div>
       <div className="relative h-[54svh] min-h-[22rem] max-h-[35rem] overflow-hidden md:h-[58vh] md:min-h-[24rem] md:max-h-[44rem]">
         <img
-          src="/events/00-events-overview.webp"
+          src={events.hero}
           alt={t.events.title}
           className="absolute inset-0 size-full object-cover"
         />
@@ -68,8 +62,8 @@ export default function Events() {
         </section>
 
         <section className="sv-stagger mt-9 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {EVENT_TYPES.map(event => {
-            const info = copy.events[event.id];
+          {events.events.map(event => {
+            const info = event;
             return (
               <article
                 key={event.id}
@@ -80,7 +74,7 @@ export default function Events() {
                   className="block aspect-[4/3] overflow-hidden bg-pistachio/10"
                 >
                   <img
-                    src={event.photo}
+                    src={event.cover}
                     alt={info.title}
                     loading="lazy"
                     className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
@@ -119,11 +113,11 @@ export default function Events() {
               </h2>
               <p className="mt-5 flex items-center gap-2 text-[0.82rem] text-turquoise">
                 <ChefHat className="size-4" strokeWidth={1.5} />
-                {copy.events.masterclass.title}
+                {masterclass?.title ?? copy.events.masterclass.title}
               </p>
             </div>
             <div className="sv-scrollbar-none -mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0 xl:grid-cols-5">
-              {REAL_SPACE_PHOTOS.map((photo, index) => (
+              {events.spacePhotos.map((photo, index) => (
                 <img
                   key={photo}
                   src={photo}

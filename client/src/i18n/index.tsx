@@ -15,7 +15,7 @@ import { LANGS, type Lang, isRtl } from "./types";
  * cast to Dict because the translation pipeline produces plain object literals
  * whose string literal types differ from the Georgian source.
  */
-const DICTS = { ka, en, ru, ar, fr, es } as unknown as Record<Lang, Dict>;
+export const DICTS = { ka, en, ru, ar, fr, es } as unknown as Record<Lang, Dict>;
 
 const STORAGE_KEY = "sv-lang";
 

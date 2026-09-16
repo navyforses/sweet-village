@@ -6,9 +6,11 @@
  * zod and client-only imports: it is bundled into the public site and loaded
  * by every Vercel function. Validation lives in `./contentSchema.ts`.
  */
+import { ATTRACTION_COPY } from "./attractionCopy";
+import { EVENT_CAPTION_CONCEPT, EVENT_CAPTION_REAL, EVENT_COPY } from "./eventCopy";
 import { ADDRESS_COPY, UNIT_COPY, defaultUnitCaptions } from "./unitCopy";
-import { CONTACT, LOCATION, UNITS, type UnitId } from "./venue";
-import { HOME_GALLERY_REFS, HOME_PHOTO_REFS } from "./venuePhotos";
+import { ATTRACTIONS, CONTACT, EVENT_TYPES, LOCATION, POOL, UNITS, type EventId, type UnitId } from "./venue";
+import { EVENTS_PAGE_HERO, EVENTS_SPACE_PHOTO_REFS, HOME_GALLERY_REFS, HOME_PHOTO_REFS, RAW_PHOTOS } from "./venuePhotos";
 import type { Lang, LocalizedText } from "./langs";
 
 export type { Lang, LocalizedText } from "./langs";
@@ -62,6 +64,63 @@ export interface LocationSection {
   address: LocalizedText;
 }
 
+export interface PoolSection {
+  /** Day-visit prices in GEL. */
+  adult: number;
+  child: number;
+  childMaxAge: number;
+  guestFree: boolean;
+  dailyLimit: number;
+  /** "HH:MM" */
+  openFrom: string;
+  openTo: string;
+  /** Month numbers 1-12. */
+  seasonFrom: number;
+  seasonTo: number;
+  provisional: boolean;
+  photos: { main: Photo; side1: Photo; side2: Photo };
+}
+
+export interface EventContent {
+  id: EventId;
+  minGuests: number;
+  maxGuests: number;
+  title: LocalizedText;
+  body: LocalizedText;
+  /** One-line summary shown next to the guest range and on the cover photo. */
+  experience: LocalizedText;
+  highlights: LocalizedText[];
+  /** `gallery[0]` is the card photo. */
+  gallery: Photo[];
+}
+
+export interface EventsSection {
+  /** Hero of the events overview page. */
+  hero: Photo;
+  /** "Real space" strip on the overview page. */
+  spacePhotos: Photo[];
+  events: EventContent[];
+}
+
+export interface AttractionContent {
+  id: string;
+  minutes: number;
+  km: number;
+  lat: number;
+  lng: number;
+  title: LocalizedText;
+  note: LocalizedText;
+}
+
+export interface AttractionsSection {
+  /** Ordered by driving time; the first entry is highlighted on the About page. */
+  attractions: AttractionContent[];
+}
+
+export interface AboutSection {
+  photos: { main: Photo; detail1: Photo; detail2: Photo };
+}
+
 /** Deep-partial patch over a locale dictionary (string leaves, arrays, nested objects). */
 export type LocalePatch = { [key: string]: string | LocalePatch | Array<string | LocalePatch> };
 
@@ -72,11 +131,15 @@ export interface SiteContent {
   home: HomeSection;
   contact: ContactSection;
   location: LocationSection;
+  pool: PoolSection;
+  events: EventsSection;
+  attractions: AttractionsSection;
+  about: AboutSection;
   texts: TextsSection;
 }
 
 export type SectionKey = keyof SiteContent;
-export const SECTION_KEYS = ["units", "home", "contact", "location", "texts"] as const satisfies readonly SectionKey[];
+export const SECTION_KEYS = ["units", "home", "contact", "location", "pool", "events", "attractions", "about", "texts"] as const satisfies readonly SectionKey[];
 
 export function isSectionKey(value: unknown): value is SectionKey {
   return typeof value === "string" && (SECTION_KEYS as readonly string[]).includes(value);
@@ -106,6 +169,34 @@ function defaultUnits(): UnitContent[] {
       floors: unit.floors,
       nightlyPrice: unit.nightlyPrice,
       gallery: unit.gallery.map((url, index) => photo(url, captions[index])),
+    };
+  });
+}
+
+/** Default galleries mix a few generated concept renders with real venue photos; captions say which is which. */
+function defaultEventGallery(id: EventId, gallery: readonly string[]): Photo[] {
+  const conceptCount = id === "poolside" ? 4 : 2;
+  const experience = EVENT_COPY[id].experience;
+  return gallery.map((url, index) => {
+    if (index === 0) return photo(url, experience);
+    const label = index < conceptCount ? EVENT_CAPTION_CONCEPT : EVENT_CAPTION_REAL;
+    const caption = Object.fromEntries(Object.entries(label).map(([lang, text]) => [lang, `${text} · ${index + 1}`])) as LocalizedText;
+    return photo(url, caption);
+  });
+}
+
+function defaultEvents(): EventContent[] {
+  return EVENT_TYPES.map(event => {
+    const copy = EVENT_COPY[event.id];
+    return {
+      id: event.id,
+      minGuests: event.minGuests,
+      maxGuests: event.maxGuests,
+      title: copy.title,
+      body: copy.body,
+      experience: copy.experience,
+      highlights: [...copy.highlights],
+      gallery: defaultEventGallery(event.id, event.gallery),
     };
   });
 }
@@ -140,6 +231,38 @@ export const DEFAULT_CONTENT: SiteContent = {
     lat: LOCATION.lat,
     lng: LOCATION.lng,
     address: ADDRESS_COPY,
+  },
+  pool: {
+    adult: POOL.adult,
+    child: POOL.child,
+    childMaxAge: POOL.childMaxAge,
+    guestFree: POOL.guestFree,
+    dailyLimit: POOL.dailyLimit,
+    openFrom: POOL.openFrom,
+    openTo: POOL.openTo,
+    seasonFrom: POOL.seasonFrom,
+    seasonTo: POOL.seasonTo,
+    provisional: POOL.provisional,
+    photos: { main: photo(RAW_PHOTOS.poolReal), side1: photo(RAW_PHOTOS.poolDay), side2: photo(RAW_PHOTOS.terrace) },
+  },
+  events: {
+    hero: photo(EVENTS_PAGE_HERO),
+    spacePhotos: EVENTS_SPACE_PHOTO_REFS.map(url => photo(url)),
+    events: defaultEvents(),
+  },
+  attractions: {
+    attractions: ATTRACTIONS.map(attraction => ({
+      id: attraction.id,
+      minutes: attraction.minutes,
+      km: attraction.km,
+      lat: attraction.lat,
+      lng: attraction.lng,
+      title: ATTRACTION_COPY[attraction.id].title,
+      note: ATTRACTION_COPY[attraction.id].note,
+    })),
+  },
+  about: {
+    photos: { main: photo(RAW_PHOTOS.terrace), detail1: photo(RAW_PHOTOS.roomDetail), detail2: photo(RAW_PHOTOS.banquet) },
   },
   texts: {},
 };

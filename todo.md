@@ -180,7 +180,9 @@
 - [x] ფაზა 1: `ContentProvider`/`useVenue()` — public გვერდები ბაზის override-ს კითხულობენ, default-ები უცვლელი
 - [x] ფაზა 1: `/admin` — შესვლა, დაფა, კოტეჯები (ფასი/ტექსტი ×6/გალერეა), მთავარის ფოტოები, კონტაქტი და ლოკაცია; ავტო-თარგმანი Claude API-ით
 - [x] ფაზა 1: `api/booking.ts` ლიმიტები და WhatsApp ნომერი ბაზიდან (static fallback)
-- [ ] ფაზა 2: აუზი, ღონისძიებები, ღირსშესანიშნაობები, გვერდების ფოტოები და ტექსტები (`/admin/texts`)
+- [x] ფაზა 2: `pool/events/attractions/about` სექციები (default-ები `venue.ts`, `shared/eventCopy.ts`, `shared/attractionCopy.ts`-დან), Pool/Events/EventDetail/Location/About/Home გვერდები content-ზე
+- [x] ფაზა 2: ადმინის გვერდები `/admin/pool`, `/admin/events(/:id)`, `/admin/attractions`, `/admin/about`, `/admin/texts(/:section)` — ტექსტების patch-რედაქტორი placeholder-ებით და მხოლოდ შეცვლილი ველების შენახვით
+- [x] ფაზა 2: მკვდარი `events.types` და `location.attractions` ლოკალებიდან წაშლილია; `eventDetailCopy.ts` მხოლოდ გვერდის chrome-ს ინახავს
 - [ ] ფაზა 3: მენიუ (68 კერძი) ადმინიდან
 - [ ] ფაზა 4: ვერსიების ისტორია/აღდგენა, დაჯავშნის მოთხოვნების სია
 - [ ] ოპერაცია: Neon პროექტი + `NEON_DATABASE_URL`, `pnpm db:neon:migrate`, `ADMIN_PASSWORD_HASH`, `ADMIN_SESSION_SECRET`, `ANTHROPIC_API_KEY` Vercel-ში

@@ -59,6 +59,22 @@ describe("resolveVenue", () => {
     expect(ka.home.gallery).toHaveLength(8);
   });
 
+  it("resolves pool, events, attractions and about photos", () => {
+    const content = resolveContent(DEFAULT_CONTENT, {});
+    const en = resolveVenue(content, "en");
+    expect(en.pool.adult).toBe(20);
+    expect(en.pool.photos.main).toContain("fb_pool_01");
+    expect(en.events.events).toHaveLength(7);
+    expect(en.events.events[0].title).toBe("Garden & hall wedding");
+    expect(en.events.events[0].cover).toBe("/events/01-wedding.webp");
+    expect(en.events.events[0].gallery[0].caption).toBe(en.events.events[0].experience);
+    expect(en.events.events[0].highlights).toHaveLength(3);
+    expect(en.events.hero).toBe("/events/00-events-overview.webp");
+    expect(en.events.spacePhotos).toHaveLength(5);
+    expect(en.attractions[0]).toMatchObject({ id: "prometheus", minutes: 2, title: "Prometheus Cave" });
+    expect(en.about.photos.detail2).toContain("fb_misc_01");
+  });
+
   it("falls back to English then Georgian for untranslated fields", () => {
     const unit = { ...DEFAULT_CONTENT.units.units[0], name: { ka: "ქართული", en: "English", ru: "", ar: "", fr: "", es: "" }, gallery: [{ url: "/x.jpg", caption: { ka: "წარწერა" } }] };
     const content = resolveContent(DEFAULT_CONTENT, { units: { units: [unit] } });

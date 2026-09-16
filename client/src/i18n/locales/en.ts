@@ -113,24 +113,6 @@ const en = {
     intro:
       "A covered outdoor hall in the garden — rain or shine. The food is prepared by our kitchen, the area is entirely at your disposal, and guests who wish to stay the night will be accommodated in the cottages.",
     capacityLabel: "guests",
-    types: {
-      wedding: {
-        title: "Wedding",
-        body: "Ceremony in the garden, banquet in the covered hall, overnight stay for close ones in the cottages.",
-      },
-      engagement: {
-        title: "Engagement",
-        body: "A small, intimate evening for a close circle — food, music, and the garden at sunset.",
-      },
-      birthday: {
-        title: "Birthday",
-        body: "A daytime format by the pool or an evening feast in the hall. The garden and the shallow part of the pool for children.",
-      },
-      corporate: {
-        title: "Corporate",
-        body: "A team away day half an hour from Kutaisi — meeting, dining, and pool in one place.",
-      },
-    },
     policy: {
       title: "Important policy",
       body: "For events with more than 20 guests, the entire complex is exclusively yours. This way, music and noise won't disturb other guests, and you can relax without restrictions.",
@@ -183,16 +165,6 @@ const en = {
     intro:
       "Kvilishori in Tskaltubo municipality, in the heart of Imereti. With a one-night stay, you can manage two or three sights — caves, canyons, and the beautiful Mount Khvamli.",
     driveTime: "By car",
-    attractions: {
-      prometheus: { title: "Prometheus Cave", note: "Stalactites, an underground river, and a boat trip." },
-      tskaltubo: { title: "Tskaltubo Resort", note: "Healing waters and abandoned Soviet sanatoriums." },
-      sataplia: { title: "Sataplia Nature Reserve", note: "Real dinosaur footprints and a glass viewing platform." },
-      kutaisi: { title: "Kutaisi", note: "The capital of Imereti, Bagrati Cathedral, and the international airport." },
-      gelati: { title: "Gelati Monastery", note: "UNESCO World Heritage site, 12th-century mosaics." },
-      martvili: { title: "Martvili Canyon", note: "Emerald water and gliding on a boat between cliffs." },
-      khvamli: { title: "Mount Khvamli", note: "The legendary table mountain in Lechkhumi — home of the Amirani myth." },
-      okatse: { title: "Okatse Canyon", note: "A suspended trail over the canyon and Kinchkha Waterfall." },
-    },
     addressTitle: "Address",
     addressValue: "Village Kvilishori, Tskaltubo Municipality, Imereti, Georgia",
     openTitle: "Reception hours",
