@@ -46,7 +46,6 @@ The following rules are business and UX constraints, not optional implementation
 | `/about` | `client/src/pages/About.tsx` | Property story and positioning | `client/src/i18n/authenticCopy.ts` |
 | `/booking` | `client/src/pages/Booking.tsx` | Booking request form and WhatsApp fallback | `shared/booking.ts`, `server/booking.ts`, `api/booking.ts` |
 | `/404` | `client/src/pages/NotFound.tsx` | Not-found page | `client/src/components/Ornaments.tsx` |
-| `/migration` | `client/src/pages/BlobMigration.tsx` | **Temporary Vercel Blob migration utility. Do not expose as a customer feature.** | `api/migrate-assets.ts` |
 | `/admin`, `/admin/login`, `/admin/units(/:unitId)`, `/admin/home`, `/admin/contact`, `/admin/pool`, `/admin/events(/:eventId)`, `/admin/attractions`, `/admin/about`, `/admin/menu(/:categoryId)`, `/admin/texts(/:section)`, `/admin/history(/:section)`, `/admin/bookings` | `client/src/admin/AdminApp.tsx` | **Owner admin panel** (Georgian only, `noindex`, rendered without the public chrome). Edits prices, unit/event copy, galleries, page photos, pool facts, attractions, contact, location, the menu and every page text; shows revision history with restore and the booking enquiries. | `shared/content.ts`, `shared/contentSchema.ts`, `api/admin/[action].ts`, `api/content.ts` |
 
 ### Global layout and reusable UI
@@ -130,7 +129,6 @@ Do not present the property as six cottages. The current, confirmed product mode
 | Vercel Blob store `sweetvillage` | Production media store. Public assets are served from `ps7b45pmn65x45ur.public.blob.vercel-storage.com/sweet-village/...` |
 | `scripts/migrate-assets-to-vercel-blob.mjs` | Manual CLI migration tool; requires a valid Blob token outside source control |
 | `scripts/migrate-remote-assets-during-build.mjs` | Historical build-time migration helper; production assets are already available in Blob |
-| `api/migrate-assets.ts`, `client/src/pages/BlobMigration.tsx` | Temporary migration experiment; not a customer-facing feature and should be removed in a later cleanup task |
 
 > **Media safety rule.** Never hard-code a new image URL in a random page. Put it in the registry or the relevant shared data file first, then reference the canonical identifier.
 
@@ -176,7 +174,7 @@ sweet-village/
 ├── shared/                         # business data and validation shared across runtimes
 ├── server/                         # current Manus/Express/tRPC implementation
 │   └── _core/                      # managed platform integration layer; edit cautiously
-├── api/                            # Vercel serverless endpoints and migration utilities
+├── api/                            # Vercel serverless endpoints
 ├── drizzle/                        # existing MySQL schema plus Neon schema
 ├── scripts/                        # media migration/QA scripts
 ├── VERCEL_ENVIRONMENT.md           # required Vercel variable checklist
@@ -211,7 +209,7 @@ Never put real values in Git, source code, screenshots, or chat. `VERCEL_ENVIRON
 | GitHub sync | `main` is the deployment source | Use a checkpoint for project changes; it synchronizes GitHub |
 | Vercel project | Live and connected to the purchased domain | Treat the Vercel deployment as the current production website |
 | Vercel Blob store | `sweetvillage` is active | Home, Menu, and Stay verification confirms Blob-backed production assets |
-| Vercel media migration | Completed for production-rendered assets | See `VERIFICATION_LOG.md`; remove temporary migration utilities only in a dedicated cleanup task |
+| Vercel media migration | Completed for production-rendered assets | See `VERIFICATION_LOG.md`; the legacy public migration page and endpoint have been removed |
 | Neon + Resend | Architecture and code prepared | Create/configure services and run end-to-end booking QA before enabling production claims |
 | Custom domain | Purchased and connected | Canonical production URL is `https://www.sweet-village.com/` |
 
@@ -228,7 +226,7 @@ pnpm test
 pnpm check
 ```
 
-The current suite covers booking validation, booking API behavior (including owner-edited guest limits), menu completeness, venue/inventory data, the content model and its defaults, content resolution, admin authentication, the admin API dispatcher (login, content, upload, translate with mocked Neon and Anthropic clients), maps proxy behavior, authentic copy, asset URL resolution, upload naming, Blob migration source integrity, and client-side map loading. The most recent local baseline is **131 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
+The current suite covers booking validation, booking API behavior (including owner-edited guest limits), menu completeness, venue/inventory data, the content model and its defaults, content resolution, admin authentication, the admin API dispatcher (login, content, upload, translate with mocked Neon and Anthropic clients), maps proxy behavior, authentic copy, asset URL resolution, upload naming, native Node ESM loading, and client-side map loading. The most recent local baseline is **131 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
 
 Visual QA must cover desktop, mobile, and Arabic RTL for any touched public page. Text changes also require checking that each changed user-facing message exists in all six locale files or is intentionally language-specific.
 
