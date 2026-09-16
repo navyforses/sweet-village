@@ -24,9 +24,10 @@ export default function Menu() {
   const [qr, setQr] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const menuUrl = useMemo(() => {
-    if (typeof window === "undefined") return "/menu";
-    return `${window.location.origin}/menu`;
+  // Resolved after mount so the prerendered markup and the hydrated markup agree.
+  const [menuUrl, setMenuUrl] = useState("https://www.sweet-village.com/menu");
+  useEffect(() => {
+    setMenuUrl(`${window.location.origin}/menu`);
   }, []);
 
   useEffect(() => {

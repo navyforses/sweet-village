@@ -175,6 +175,38 @@ export async function listBookings(sql: Sql, limit: number): Promise<BookingRow[
   }));
 }
 
+/** Key of the bookkeeping row that remembers when the last static rebuild was requested. */
+export const PUBLISH_KEY = "_publish";
+
+/**
+ * Records a rebuild request unless one was recorded less than `minSeconds`
+ * ago, so a burst of saves triggers a single deployment. Returns true when
+ * the caller should fire the deploy hook.
+ */
+export async function claimPublishSlot(sql: Sql, minSeconds: number): Promise<boolean> {
+  const rows = (await sql`
+    INSERT INTO site_content (key, value, updated_by)
+    VALUES (${PUBLISH_KEY}, '{}'::jsonb, 'system')
+    ON CONFLICT (key) DO UPDATE SET updated_at = now(), updated_by = 'system'
+      WHERE site_content.updated_at < now() - (${minSeconds} || ' seconds')::interval
+    RETURNING key
+  `) as { key: string }[];
+  return rows.length > 0;
+}
+
+/** True when a section was saved after the last recorded rebuild request (or none was ever recorded). */
+export async function contentChangedSincePublish(sql: Sql): Promise<boolean> {
+  const rows = (await sql`
+    SELECT
+      (SELECT max(updated_at) FROM site_content WHERE key <> ${PUBLISH_KEY}) AS content_at,
+      (SELECT updated_at FROM site_content WHERE key = ${PUBLISH_KEY}) AS published_at
+  `) as { content_at: string | null; published_at: string | null }[];
+  const row = rows[0];
+  if (!row?.content_at) return false;
+  if (!row.published_at) return true;
+  return new Date(row.content_at) > new Date(row.published_at);
+}
+
 const LOGIN_WINDOW_MINUTES = 15;
 export const LOGIN_MAX_FAILURES_PER_IP = 5;
 export const LOGIN_MAX_FAILURES_GLOBAL = 40;

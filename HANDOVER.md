@@ -39,10 +39,11 @@
 
 რაც კოდით ვერ გაკეთდება და თქვენი (ან ჩვენი ერთად) გასაკეთებელია:
 
-1. **Google Search Console** (search.google.com/search-console) — დაამატეთ domain property `sweet-village.com`, დაადასტურეთ DNS ჩანაწერით. Sitemap-ის მისამართი მოგვიანებით მოგცემთ (`/sitemap.xml`).
+1. **Google Search Console** (search.google.com/search-console) — დაამატეთ domain property `sweet-village.com`, დაადასტურეთ DNS ჩანაწერით და Sitemaps-ში შეიყვანეთ `https://www.sweet-village.com/sitemap.xml`.
 2. **Google Business Profile** (business.google.com) — მისამართი „სოფელი ქვილიშორი, წყალტუბო“, კატეგორია „სასტუმრო“ + „რესტორანი“, საათები, ფოტოები, ვებსაიტში **საკუთარი საიტი** (არა Booking-ის ბმული), ტელეფონი იგივე, რაც საიტზეა.
 3. **Booking, Tripadvisor, Instagram, Facebook** — ყველგან ვებსაიტის ბმულად `https://www.sweet-village.com` ჩაწერეთ; სახელი, მისამართი და ტელეფონი ყველგან ერთნაირად. Tripadvisor-ზე ორი ლისტინგია („Sweet Village“ და „Sweet Village Cafe“) — ერთი მოითხოვეთ და მეორის გაერთიანება სთხოვეთ.
-4. **Yandex Webmaster** (webmaster.yandex.com) — რუსულენოვანი სტუმრებისთვის, იგივე domain-ის დადასტურება.
+4. **Yandex Webmaster** (webmaster.yandex.com) — რუსულენოვანი სტუმრებისთვის, იგივე domain-ის დადასტურება და sitemap.
+5. **Vercel Deploy Hook** — Vercel → Settings → Git → Deploy Hooks → შექმენით hook ბრენჩზე `main` და მისი URL ჩაწერეთ env ცვლადში `VERCEL_DEPLOY_HOOK_URL` (იხ. `VERCEL_ENVIRONMENT.md`). ამის შემდეგ ადმინში ყოველი შენახვა ~3 წუთში Google-ის სტატიკურ ვერსიასაც აახლებს; მის გარეშე მხოლოდ საიტის „ცოცხალი“ ვერსია განახლდება.
 
 ## დაჯავშნის ფორმა
 

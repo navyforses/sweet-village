@@ -342,6 +342,67 @@ describe("revisions, restore and bookings", () => {
   });
 });
 
+describe("publish", () => {
+  const fetchMock = vi.fn();
+
+  beforeEach(() => {
+    fetchMock.mockReset();
+    vi.stubGlobal("fetch", fetchMock);
+    vi.stubEnv("VERCEL_DEPLOY_HOOK_URL", "https://api.vercel.com/v1/integrations/deploy/prj_x/abc");
+  });
+
+  function publishStore(claimed: boolean): FakeQueryHandler {
+    const base = contentStore({});
+    return (query, values) => {
+      if (query.includes("INSERT INTO site_content (key, value, updated_by) VALUES (?, '{}'::jsonb, 'system')")) {
+        expect(values[0]).toBe("_publish");
+        return claimed ? [{ key: "_publish" }] : [];
+      }
+      return base(query, values);
+    };
+  }
+
+  it("requires a session, the CSRF header and a configured hook", async () => {
+    let { record, response } = responseRecorder();
+    await handler(request("publish", { method: "POST", mutate: true }), response);
+    expect(record.statusCode).toBe(401);
+
+    ({ record, response } = responseRecorder());
+    await handler(request("publish", { method: "POST", auth: true }), response);
+    expect(record.statusCode).toBe(403);
+
+    vi.stubEnv("VERCEL_DEPLOY_HOOK_URL", "https://evil.example/hook");
+    ({ record, response } = responseRecorder());
+    await handler(request("publish", { method: "POST", auth: true, mutate: true }), response);
+    expect(record.statusCode).toBe(503);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("fires the deploy hook once per debounce window", async () => {
+    neonState.handler = publishStore(true);
+    fetchMock.mockResolvedValue({ ok: true, status: 201 });
+    let { record, response } = responseRecorder();
+    await handler(request("publish", { method: "POST", auth: true, mutate: true }), response);
+    expect(record.statusCode).toBe(200);
+    expect(record.body).toEqual({ triggered: true });
+    expect(fetchMock).toHaveBeenCalledWith("https://api.vercel.com/v1/integrations/deploy/prj_x/abc", { method: "POST" });
+
+    neonState.handler = publishStore(false);
+    fetchMock.mockClear();
+    ({ record, response } = responseRecorder());
+    await handler(request("publish", { method: "POST", auth: true, mutate: true }), response);
+    expect(record.statusCode).toBe(202);
+    expect(record.body).toMatchObject({ triggered: false, reason: "debounced" });
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    neonState.handler = publishStore(true);
+    fetchMock.mockResolvedValue({ ok: false, status: 500 });
+    ({ record, response } = responseRecorder());
+    await handler(request("publish", { method: "POST", auth: true, mutate: true }), response);
+    expect(record.statusCode).toBe(502);
+  });
+});
+
 describe("upload", () => {
   const body = { type: "blob.generate-client-token", payload: { pathname: "sweet-village/uploads/2026/pool-abc123.webp", callbackUrl: "", clientPayload: null, multipart: false } };
 
