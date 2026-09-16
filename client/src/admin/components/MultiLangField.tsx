@@ -83,7 +83,7 @@ export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLeng
         </Button>
       </div>
       <Tabs defaultValue="ka">
-        <TabsList className="h-auto w-full flex-wrap justify-start gap-1 bg-transparent p-0">
+        <TabsList className="admin-language-tabs h-auto w-full flex-wrap justify-start gap-1 bg-transparent p-0">
           {LANGS.map(lang => {
             const empty = !values[lang]?.trim() && !placeholders?.[lang];
             const error = errorFor(lang);
@@ -106,9 +106,9 @@ export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLeng
           return (
             <TabsContent key={lang} value={lang} className="mt-2">
               {multiline ? (
-                <Textarea id={id} dir={dir} rows={rows} maxLength={maxLength} placeholder={placeholders?.[lang]} {...register(`${name}.${lang}`)} aria-invalid={Boolean(error)} className="bg-white" />
+                <Textarea id={id} aria-label={`${label} — ${S.lang.labels[lang]}`} dir={dir} rows={rows} maxLength={maxLength} placeholder={placeholders?.[lang]} {...register(`${name}.${lang}`)} aria-invalid={Boolean(error)} className="bg-white" />
               ) : (
-                <Input id={id} dir={dir} maxLength={maxLength} placeholder={placeholders?.[lang]} {...register(`${name}.${lang}`)} aria-invalid={Boolean(error)} className="bg-white" />
+                <Input id={id} aria-label={`${label} — ${S.lang.labels[lang]}`} dir={dir} maxLength={maxLength} placeholder={placeholders?.[lang]} {...register(`${name}.${lang}`)} aria-invalid={Boolean(error)} className="bg-white" />
               )}
               {error ? (
                 <p className="mt-1.5 text-[0.75rem] text-destructive" role="alert">

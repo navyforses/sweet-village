@@ -1,0 +1,74 @@
+/* Scoped to the owner panel, including its portalled menus and dialogs. */
+@media (max-width: 767px) {
+  html[data-sv-admin] {
+    scroll-padding-block: 5rem 9rem;
+  }
+
+  html[data-sv-admin] .admin-page {
+    padding-bottom: calc(8rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  html[data-sv-admin] :is(button:not([role="switch"]), [role="tab"], summary, [data-slot="sidebar-menu-button"]) {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+
+  html[data-sv-admin] :is(input:not([type="checkbox"]):not([type="file"]), textarea, select) {
+    min-height: 48px;
+    font-size: 16px;
+    scroll-margin-block: 5rem 9rem;
+  }
+
+  html[data-sv-admin] .admin-language-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  html[data-sv-admin] .admin-language-tabs [role="tab"] {
+    min-width: 0;
+    padding-inline: 4px;
+  }
+
+  html[data-sv-admin] .admin-save-bar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -4px 18px rgb(0 0 0 / 6%);
+  }
+
+  html[data-sv-admin] .admin-save-bar > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  html[data-sv-admin] .admin-page :is(nav a, a[class*="min-h-"]) {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  html[data-sv-admin] .admin-save-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  html[data-sv-admin] .admin-save-actions button {
+    min-width: 0;
+    min-height: 48px;
+  }
+
+  html[data-sv-admin] [data-mobile="true"][data-sidebar="sidebar"] {
+    width: min(20rem, calc(100vw - 32px));
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  html[data-sv-admin] :is([role="dialog"], [role="alertdialog"]):not([data-sidebar="sidebar"]) {
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+  }
+}

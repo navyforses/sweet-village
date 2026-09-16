@@ -4,6 +4,8 @@ export const S = {
   brand: "ტკბილი სოფელი",
   panel: "მართვის პანელი",
   nav: {
+    openMenu: "მენიუს გახსნა",
+    closeMenu: "მენიუს დახურვა",
     dashboard: "მთავარი",
     units: "კოტეჯები და ნომრები",
     home: "მთავარი გვერდი",
@@ -23,6 +25,8 @@ export const S = {
     title: "შესვლა",
     intro: "მფლობელის პაროლი მართვის პანელში შესასვლელად.",
     password: "პაროლი",
+    showPassword: "პაროლის ჩვენება",
+    hidePassword: "პაროლის დამალვა",
     submit: "შესვლა",
     submitting: "მოწმდება…",
     wrong: "პაროლი არასწორია.",

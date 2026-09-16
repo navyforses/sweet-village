@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Redirect, useLocation } from "wouter";
-import { Loader2, LockKeyhole } from "lucide-react";
+import { Eye, EyeOff, Loader2, LockKeyhole } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,6 +25,7 @@ export default function Login() {
   const login = useLogin();
   const [, navigate] = useLocation();
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   if (session.isSuccess) return <Redirect to="/admin" replace />;
 
@@ -35,7 +36,7 @@ export default function Login() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
+    <main className="flex min-h-svh items-center justify-center bg-background px-4 py-8">
       <form onSubmit={submit} className="w-full max-w-sm border border-line bg-white p-7 md:p-9">
         <div className="flex items-center gap-3">
           <Borjgali size={20} />
@@ -46,17 +47,25 @@ export default function Login() {
 
         <div className="mt-6 space-y-2">
           <Label htmlFor="admin-password">{S.login.password}</Label>
+          <div className="relative">
           <Input
             id="admin-password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             autoComplete="current-password"
-            autoFocus
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            enterKeyHint="go"
             value={password}
             onChange={event => setPassword(event.target.value)}
             disabled={login.isPending}
             aria-invalid={login.isError}
-            className="bg-white"
+            className="h-12 bg-white pe-14"
           />
+          <Button type="button" variant="ghost" size="icon" className="absolute end-0.5 top-0.5 size-11" aria-label={showPassword ? S.login.hidePassword : S.login.showPassword} aria-pressed={showPassword} onClick={() => setShowPassword(value => !value)}>
+            {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+          </Button>
+          </div>
           {login.isError && (
             <p className="text-[0.8125rem] text-destructive" role="alert">
               {loginErrorMessage(login.error)}

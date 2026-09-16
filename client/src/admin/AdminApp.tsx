@@ -24,6 +24,7 @@ import Texts from "./pages/Texts";
 import TextsEdit from "./pages/TextsEdit";
 import UnitEdit from "./pages/UnitEdit";
 import Units from "./pages/Units";
+import "./mobile.css";
 
 /** Session gate: skeleton while checking, redirect to login on 401, shell otherwise. */
 function Guarded({ title, children }: { title: string; children: ReactNode }) {
@@ -82,7 +83,8 @@ const BookingsPage = page(S.nav.bookings, Bookings);
 export default function AdminApp() {
   useEffect(() => {
     const html = document.documentElement;
-    const previous = { lang: html.lang, dir: html.dir, title: document.title };
+    const previous = { lang: html.lang, dir: html.dir, title: document.title, admin: html.getAttribute("data-sv-admin") };
+    html.setAttribute("data-sv-admin", "true");
     html.lang = "ka";
     html.dir = "ltr";
     document.title = S.appTitle;
@@ -94,6 +96,8 @@ export default function AdminApp() {
       html.lang = previous.lang;
       html.dir = previous.dir;
       document.title = previous.title;
+      if (previous.admin === null) html.removeAttribute("data-sv-admin");
+      else html.setAttribute("data-sv-admin", previous.admin);
       robots.remove();
     };
   }, []);
