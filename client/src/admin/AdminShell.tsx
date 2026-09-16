@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-import { ChefHat, ExternalLink, History, Home, Images, Inbox, Info, LayoutDashboard, LogOut, MapPin, PartyPopper, Phone, Type, Waves } from "lucide-react";
+import { ChefHat, ExternalLink, History, Home, Images, Inbox, Info, LayoutDashboard, LogOut, MapPin, PartyPopper, Phone, Type, Waves, X } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -14,8 +14,10 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Borjgali } from "@/components/Ornaments";
+import { Button } from "@/components/ui/button";
 import { useLogout } from "./api";
 import { S } from "./strings";
 
@@ -36,11 +38,17 @@ const NAV = [
 
 /** Sidebar + content frame for every authenticated admin page. */
 export function AdminShell({ title, children }: { title: string; children: ReactNode }) {
+  return <SidebarProvider><AdminFrame title={title}>{children}</AdminFrame></SidebarProvider>;
+}
+
+function AdminFrame({ title, children }: { title: string; children: ReactNode }) {
   const [location, navigate] = useLocation();
   const logout = useLogout();
+  const { setOpenMobile } = useSidebar();
+  useEffect(() => { setOpenMobile(false); }, [location, setOpenMobile]);
 
   return (
-    <SidebarProvider>
+    <>
       <Sidebar collapsible="offcanvas" className="border-e border-line">
         <SidebarHeader className="h-16 justify-center border-b border-line px-4">
           <div className="flex items-center gap-3">
@@ -49,6 +57,7 @@ export function AdminShell({ title, children }: { title: string; children: React
               <p className="truncate font-serif text-[0.9375rem] tracking-[0.08em] text-ink">{S.brand}</p>
               <p className="sv-eyebrow text-[0.6rem]">{S.panel}</p>
             </div>
+            <Button type="button" variant="ghost" size="icon" className="ms-auto size-11 shrink-0 md:hidden" aria-label={S.nav.closeMenu} onClick={() => setOpenMobile(false)}><X className="size-5" /></Button>
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -59,8 +68,8 @@ export function AdminShell({ title, children }: { title: string; children: React
                   const active = item.exact ? location === item.href : location === item.href || location.startsWith(`${item.href}/`);
                   return (
                     <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton asChild isActive={active} className="h-10">
-                        <Link href={item.href}>
+                      <SidebarMenuButton asChild isActive={active} className="h-11 md:h-10">
+                        <Link href={item.href} onClick={() => setOpenMobile(false)} aria-current={active ? "page" : undefined}>
                           <item.icon className="size-4" />
                           <span>{item.label}</span>
                         </Link>
@@ -94,13 +103,13 @@ export function AdminShell({ title, children }: { title: string; children: React
           </SidebarMenu>
         </SidebarFooter>
       </Sidebar>
-      <SidebarInset className="bg-background">
+      <SidebarInset className="min-w-0 bg-background">
         <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-line bg-white/95 px-4 backdrop-blur md:px-8">
-          <SidebarTrigger className="size-9" />
+          <SidebarTrigger className="size-11 shrink-0" aria-label={S.nav.openMenu} />
           <h1 className="truncate text-[1rem] text-ink">{title}</h1>
         </header>
-        <div className="mx-auto w-full max-w-4xl px-4 py-6 md:px-8 md:py-8">{children}</div>
+        <div className="admin-page mx-auto min-w-0 w-full max-w-4xl px-4 py-6 md:px-8 md:py-8">{children}</div>
       </SidebarInset>
-    </SidebarProvider>
+    </>
   );
 }
