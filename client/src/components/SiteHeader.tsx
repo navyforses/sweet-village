@@ -36,6 +36,7 @@ export default function SiteHeader() {
         { href: "/menu", label: t.nav.menu },
         { href: "/stay", label: t.nav.stay },
         { href: "/location", label: t.nav.location },
+        { href: "/guides", label: t.nav.guides },
         { href: "/about", label: t.nav.about },
       ]
     : [
@@ -44,6 +45,7 @@ export default function SiteHeader() {
         { href: "/location", label: t.nav.location },
         { href: "/pool", label: t.nav.pool },
         { href: "/events", label: t.nav.events },
+        { href: "/guides", label: t.nav.guides },
         { href: "/about", label: t.nav.about },
       ];
 

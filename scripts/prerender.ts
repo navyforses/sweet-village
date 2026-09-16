@@ -11,12 +11,12 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { DEFAULT_CONTENT, type SparseContent } from "../shared/content";
+import { DEFAULT_CONTENT, slimContentForEmbedding, type SparseContent } from "../shared/content";
 import { readAllSections } from "../api/_lib/content";
 import { getSql } from "../api/_lib/db";
 import { resolveContent } from "../client/src/content/resolve";
 import { EMBEDDED_CONTENT_ID } from "../client/src/content/ContentProvider";
-import { assembleDocument, listPublicPages, outputFileFor, sitemapLastmod, sitemapXml, type PageEntry } from "../client/src/seo/prerender";
+import { assembleDocument, isGuidePage, listPublicPages, outputFileFor, sitemapLastmod, sitemapXml, type PageEntry } from "../client/src/seo/prerender";
 import type { RenderResult } from "../client/src/entry-server";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -59,15 +59,19 @@ async function main() {
     if (!head.includes("<title>")) throw new Error(`[prerender] ${url} rendered without a <title>`);
     const file = path.join(outDir, outputFileFor(page));
     await mkdir(path.dirname(file), { recursive: true });
-    await writeFile(file, assembleDocument({ template, lang: page.lang, head, body, content: sparse, embeddedId: EMBEDDED_CONTENT_ID }));
+    const embedded = slimContentForEmbedding(sparse, isGuidePage(page.path));
+    await writeFile(file, assembleDocument({ template, lang: page.lang, head, body, content: embedded, embeddedId: EMBEDDED_CONTENT_ID }));
   }
 
   // Not-found page (Georgian, noindex) for any path that has no static file.
   const notFound = await render("/404", sparse);
-  await writeFile(path.join(outDir, "404.html"), assembleDocument({ template, lang: "ka", head: notFound.head, body: notFound.body, content: sparse, embeddedId: EMBEDDED_CONTENT_ID }));
+  await writeFile(
+    path.join(outDir, "404.html"),
+    assembleDocument({ template, lang: "ka", head: notFound.head, body: notFound.body, content: slimContentForEmbedding(sparse, false), embeddedId: EMBEDDED_CONTENT_ID }),
+  );
 
   const lastmod = sitemapLastmod(updatedAt);
-  const publicPages: PageEntry[] = pages.filter(page => page.path !== "/booking");
+  const publicPages: PageEntry[] = pages.filter(page => page.path !== "/booking" && !page.noindex);
   await writeFile(path.join(outDir, "sitemap.xml"), sitemapXml(publicPages, lastmod));
 
   console.log(`[prerender] wrote ${pages.length} pages + 404 + sitemap in ${((Date.now() - started) / 1000).toFixed(1)}s`);

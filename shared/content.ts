@@ -8,6 +8,7 @@
  */
 import { ATTRACTION_COPY } from "./attractionCopy.js";
 import { EVENT_CAPTION_CONCEPT, EVENT_CAPTION_REAL, EVENT_COPY } from "./eventCopy.js";
+import { GUIDE_SEEDS } from "./guideCopy.js";
 import { MENU } from "./menuData.js";
 import { EN_RU_DESCRIPTIONS } from "./menuDescriptions.js";
 import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS } from "./menuTranslations.js";
@@ -150,6 +151,36 @@ export interface MenuSection {
   categories: MenuCategoryContent[];
 }
 
+export interface GuideFaq {
+  question: LocalizedText;
+  answer: LocalizedText;
+}
+
+/** One article of the "Guides" section (/guides/:slug). */
+export interface GuidePost {
+  /** URL segment; fixed once published so links and search results keep working. */
+  slug: string;
+  /** YYYY-MM-DD */
+  publishedAt: string;
+  /** YYYY-MM-DD, bumped on every save. */
+  updatedAt: string;
+  cover: Photo;
+  title: LocalizedText;
+  /** One or two sentences shown on the list page and used as the meta description. */
+  excerpt: LocalizedText;
+  /** Markdown subset (see shared/markdown.ts). A language without a body is not published in that language. */
+  body: LocalizedText;
+  faq: GuideFaq[];
+  /** Ids of the attractions section this article covers; the Location page links to it. */
+  attractionIds: string[];
+  /** Kept in the admin, absent from the public site, the sitemap and the prerender. */
+  hidden: boolean;
+}
+
+export interface GuidesSection {
+  posts: GuidePost[];
+}
+
 /** Deep-partial patch over a locale dictionary (string leaves, arrays, nested objects). */
 export type LocalePatch = { [key: string]: string | LocalePatch | Array<string | LocalePatch> };
 
@@ -165,11 +196,12 @@ export interface SiteContent {
   attractions: AttractionsSection;
   about: AboutSection;
   menu: MenuSection;
+  guides: GuidesSection;
   texts: TextsSection;
 }
 
 export type SectionKey = keyof SiteContent;
-export const SECTION_KEYS = ["units", "home", "contact", "location", "pool", "events", "attractions", "about", "menu", "texts"] as const satisfies readonly SectionKey[];
+export const SECTION_KEYS = ["units", "home", "contact", "location", "pool", "events", "attractions", "about", "menu", "guides", "texts"] as const satisfies readonly SectionKey[];
 
 export function isSectionKey(value: unknown): value is SectionKey {
   return typeof value === "string" && (SECTION_KEYS as readonly string[]).includes(value);
@@ -263,6 +295,21 @@ function defaultMenu(): MenuCategoryContent[] {
   });
 }
 
+function defaultGuides(): GuidePost[] {
+  return GUIDE_SEEDS.map(seed => ({
+    slug: seed.slug,
+    publishedAt: seed.publishedAt,
+    updatedAt: seed.publishedAt,
+    cover: photo(RAW_PHOTOS[seed.cover]),
+    title: seed.title,
+    excerpt: seed.excerpt,
+    body: seed.body,
+    faq: seed.faq.map(item => ({ question: item.question, answer: item.answer })),
+    attractionIds: [...seed.attractionIds],
+    hidden: false,
+  }));
+}
+
 export const DEFAULT_CONTENT: SiteContent = {
   units: { units: defaultUnits() },
   home: {
@@ -327,8 +374,34 @@ export const DEFAULT_CONTENT: SiteContent = {
     photos: { main: photo(RAW_PHOTOS.terrace), detail1: photo(RAW_PHOTOS.roomDetail), detail2: photo(RAW_PHOTOS.banquet) },
   },
   menu: { categories: defaultMenu() },
+  guides: { posts: defaultGuides() },
   texts: {},
 };
+
+/** A guide exists in a language only when both its title and its body are written in it. */
+export function guideAvailableIn(post: Pick<GuidePost, "title" | "body">, lang: Lang): boolean {
+  return Boolean(post.title[lang]?.trim() && post.body?.[lang]?.trim());
+}
+
+/** Languages a guide is published in, in the site's language order. */
+export function guideLangs(post: Pick<GuidePost, "title" | "body">, langs: readonly Lang[]): Lang[] {
+  return langs.filter(lang => guideAvailableIn(post, lang));
+}
+
+/**
+ * The JSON embedded in every prerendered page for hydration. Article bodies
+ * and FAQs are only needed on the article's own page, so elsewhere they are
+ * dropped: the client refreshes from /api/content before it can navigate
+ * there, and the home page must not carry every guide in six languages.
+ */
+export function slimContentForEmbedding(sparse: SparseContent | null, keepGuideBodies: boolean): SparseContent | null {
+  if (!sparse?.guides || keepGuideBodies) return sparse;
+  const posts = sparse.guides.posts.map(post => {
+    const { body: _body, faq: _faq, ...rest } = post;
+    return rest as GuidePost;
+  });
+  return { ...sparse, guides: { posts } };
+}
 
 /** Dishes the public menu shows (not marked hidden). */
 export function visibleMenuItemCount(menu: MenuSection): number {

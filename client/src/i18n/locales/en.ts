@@ -14,6 +14,7 @@ const en = {
       location: { title: "How to Get Here — Kvilishori, near Prometheus Cave | Sweet Village", description: "Map and distances: Prometheus Cave 2 minutes, Kutaisi and the airport, Sataplia, Okatse and Martvili canyons. Address and reception hours." },
       about: { title: "About Sweet Village — a Family Place in Kvilishori", description: "A family-run place in Kvilishori: green garden, wooden cottages, a pool and home-cooked Georgian feasts. Our story, numbers and photos." },
       booking: { title: "Book Your Stay — Sweet Village", description: "Request form for a cottage, an event, the pool or a feast. We reply by phone or WhatsApp." },
+      guides: { title: "Travel Guides — Prometheus Cave, Tskaltubo, Canyons | Sweet Village", description: "Practical guides to Imereti's sights: tickets, hours, routes and tips from the hosts of Sweet Village, two minutes from Prometheus Cave." },
       notFound: { title: "Page Not Found — Sweet Village", description: "This link no longer exists. Go back to the home page." },
     },
   },
@@ -30,6 +31,7 @@ const en = {
     stay: "Stay",
     location: "Location",
     about: "About",
+    guides: "Guides",
     contact: "Contact",
     book: "Book",
   },
@@ -146,6 +148,14 @@ const en = {
     limitBody:
       "We welcome 40 visitors a day. This is a deliberate limit — space and tranquility by the pool must be maintained. Calling ahead is essential on holidays.",
     cta: "Book a spot",
+    faq: {
+      title: "Pool questions",
+      items: [
+        { question: "Can I use the pool without staying overnight?", answer: "Yes, with a day pass. Adult and child prices are listed above; for overnight guests the pool is free." },
+        { question: "Do I need to book in advance?", answer: "On weekends and holidays, yes: we admit a limited number of visitors a day. On weekdays there is usually space, but one call makes it certain." },
+        { question: "Are there sun loungers, shade and food?", answer: "There are loungers and shaded spots by the pool, and the restaurant and bar are right next to it, so lunch on the terrace is easy. No need to bring your own food." },
+      ],
+    },
   },
   restaurant: {
     eyebrow: "Restaurant",
@@ -224,6 +234,14 @@ const en = {
     fallbackTitle: "Request saved",
     fallbackBody:
       "Your request was recorded, but our notification did not go through. To be certain, message us on WhatsApp or call us.",
+    faq: {
+      title: "Booking questions",
+      items: [
+        { question: "How is a booking confirmed, and is a deposit required?", answer: "After your request we confirm availability and the price by phone or WhatsApp. In high season and for events a deposit may be needed to hold the date; we tell you the amount and payment method when confirming." },
+        { question: "What is the cancellation policy?", answer: "The terms depend on the dates and are written into your confirmation message; for events they are agreed individually. If you need flexibility, ask us before booking." },
+        { question: "Is breakfast included, and when is check-in?", answer: "Breakfast is included for overnight guests, the pool is free and parking is in the garden. Reception works 24 hours; please let us know in advance if you arrive at night." },
+      ],
+    },
     interestOptions: {
       cottage: "Cottage / Overnight stay",
       event: "Event",
@@ -231,6 +249,26 @@ const en = {
       restaurant: "Restaurant / Feast",
       whole: "Entire complex",
     },
+  },
+  guides: {
+    eyebrow: "Guides",
+    title: "What to see in Imereti: our guides",
+    intro: "Tickets, hours, routes and tips for the places guests ask us about most. Written by us, the hosts, and updated every season.",
+    readGuide: "Read the guide",
+    back: "All guides",
+    published: "Published",
+    updated: "Updated",
+    readingTime: "min read",
+    faqTitle: "Frequently asked questions",
+    empty: "No guides in this language yet.",
+    viewEnglish: "View in English",
+    notInLanguage: "This guide has not been translated into this language yet; the available version is below.",
+    planTitle: "Stay two minutes from Prometheus Cave",
+    planBody: "Wooden cottages and rooms for up to 18 guests, an outdoor pool and Imeretian feasts in one garden: the base for every route on this page.",
+    ctaStay: "Cottages and rooms",
+    ctaBook: "Booking request",
+    moreTitle: "More guides",
+    onMap: "Map and distances",
   },
   gallery: {
     eyebrow: "Gallery",

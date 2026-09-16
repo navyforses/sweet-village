@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Clock, MapPin, Navigation, Route } from "lucide-react";
+import { Link } from "wouter";
+import { ArrowUpRight, BookOpen, Clock, MapPin, Navigation, Route } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
 import { loadGoogleMaps } from "@/lib/loadMaps";
@@ -10,7 +11,9 @@ import { breadcrumbs } from "@/seo/jsonld";
 
 export default function Location() {
   const { t, lang } = useI18n();
-  const { location, attractions } = useVenue();
+  const { location, attractions, guides } = useVenue();
+  /** Guides written in this language that cover an attraction, keyed by attraction id. */
+  const guidesFor = (id: string) => guides.filter(guide => guide.available && guide.attractionIds.includes(id));
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   /** idle → loading → ready | failed. Drives the placeholder vs fallback. */
@@ -186,6 +189,13 @@ export default function Location() {
                   <p className="mt-1.5 max-w-[52ch] text-[0.8125rem] text-muted-foreground">
                     {info.note}
                   </p>
+                  {guidesFor(a.id).map(guide => (
+                    <Link key={guide.slug} href={`/guides/${guide.slug}`} className="mt-2 inline-flex min-h-10 items-center gap-1.5 text-[0.8125rem] text-turquoise hover:text-deep">
+                      <BookOpen className="size-3.5" strokeWidth={1.5} />
+                      {t.guides.readGuide}
+                      <ArrowUpRight className="size-3" strokeWidth={1.5} />
+                    </Link>
+                  ))}
                 </td>
                 <td className="w-[5.75rem] py-4 text-end align-top font-serif text-[0.9375rem] whitespace-nowrap text-turquoise md:py-5 md:text-[1.0625rem]">
                   {a.minutes} {t.common.minutes}

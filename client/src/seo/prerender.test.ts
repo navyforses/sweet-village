@@ -5,10 +5,15 @@ import { assembleDocument, embedJson, listPublicPages, outputFileFor, sitemapLas
 describe("prerender helpers", () => {
   it("lists every static and dynamic page in every language", () => {
     const pages = listPublicPages(DEFAULT_CONTENT);
-    // 8 static routes + 5 units + 7 events, times 6 languages.
-    expect(pages).toHaveLength((8 + 5 + 7) * 6);
-    expect(pages.filter(page => page.lang === "ka")).toHaveLength(20);
+    // 9 static routes + 5 units + 7 events + 6 guides, times 6 languages; guides are only indexable in Georgian and English.
+    expect(pages).toHaveLength((9 + 5 + 7 + 6) * 6);
+    expect(pages.filter(page => page.lang === "ka")).toHaveLength(21 + 6);
     expect(pages.some(page => page.lang === "ar" && page.path === "/events/wedding")).toBe(true);
+    expect(pages.some(page => page.lang === "ar" && page.path === "/guides")).toBe(true);
+    const cave = pages.filter(page => page.path === "/guides/prometheus-cave");
+    expect(cave.filter(page => !page.noindex).map(page => page.lang)).toEqual(["ka", "en"]);
+    expect(cave.filter(page => page.noindex).map(page => page.lang)).toEqual(["ru", "ar", "fr", "es"]);
+    expect(cave[0].lastmod).toBe("2026-09-16");
   });
 
   it("maps pages to directory index files", () => {
@@ -24,6 +29,28 @@ describe("prerender helpers", () => {
     expect(sitemapLastmod("2026-09-01 23:30:00+00", build)).toBe("2026-09-01");
     expect(sitemapLastmod(null, build)).toBe("2026-09-16");
     expect(sitemapLastmod("not a date", build)).toBe("2026-09-16");
+  });
+
+  it("skips hidden guides and guides without a body in that language", () => {
+    const content = {
+      ...DEFAULT_CONTENT,
+      guides: {
+        posts: [
+          { ...DEFAULT_CONTENT.guides.posts[0], hidden: true },
+          { ...DEFAULT_CONTENT.guides.posts[1], body: { ...DEFAULT_CONTENT.guides.posts[1].body, en: "" } },
+        ],
+      },
+    };
+    const guidePages = listPublicPages(content).filter(page => page.path.startsWith("/guides/"));
+    expect(guidePages).toHaveLength(6);
+    expect(guidePages.filter(page => !page.noindex)).toEqual([{ lang: "ka", path: `/guides/${DEFAULT_CONTENT.guides.posts[1].slug}`, lastmod: "2026-09-16" }]);
+  });
+
+  it("uses the page's own lastmod and the first available language as x-default", () => {
+    const xml = sitemapXml([{ lang: "en", path: "/guides/only-english", lastmod: "2026-01-02" }], "2026-09-16");
+    expect(xml).toContain("<lastmod>2026-01-02</lastmod>");
+    expect(xml).toContain('hreflang="x-default" href="https://www.sweet-village.com/en/guides/only-english"');
+    expect(xml).not.toContain('hreflang="ka"');
   });
 
   it("writes a sitemap with hreflang alternates for each URL", () => {

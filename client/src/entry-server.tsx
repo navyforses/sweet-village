@@ -13,9 +13,17 @@ export interface RenderResult {
 
 const HOISTED = /^(?:<title>[\s\S]*?<\/title>|<meta\b[^>]*\/?>|<link\b[^>]*\/?>)+/;
 
+/** A Suspense boundary emitted as fallback + hidden content + client-side swap script. */
+const LATE_BOUNDARY = /<template id="B:\d+">/;
+
 /**
  * Build-time renderer used by scripts/prerender.ts. `prerender` waits for
- * every lazy page, so the output is the complete page, not a spinner.
+ * every lazy page, but Fizz still "outlines" any completed boundary larger
+ * than `progressiveChunkSize` (12.8 KB by default): the fallback is written
+ * in place and the page arrives in a hidden block a script swaps in, which
+ * is what a reader without JavaScript or a link-preview bot would see.
+ * Every page here is larger than that, so the limit is lifted and a late
+ * boundary fails the build instead of shipping a spinner.
  */
 export async function render(url: string, content: SparseContent | null): Promise<RenderResult> {
   const [path, search = ""] = url.split("?");
@@ -26,8 +34,10 @@ export async function render(url: string, content: SparseContent | null): Promis
         <App initialContent={content} />
       </Router>
     </QueryClientProvider>,
+    { progressiveChunkSize: Number.MAX_SAFE_INTEGER },
   );
   const html = await new Response(prelude).text();
+  if (LATE_BOUNDARY.test(html)) throw new Error(`[prerender] ${url} has a Suspense boundary that was not rendered inline`);
   const match = HOISTED.exec(html);
   const head = match ? match[0] : "";
   return { head, body: html.slice(head.length) };

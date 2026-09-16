@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ArrowUpRight, ChefHat, History, Home, Images, Inbox, Info, MapPin, PartyPopper, Phone, Type, Waves } from "lucide-react";
+import { ArrowUpRight, ChefHat, History, Home, Images, Inbox, Info, MapPin, PartyPopper, Phone, Type, Waves, BookOpen } from "lucide-react";
 import type { SectionKey } from "@shared/content";
 import { AdminApiError, useSection } from "../api";
 import { formatDateTime } from "../lib/timestamps";
@@ -14,6 +14,7 @@ const CARDS: { key: SectionKey; href: string; icon: typeof Home; title: string; 
   { key: "attractions", href: "/admin/attractions", icon: MapPin, ...S.dashboard.sections.attractions },
   { key: "about", href: "/admin/about", icon: Info, ...S.dashboard.sections.about },
   { key: "menu", href: "/admin/menu", icon: ChefHat, ...S.dashboard.sections.menu },
+  { key: "guides", href: "/admin/guides", icon: BookOpen, ...S.dashboard.sections.guides },
   { key: "texts", href: "/admin/texts", icon: Type, ...S.dashboard.sections.texts },
 ];
 

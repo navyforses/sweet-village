@@ -7,7 +7,7 @@ export const DEFAULT_LANG: Lang = "ka";
 export const SITE_ORIGIN = "https://www.sweet-village.com";
 
 /** Static public routes (language-relative). Dynamic ones are added from content. */
-export const PUBLIC_ROUTES = ["/", "/stay", "/menu", "/events", "/pool", "/location", "/about", "/booking"] as const;
+export const PUBLIC_ROUTES = ["/", "/stay", "/menu", "/events", "/pool", "/location", "/about", "/guides", "/booking"] as const;
 
 export function isLang(value: string | undefined | null): value is Lang {
   return typeof value === "string" && (LANGS as readonly string[]).includes(value);

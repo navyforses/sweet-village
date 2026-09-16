@@ -14,6 +14,7 @@ export default function SiteFooter() {
     { href: "/events", label: t.nav.events },
     { href: "/pool", label: t.nav.pool },
     { href: "/location", label: t.nav.location },
+    { href: "/guides", label: t.nav.guides },
     { href: "/about", label: t.nav.about },
   ];
 

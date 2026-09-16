@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-import { ChefHat, ExternalLink, History, Home, Images, Inbox, Info, LayoutDashboard, LogOut, MapPin, PartyPopper, Phone, Type, Waves, X } from "lucide-react";
+import { ChefHat, ExternalLink, History, Home, Images, Inbox, Info, LayoutDashboard, LogOut, MapPin, PartyPopper, Phone, Type, Waves, X, BookOpen } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -31,6 +31,7 @@ const NAV = [
   { href: "/admin/attractions", label: S.nav.attractions, icon: MapPin, exact: true },
   { href: "/admin/about", label: S.nav.about, icon: Info, exact: true },
   { href: "/admin/menu", label: S.nav.menu, icon: ChefHat, exact: false },
+  { href: "/admin/guides", label: S.nav.guides, icon: BookOpen, exact: false },
   { href: "/admin/texts", label: S.nav.texts, icon: Type, exact: false },
   { href: "/admin/history", label: S.nav.history, icon: History, exact: false },
   { href: "/admin/bookings", label: S.nav.bookings, icon: Inbox, exact: true },

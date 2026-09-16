@@ -1,6 +1,7 @@
 import type { Lang } from "@shared/langs";
 import { canonicalUrl, SITE_ORIGIN } from "@/i18n/paths";
-import type { Venue, VenueEvent, VenueMenu, VenueUnit } from "@/content/resolve";
+import type { Venue, VenueEvent, VenueGuide, VenueMenu, VenueUnit } from "@/content/resolve";
+import { wordCount } from "@shared/markdown";
 import { absoluteUrl } from "./meta";
 
 type JsonLd = Record<string, unknown>;
@@ -189,6 +190,52 @@ export function faqPage(items: { question: string; answer: string }[]): JsonLd {
       "@type": "Question",
       name: item.question,
       acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+
+const organization = (brand: string): JsonLd => ({
+  "@type": "Organization",
+  "@id": LODGING_ID,
+  name: brand,
+  url: SITE_ORIGIN,
+  logo: { "@type": "ImageObject", url: `${SITE_ORIGIN}/icons/icon-512.png` },
+});
+
+/** One guide article; the publisher is the guesthouse itself. */
+export function guideArticle(lang: Lang, guide: VenueGuide, brand: string): JsonLd {
+  const url = canonicalUrl(lang, `/guides/${guide.slug}`);
+  return {
+    "@context": CONTEXT,
+    "@type": "Article",
+    "@id": `${url}#article`,
+    headline: guide.title,
+    description: guide.excerpt,
+    image: [absoluteUrl(guide.cover)],
+    datePublished: guide.publishedAt,
+    dateModified: guide.updatedAt,
+    inLanguage: lang,
+    wordCount: wordCount(guide.body),
+    author: organization(brand),
+    publisher: organization(brand),
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    isPartOf: { "@type": "WebSite", url: SITE_ORIGIN, name: brand },
+  };
+}
+
+/** The guides index as an ordered list of articles. */
+export function guideList(lang: Lang, guides: VenueGuide[], name: string): JsonLd {
+  return {
+    "@context": CONTEXT,
+    "@type": "ItemList",
+    name,
+    itemListOrder: "https://schema.org/ItemListOrderDescending",
+    numberOfItems: guides.length,
+    itemListElement: guides.map((guide, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: canonicalUrl(lang, `/guides/${guide.slug}`),
+      name: guide.title,
     })),
   };
 }

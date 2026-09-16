@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_CONTENT } from "@shared/content";
 import { resolveContent, resolveVenue } from "@/content/resolve";
-import { accommodationUnit, breadcrumbs, eventVenue, lodgingBusiness, restaurantWithMenu, webSite } from "./jsonld";
+import { accommodationUnit, breadcrumbs, eventVenue, guideArticle, guideList, lodgingBusiness, restaurantWithMenu, webSite } from "./jsonld";
 import { absoluteUrl, pageMeta, truncate } from "./meta";
 
 const venue = resolveVenue(resolveContent(DEFAULT_CONTENT, {}), "en");
@@ -20,6 +20,14 @@ describe("page meta", () => {
     expect(pageMeta({ lang: "ka", path: "/404", title: "x", description: "y", noindex: true }).robots).toBe("noindex, nofollow");
   });
 
+  it("limits hreflang alternates to the languages a page exists in", () => {
+    const meta = pageMeta({ lang: "en", path: "/guides/x", title: "x", description: "y", langs: ["ka", "en"] });
+    expect(meta.alternates.map(item => item.hrefLang)).toEqual(["ka", "en", "x-default"]);
+    expect(meta.alternateLocales).toEqual(["ka_GE"]);
+    const englishOnly = pageMeta({ lang: "en", path: "/guides/x", title: "x", description: "y", langs: ["en"] });
+    expect(englishOnly.alternates.find(item => item.hrefLang === "x-default")?.href).toBe("https://www.sweet-village.com/en/guides/x");
+  });
+
   it("resolves images to absolute URLs and shortens long descriptions", () => {
     expect(absoluteUrl("/manus-storage/a.jpg")).toBe("https://www.sweet-village.com/manus-storage/a.jpg");
     expect(absoluteUrl("https://x.public.blob.vercel-storage.com/a.jpg")).toBe("https://x.public.blob.vercel-storage.com/a.jpg");
@@ -28,6 +36,23 @@ describe("page meta", () => {
     expect(short.length).toBeLessThanOrEqual(156);
     expect(short.endsWith("…")).toBe(true);
     expect(truncate("  short   text ")).toBe("short text");
+  });
+});
+
+describe("guide structured data", () => {
+  it("describes an article with dates, language, word count and the guesthouse as publisher", () => {
+    const guide = venue.guides.find(item => item.slug === "prometheus-cave")!;
+    const data = guideArticle("en", guide, "Sweet Village");
+    expect(data["@type"]).toBe("Article");
+    expect(data.headline).toBe(guide.title);
+    expect(data.datePublished).toBe("2026-09-16");
+    expect(data.inLanguage).toBe("en");
+    expect(data.wordCount).toBeGreaterThan(300);
+    expect(data.mainEntityOfPage).toMatchObject({ "@id": "https://www.sweet-village.com/en/guides/prometheus-cave" });
+    expect(data.publisher).toMatchObject({ "@type": "Organization", name: "Sweet Village" });
+    const list = guideList("en", venue.guides, "Guides");
+    expect(list.numberOfItems).toBe(6);
+    expect((list.itemListElement as { url: string }[])[0].url).toMatch(/^https:\/\/www\.sweet-village\.com\/en\/guides\//);
   });
 });
 

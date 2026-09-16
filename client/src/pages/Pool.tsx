@@ -1,11 +1,12 @@
 import { Link } from "wouter";
 import { Clock, Info, Sun, Users } from "lucide-react";
+import Faq from "@/components/Faq";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 import { JsonLd, Seo } from "@/seo/Seo";
-import { breadcrumbs } from "@/seo/jsonld";
+import { breadcrumbs, faqPage } from "@/seo/jsonld";
 
 export default function Pool() {
   const { t, lang } = useI18n();
@@ -14,7 +15,7 @@ export default function Pool() {
   return (
     <div className="container py-10 md:py-20">
       <Seo path="/pool" title={t.meta.pages.pool.title} description={t.meta.pages.pool.description} image={pool.photos.main} />
-      <JsonLd data={breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.pool, path: "/pool" }])} />
+      <JsonLd data={[breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.pool, path: "/pool" }]), faqPage(t.pool.faq.items)]} />
       <SectionHeading as="h1" eyebrow={t.pool.eyebrow} title={t.pool.title} intro={t.pool.intro} />
 
       <div className="mt-9 grid gap-8 md:mt-12 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
@@ -120,6 +121,8 @@ export default function Pool() {
           {t.pool.limitBody}
         </p>
       </aside>
+
+      <Faq title={t.pool.faq.title} items={t.pool.faq.items} className="mt-12 md:mt-16" />
 
       <ShareButton className="mt-12 justify-center md:mt-16" />
     </div>
