@@ -18,7 +18,6 @@ const Pool = lazy(() => import("./pages/Pool"));
 const Location = lazy(() => import("./pages/Location"));
 const About = lazy(() => import("./pages/About"));
 const Booking = lazy(() => import("./pages/Booking"));
-const BlobMigration = lazy(() => import("./pages/BlobMigration"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminApp = lazy(() => import("./admin/AdminApp"));
 
@@ -48,7 +47,6 @@ function Router() {
       <Route path="/location" component={Location} />
       <Route path="/about" component={About} />
       <Route path="/booking" component={Booking} />
-      <Route path="/migration" component={BlobMigration} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
