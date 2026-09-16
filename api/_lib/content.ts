@@ -85,6 +85,96 @@ export async function upsertSection<K extends SectionKey>(
   return row ? { ok: true, updatedAt: row.updated_at } : { ok: false, reason: "conflict" };
 }
 
+export interface RevisionSummary {
+  id: number;
+  key: SectionKey;
+  savedAt: string;
+  savedBy: string;
+  note: string | null;
+}
+
+export interface StoredRevision<K extends SectionKey = SectionKey> extends RevisionSummary {
+  key: K;
+  value: SiteContent[K];
+}
+
+type RevisionRow = { id: number; key: string; saved_at: string; saved_by: string; note: string | null; value?: unknown };
+
+/** Newest first. The revision whose `savedAt` equals the section's `updatedAt` is the live version. */
+export async function listRevisions(sql: Sql, key: SectionKey, limit: number): Promise<RevisionSummary[]> {
+  const rows = (await sql`
+    SELECT id, key, saved_at::text AS saved_at, saved_by, note
+    FROM site_content_revisions WHERE key = ${key}
+    ORDER BY saved_at DESC, id DESC LIMIT ${limit}
+  `) as RevisionRow[];
+  return rows.map(row => ({ id: Number(row.id), key, savedAt: row.saved_at, savedBy: row.saved_by, note: row.note ?? null }));
+}
+
+/** One revision with its value; null when missing, of another section, or no longer valid for this build. */
+export async function readRevision<K extends SectionKey>(sql: Sql, key: K, id: number): Promise<StoredRevision<K> | null> {
+  const rows = (await sql`
+    SELECT id, key, value, saved_at::text AS saved_at, saved_by, note
+    FROM site_content_revisions WHERE id = ${id} AND key = ${key} LIMIT 1
+  `) as RevisionRow[];
+  const row = rows[0];
+  if (!row) return null;
+  const value = parseSection(key, row.value);
+  if (!value) {
+    console.error(`[content] revision ${id} of "${key}" failed validation`);
+    return null;
+  }
+  return { id: Number(row.id), key, value, savedAt: row.saved_at, savedBy: row.saved_by, note: row.note ?? null };
+}
+
+export interface BookingRow {
+  id: number;
+  name: string;
+  phone: string;
+  checkIn: string | null;
+  checkOut: string | null;
+  interest: string;
+  unit: string | null;
+  guests: number | null;
+  notes: string | null;
+  lang: string;
+  createdAt: string;
+}
+
+type RawBookingRow = {
+  id: number;
+  name: string;
+  phone: string;
+  check_in: string | null;
+  check_out: string | null;
+  interest: string;
+  unit: string | null;
+  guests: number | null;
+  notes: string | null;
+  lang: string;
+  created_at: string;
+};
+
+/** Booking enquiries, newest first (read-only for the admin). */
+export async function listBookings(sql: Sql, limit: number): Promise<BookingRow[]> {
+  const rows = (await sql`
+    SELECT id, name, phone, check_in, check_out, interest, unit, guests, notes, lang, created_at::text AS created_at
+    FROM bookings ORDER BY created_at DESC, id DESC LIMIT ${limit}
+  `) as RawBookingRow[];
+  return rows.map(row => ({
+    id: Number(row.id),
+    name: row.name,
+    phone: row.phone,
+    checkIn: row.check_in ?? null,
+    checkOut: row.check_out ?? null,
+    interest: row.interest,
+    unit: row.unit ?? null,
+    guests: row.guests === null || row.guests === undefined ? null : Number(row.guests),
+    notes: row.notes ?? null,
+    lang: row.lang,
+    createdAt: row.created_at,
+  }));
+}
+
 const LOGIN_WINDOW_MINUTES = 15;
 export const LOGIN_MAX_FAILURES_PER_IP = 5;
 export const LOGIN_MAX_FAILURES_GLOBAL = 40;

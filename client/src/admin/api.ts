@@ -124,6 +124,82 @@ export function useSaveSection<K extends SectionKey>(key: K) {
   });
 }
 
+export interface RevisionSummary {
+  id: number;
+  key: SectionKey;
+  savedAt: string;
+  savedBy: string;
+  note: string | null;
+}
+
+export interface RevisionDetail<K extends SectionKey = SectionKey> extends RevisionSummary {
+  key: K;
+  value: SiteContent[K];
+}
+
+export const revisionsQueryKey = (key: SectionKey) => ["admin-revisions", key] as const;
+
+export function useRevisions(key: SectionKey) {
+  return useQuery({
+    queryKey: revisionsQueryKey(key),
+    queryFn: () => adminFetch<{ key: SectionKey; revisions: RevisionSummary[] }>(`/api/admin/revisions?key=${key}&limit=50`),
+    staleTime: 30_000,
+    refetchOnWindowFocus: false,
+    retry: (count, error) => !isUnauthorized(error) && count < 1,
+  });
+}
+
+export function useRevision<K extends SectionKey>(key: K, id: number | null) {
+  return useQuery({
+    queryKey: ["admin-revision", key, id] as const,
+    queryFn: () => adminFetch<{ revision: RevisionDetail<K> }>(`/api/admin/revisions?key=${key}&id=${id}`),
+    enabled: id !== null,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    retry: (count, error) => !isUnauthorized(error) && count < 1,
+  });
+}
+
+export function useRestore(key: SectionKey) {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { id: number; ifUpdatedAt: string | null }) =>
+      adminFetch<{ key: SectionKey; restoredFrom: number; updatedAt: string }>("/api/admin/restore", {
+        method: "POST",
+        body: { key, id: input.id, ifUpdatedAt: input.ifUpdatedAt },
+      }),
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: sectionQueryKey(key) });
+      client.invalidateQueries({ queryKey: revisionsQueryKey(key) });
+      client.invalidateQueries({ queryKey: ["site-content"] });
+    },
+  });
+}
+
+export interface BookingRow {
+  id: number;
+  name: string;
+  phone: string;
+  checkIn: string | null;
+  checkOut: string | null;
+  interest: string;
+  unit: string | null;
+  guests: number | null;
+  notes: string | null;
+  lang: string;
+  createdAt: string;
+}
+
+export function useBookings() {
+  return useQuery({
+    queryKey: ["admin-bookings"],
+    queryFn: () => adminFetch<{ bookings: BookingRow[] }>("/api/admin/bookings?limit=100"),
+    staleTime: 30_000,
+    refetchOnWindowFocus: true,
+    retry: (count, error) => !isUnauthorized(error) && count < 1,
+  });
+}
+
 export type TranslateKind = "title" | "body" | "caption" | "label";
 
 export interface TranslateItem {
