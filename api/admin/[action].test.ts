@@ -223,6 +223,125 @@ describe("content", () => {
   });
 });
 
+describe("revisions, restore and bookings", () => {
+  const revisionRows = [
+    { id: 12, key: "contact", value: { ...DEFAULT_CONTENT.contact, phoneDisplay: "+995 599 00 00 02" }, saved_at: "2026-09-16 12:00:00.000002+00", saved_by: "owner", note: null },
+    { id: 11, key: "contact", value: { ...DEFAULT_CONTENT.contact, phoneDisplay: "+995 599 00 00 01" }, saved_at: "2026-09-16 12:00:00.000001+00", saved_by: "owner", note: "restore:3" },
+    { id: 9, key: "contact", value: { ...DEFAULT_CONTENT.contact, email: "broken" }, saved_at: "2026-09-16 11:00:00.000000+00", saved_by: "owner", note: null },
+  ];
+  const bookingRows = [
+    { id: 7, name: "ნინო", phone: "+995 599 12 34 56", check_in: "2026-10-01", check_out: "2026-10-03", interest: "cottage", unit: "grand", guests: 4, notes: "ბავშვის საწოლი", lang: "ka", created_at: "2026-09-16 09:00:00.000000+00" },
+    { id: 6, name: "Anna", phone: "+33 6 00 00 00 00", check_in: null, check_out: null, interest: "pool", unit: null, guests: null, notes: null, lang: "fr", created_at: "2026-09-15 09:00:00.000000+00" },
+  ];
+
+  function historyStore(rows: Record<string, FakeRow>, options: { conflict?: boolean } = {}): FakeQueryHandler {
+    const base = contentStore(rows, options);
+    return (query, values) => {
+      if (query.includes("FROM site_content_revisions WHERE key = ? ORDER BY")) {
+        return revisionRows.filter(row => row.key === values[0]).slice(0, Number(values[1])).map(({ value: _value, ...row }) => row);
+      }
+      if (query.includes("FROM site_content_revisions WHERE id = ?")) {
+        return revisionRows.filter(row => row.id === Number(values[0]) && row.key === values[1]);
+      }
+      if (query.includes("FROM bookings ORDER BY")) return bookingRows.slice(0, Number(values[0]));
+      return base(query, values);
+    };
+  }
+
+  it("lists a section's revisions and returns one with its value", async () => {
+    neonState.handler = historyStore({});
+    let { record, response } = responseRecorder();
+    await handler(request("revisions", { query: { key: "contact" } }), response);
+    expect(record.statusCode).toBe(401);
+
+    ({ record, response } = responseRecorder());
+    await handler(request("revisions", { auth: true, query: { key: "bookings" } }), response);
+    expect(record.statusCode).toBe(400);
+
+    ({ record, response } = responseRecorder());
+    await handler(request("revisions", { auth: true, query: { key: "contact", limit: "2" } }), response);
+    expect(record.statusCode).toBe(200);
+    expect(record.body).toEqual({
+      key: "contact",
+      revisions: [
+        { id: 12, key: "contact", savedAt: "2026-09-16 12:00:00.000002+00", savedBy: "owner", note: null },
+        { id: 11, key: "contact", savedAt: "2026-09-16 12:00:00.000001+00", savedBy: "owner", note: "restore:3" },
+      ],
+    });
+
+    ({ record, response } = responseRecorder());
+    await handler(request("revisions", { auth: true, query: { key: "contact", id: "11" } }), response);
+    expect(record.statusCode).toBe(200);
+    expect(record.body).toMatchObject({ revision: { id: 11, key: "contact", note: "restore:3", value: { phoneDisplay: "+995 599 00 00 01" } } });
+
+    // A revision that no longer validates, a wrong section or a bad id all read as missing.
+    ({ record, response } = responseRecorder());
+    await handler(request("revisions", { auth: true, query: { key: "contact", id: "9" } }), response);
+    expect(record.statusCode).toBe(404);
+    ({ record, response } = responseRecorder());
+    await handler(request("revisions", { auth: true, query: { key: "units", id: "11" } }), response);
+    expect(record.statusCode).toBe(404);
+    ({ record, response } = responseRecorder());
+    await handler(request("revisions", { auth: true, query: { key: "contact", id: "x" } }), response);
+    expect(record.statusCode).toBe(400);
+  });
+
+  it("restores a revision as a new save and reports conflicts", async () => {
+    const rows: Record<string, FakeRow> = {};
+    neonState.handler = historyStore(rows);
+    let { record, response } = responseRecorder();
+    await handler(request("restore", { method: "POST", auth: true, body: { key: "contact", id: 11 } }), response);
+    expect(record.statusCode).toBe(403);
+
+    ({ record, response } = responseRecorder());
+    await handler(request("restore", { method: "POST", auth: true, mutate: true, body: { key: "contact", id: "11" } }), response);
+    expect(record.statusCode).toBe(422);
+
+    ({ record, response } = responseRecorder());
+    await handler(request("restore", { method: "POST", auth: true, mutate: true, body: { key: "contact", id: 999 } }), response);
+    expect(record.statusCode).toBe(404);
+
+    ({ record, response } = responseRecorder());
+    await handler(request("restore", { method: "POST", auth: true, mutate: true, body: { key: "contact", id: 11, ifUpdatedAt: null } }), response);
+    expect(record.statusCode).toBe(200);
+    expect(record.body).toEqual({ key: "contact", restoredFrom: 11, updatedAt: "2026-09-16 12:00:00.000001+00" });
+    expect(rows.contact?.value).toMatchObject({ phoneDisplay: "+995 599 00 00 01" });
+    const write = neonState.calls.find(call => call.query.includes("INSERT INTO site_content "));
+    expect(write?.values).toContain("restore:11");
+
+    neonState.handler = historyStore(rows, { conflict: true });
+    ({ record, response } = responseRecorder());
+    await handler(request("restore", { method: "POST", auth: true, mutate: true, body: { key: "contact", id: 11, ifUpdatedAt: "stale" } }), response);
+    expect(record.statusCode).toBe(409);
+  });
+
+  it("lists booking enquiries for the owner", async () => {
+    neonState.handler = historyStore({});
+    let { record, response } = responseRecorder();
+    await handler(request("bookings"), response);
+    expect(record.statusCode).toBe(401);
+
+    ({ record, response } = responseRecorder());
+    await handler(request("bookings", { auth: true, query: { limit: "1" } }), response);
+    expect(record.statusCode).toBe(200);
+    expect(record.body).toEqual({
+      bookings: [
+        { id: 7, name: "ნინო", phone: "+995 599 12 34 56", checkIn: "2026-10-01", checkOut: "2026-10-03", interest: "cottage", unit: "grand", guests: 4, notes: "ბავშვის საწოლი", lang: "ka", createdAt: "2026-09-16 09:00:00.000000+00" },
+      ],
+    });
+
+    ({ record, response } = responseRecorder());
+    await handler(request("bookings", { auth: true }), response);
+    expect((record.body as { bookings: unknown[] }).bookings).toHaveLength(2);
+    expect((record.body as { bookings: { guests: unknown; unit: unknown }[] }).bookings[1]).toMatchObject({ guests: null, unit: null, checkIn: null });
+
+    vi.stubEnv("NEON_DATABASE_URL", "");
+    ({ record, response } = responseRecorder());
+    await handler(request("bookings", { auth: true }), response);
+    expect(record.statusCode).toBe(503);
+  });
+});
+
 describe("upload", () => {
   const body = { type: "blob.generate-client-token", payload: { pathname: "sweet-village/uploads/2026/pool-abc123.webp", callbackUrl: "", clientPayload: null, multipart: false } };
 

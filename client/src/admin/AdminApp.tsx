@@ -9,10 +9,12 @@ import { isUnauthorized, useAdminSession } from "./api";
 import { S } from "./strings";
 import AboutEdit from "./pages/AboutEdit";
 import Attractions from "./pages/Attractions";
+import Bookings from "./pages/Bookings";
 import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
 import EventEdit from "./pages/EventEdit";
 import Events from "./pages/Events";
+import History from "./pages/History";
 import HomeEdit from "./pages/HomeEdit";
 import Login from "./pages/Login";
 import MenuCategories from "./pages/MenuCategories";
@@ -69,6 +71,8 @@ const MenuPage = page(S.nav.menu, MenuCategories);
 const MenuCategoryPage = page(S.nav.menu, MenuCategoryEdit);
 const TextsPage = page(S.nav.texts, Texts);
 const TextsEditPage = page(S.nav.texts, TextsEdit);
+const HistoryPage = page(S.nav.history, History);
+const BookingsPage = page(S.nav.bookings, Bookings);
 
 /**
  * Owner admin panel. Georgian-only, left-to-right, never indexed. Rendered
@@ -113,6 +117,9 @@ export default function AdminApp() {
         <Route path="/admin/menu/:categoryId" component={MenuCategoryPage} />
         <Route path="/admin/texts" component={TextsPage} />
         <Route path="/admin/texts/:section" component={TextsEditPage} />
+        <Route path="/admin/history" component={HistoryPage} />
+        <Route path="/admin/history/:section" component={HistoryPage} />
+        <Route path="/admin/bookings" component={BookingsPage} />
         <Route>
           <Redirect to="/admin" replace />
         </Route>

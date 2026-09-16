@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-import { ChefHat, ExternalLink, Home, Images, Info, LayoutDashboard, LogOut, MapPin, PartyPopper, Phone, Type, Waves } from "lucide-react";
+import { ChefHat, ExternalLink, History, Home, Images, Inbox, Info, LayoutDashboard, LogOut, MapPin, PartyPopper, Phone, Type, Waves } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -30,6 +30,8 @@ const NAV = [
   { href: "/admin/about", label: S.nav.about, icon: Info, exact: true },
   { href: "/admin/menu", label: S.nav.menu, icon: ChefHat, exact: false },
   { href: "/admin/texts", label: S.nav.texts, icon: Type, exact: false },
+  { href: "/admin/history", label: S.nav.history, icon: History, exact: false },
+  { href: "/admin/bookings", label: S.nav.bookings, icon: Inbox, exact: true },
 ];
 
 /** Sidebar + content frame for every authenticated admin page. */
