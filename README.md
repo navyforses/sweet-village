@@ -234,7 +234,7 @@ pnpm test
 pnpm check
 ```
 
-The current suite covers locale paths and legacy `?lang=` upgrades, page metadata (canonical, hreflang, Open Graph) and JSON-LD builders, booking validation, booking API behavior (including owner-edited guest limits), menu completeness, venue/inventory data, the content model and its defaults, content resolution, admin authentication, the admin API dispatcher (login, content, upload, translate with mocked Neon and Anthropic clients), maps proxy behavior, authentic copy, asset URL resolution, upload naming, native Node ESM loading, and client-side map loading. The most recent local baseline is **148 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
+The current suite covers locale paths and legacy `?lang=` upgrades, page metadata (canonical, hreflang, Open Graph) and JSON-LD builders, booking validation, booking API behavior (including owner-edited guest limits), menu completeness, venue/inventory data, the content model and its defaults, content resolution, admin authentication, the admin API dispatcher (login, content, upload, translate with mocked Neon and Anthropic clients), maps proxy behavior, authentic copy, asset URL resolution, upload naming, native Node ESM loading, and client-side map loading. The most recent local baseline is **149 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
 
 Visual QA must cover desktop, mobile, and Arabic RTL for any touched public page. Text changes also require checking that each changed user-facing message exists in all six locale files or is intentionally language-specific.
 

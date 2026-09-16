@@ -25,6 +25,16 @@ export function outputFileFor(entry: PageEntry): string {
   return site ? `${site}/index.html` : "index.html";
 }
 
+/**
+ * `<lastmod>` date (YYYY-MM-DD) from the newest `site_content.updated_at`,
+ * which arrives as Postgres text ("2026-09-16 19:00:00.123456+00"). Anything
+ * unparseable falls back to the build date rather than failing the build.
+ */
+export function sitemapLastmod(updatedAt: string | null | undefined, now = new Date()): string {
+  const parsed = updatedAt ? new Date(updatedAt) : now;
+  return (Number.isNaN(parsed.getTime()) ? now : parsed).toISOString().slice(0, 10);
+}
+
 export function sitemapXml(pages: PageEntry[], lastmod: string): string {
   const byPath = new Map<string, PageEntry[]>();
   for (const page of pages) byPath.set(page.path, [...(byPath.get(page.path) ?? []), page]);

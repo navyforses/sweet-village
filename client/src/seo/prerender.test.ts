@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_CONTENT } from "@shared/content";
-import { assembleDocument, embedJson, listPublicPages, outputFileFor, sitemapXml } from "./prerender";
+import { assembleDocument, embedJson, listPublicPages, outputFileFor, sitemapLastmod, sitemapXml } from "./prerender";
 
 describe("prerender helpers", () => {
   it("lists every static and dynamic page in every language", () => {
@@ -16,6 +16,14 @@ describe("prerender helpers", () => {
     expect(outputFileFor({ lang: "ka", path: "/stay/grand" })).toBe("stay/grand/index.html");
     expect(outputFileFor({ lang: "en", path: "/" })).toBe("en/index.html");
     expect(outputFileFor({ lang: "fr", path: "/menu" })).toBe("fr/menu/index.html");
+  });
+
+  it("derives lastmod from the Postgres text timestamp and never throws", () => {
+    const build = new Date("2026-09-16T12:00:00Z");
+    expect(sitemapLastmod("2026-09-01 19:00:00.123456+00", build)).toBe("2026-09-01");
+    expect(sitemapLastmod("2026-09-01 23:30:00+00", build)).toBe("2026-09-01");
+    expect(sitemapLastmod(null, build)).toBe("2026-09-16");
+    expect(sitemapLastmod("not a date", build)).toBe("2026-09-16");
   });
 
   it("writes a sitemap with hreflang alternates for each URL", () => {
