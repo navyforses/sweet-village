@@ -1,5 +1,5 @@
 import { put } from "@vercel/blob";
-import { BLOB_MIGRATION_SOURCES } from "./_lib/blobSources";
+import { BLOB_MIGRATION_SOURCES } from "./_lib/blobSources.js";
 
 const BATCH_SIZE = 5;
 

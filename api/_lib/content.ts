@@ -3,9 +3,9 @@
  * text (`updated_at::text`) so the optimistic-concurrency token round-trips
  * without losing microseconds; the client treats it as an opaque string.
  */
-import { isSectionKey, type SectionKey, type SiteContent, type SparseContent } from "../../shared/content";
-import { parseSection } from "../../shared/contentSchema";
-import type { Sql } from "./db";
+import { isSectionKey, type SectionKey, type SiteContent, type SparseContent } from "../../shared/content.js";
+import { parseSection } from "../../shared/contentSchema.js";
+import type { Sql } from "./db.js";
 
 export interface StoredSection<K extends SectionKey = SectionKey> {
   key: K;

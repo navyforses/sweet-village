@@ -6,8 +6,8 @@
  * they now seed `DEFAULT_CONTENT.units` so the owner can change them from the
  * admin panel without touching translations by hand.
  */
-import { localized, type LocalizedText } from "./langs";
-import type { UnitId } from "./venue";
+import { localized, type LocalizedText } from "./langs.js";
+import type { UnitId } from "./venue.js";
 
 export interface UnitCopy {
   name: LocalizedText;

@@ -1,5 +1,5 @@
-import { getAdminSession } from "../adminAuth";
-import { methodNotAllowed, type ApiRequest, type ApiResponse } from "../http";
+import { getAdminSession } from "../adminAuth.js";
+import { methodNotAllowed, type ApiRequest, type ApiResponse } from "../http.js";
 
 export async function me(req: ApiRequest, res: ApiResponse) {
   if (req.method !== "GET") {

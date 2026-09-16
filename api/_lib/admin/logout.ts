@@ -1,5 +1,5 @@
-import { assertMutationAllowed, clearSessionCookie } from "../adminAuth";
-import { methodNotAllowed, type ApiRequest, type ApiResponse } from "../http";
+import { assertMutationAllowed, clearSessionCookie } from "../adminAuth.js";
+import { methodNotAllowed, type ApiRequest, type ApiResponse } from "../http.js";
 
 export async function logout(req: ApiRequest, res: ApiResponse) {
   if (req.method !== "POST") {

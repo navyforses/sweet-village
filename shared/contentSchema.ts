@@ -4,10 +4,10 @@
  * bundle (form resolvers). The public site never imports this module.
  */
 import { z } from "zod";
-import { LANGS, type Lang } from "./langs";
-import { EVENT_TYPES, UNITS } from "./venue";
-import { isSafeKey } from "./deepMerge";
-import type { SectionKey, SiteContent } from "./content";
+import { LANGS, type Lang } from "./langs.js";
+import { EVENT_TYPES, UNITS } from "./venue.js";
+import { isSafeKey } from "./deepMerge.js";
+import type { SectionKey, SiteContent } from "./content.js";
 
 export const UNIT_IDS = UNITS.map(unit => unit.id) as [string, ...string[]];
 export const EVENT_IDS = EVENT_TYPES.map(event => event.id) as [string, ...string[]];

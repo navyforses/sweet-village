@@ -4,8 +4,8 @@
  * six languages. Seeds DEFAULT_CONTENT.events; formerly lived in
  * client/src/lib/eventDetailCopy.ts.
  */
-import { localized, type LocalizedText } from "./langs";
-import type { EventId } from "./venue";
+import { localized, type LocalizedText } from "./langs.js";
+import type { EventId } from "./venue.js";
 
 export interface EventCopy {
   title: LocalizedText;

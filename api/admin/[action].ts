@@ -1,13 +1,13 @@
-import { noStore, queryParam, type ApiRequest, type ApiResponse } from "../_lib/http";
-import { login } from "../_lib/admin/login";
-import { logout } from "../_lib/admin/logout";
-import { me } from "../_lib/admin/me";
-import { content } from "../_lib/admin/content";
-import { upload } from "../_lib/admin/upload";
-import { translate } from "../_lib/admin/translate";
-import { revisions } from "../_lib/admin/revisions";
-import { restore } from "../_lib/admin/restore";
-import { bookings } from "../_lib/admin/bookings";
+import { noStore, queryParam, type ApiRequest, type ApiResponse } from "../_lib/http.js";
+import { login } from "../_lib/admin/login.js";
+import { logout } from "../_lib/admin/logout.js";
+import { me } from "../_lib/admin/me.js";
+import { content } from "../_lib/admin/content.js";
+import { upload } from "../_lib/admin/upload.js";
+import { translate } from "../_lib/admin/translate.js";
+import { revisions } from "../_lib/admin/revisions.js";
+import { restore } from "../_lib/admin/restore.js";
+import { bookings } from "../_lib/admin/bookings.js";
 
 /**
  * Single admin function. Vercel maps `/api/admin/<action>` to `req.query.action`;

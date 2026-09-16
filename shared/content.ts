@@ -6,18 +6,18 @@
  * zod and client-only imports: it is bundled into the public site and loaded
  * by every Vercel function. Validation lives in `./contentSchema.ts`.
  */
-import { ATTRACTION_COPY } from "./attractionCopy";
-import { EVENT_CAPTION_CONCEPT, EVENT_CAPTION_REAL, EVENT_COPY } from "./eventCopy";
-import { MENU } from "./menuData";
-import { EN_RU_DESCRIPTIONS } from "./menuDescriptions";
-import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS } from "./menuTranslations";
-import { ADDRESS_COPY, UNIT_COPY, defaultUnitCaptions } from "./unitCopy";
-import { ATTRACTIONS, CONTACT, EVENT_TYPES, LOCATION, POOL, UNITS, type EventId, type UnitId } from "./venue";
-import { EVENTS_PAGE_HERO, EVENTS_SPACE_PHOTO_REFS, HOME_GALLERY_REFS, HOME_PHOTO_REFS, RAW_MENU_ITEM_PHOTOS, RAW_PHOTOS } from "./venuePhotos";
-import type { Lang, LocalizedText } from "./langs";
+import { ATTRACTION_COPY } from "./attractionCopy.js";
+import { EVENT_CAPTION_CONCEPT, EVENT_CAPTION_REAL, EVENT_COPY } from "./eventCopy.js";
+import { MENU } from "./menuData.js";
+import { EN_RU_DESCRIPTIONS } from "./menuDescriptions.js";
+import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS } from "./menuTranslations.js";
+import { ADDRESS_COPY, UNIT_COPY, defaultUnitCaptions } from "./unitCopy.js";
+import { ATTRACTIONS, CONTACT, EVENT_TYPES, LOCATION, POOL, UNITS, type EventId, type UnitId } from "./venue.js";
+import { EVENTS_PAGE_HERO, EVENTS_SPACE_PHOTO_REFS, HOME_GALLERY_REFS, HOME_PHOTO_REFS, RAW_MENU_ITEM_PHOTOS, RAW_PHOTOS } from "./venuePhotos.js";
+import type { Lang, LocalizedText } from "./langs.js";
 
-export type { Lang, LocalizedText } from "./langs";
-export { pickLang } from "./langs";
+export type { Lang, LocalizedText } from "./langs.js";
+export { pickLang } from "./langs.js";
 
 /** A photo reference plus an optional caption per language. */
 export interface Photo {

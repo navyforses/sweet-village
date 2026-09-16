@@ -1,6 +1,6 @@
 import type { IncomingMessage } from "node:http";
-import { assertMutationAllowed, getAdminSession } from "../adminAuth";
-import { isRecord, methodNotAllowed, parseBody, type ApiRequest, type ApiResponse } from "../http";
+import { assertMutationAllowed, getAdminSession } from "../adminAuth.js";
+import { isRecord, methodNotAllowed, parseBody, type ApiRequest, type ApiResponse } from "../http.js";
 
 /** Owner uploads live under one prefix, one folder per year, ASCII slug names only. */
 export const UPLOAD_PATHNAME = /^sweet-village\/uploads\/\d{4}\/[a-z0-9][a-z0-9-]{0,79}\.(webp|jpg|jpeg|png)$/;

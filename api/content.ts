@@ -1,6 +1,6 @@
-import { getSql } from "./_lib/db";
-import { readAllSections } from "./_lib/content";
-import { methodNotAllowed, type ApiRequest, type ApiResponse } from "./_lib/http";
+import { getSql } from "./_lib/db.js";
+import { readAllSections } from "./_lib/content.js";
+import { methodNotAllowed, type ApiRequest, type ApiResponse } from "./_lib/http.js";
 
 /**
  * Public, read-only view of the owner-edited content. Returns only the

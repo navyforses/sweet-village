@@ -1,7 +1,7 @@
-import { getAdminSession } from "../adminAuth";
-import { listBookings } from "../content";
-import { getSql } from "../db";
-import { methodNotAllowed, queryParam, type ApiRequest, type ApiResponse } from "../http";
+import { getAdminSession } from "../adminAuth.js";
+import { listBookings } from "../content.js";
+import { getSql } from "../db.js";
+import { methodNotAllowed, queryParam, type ApiRequest, type ApiResponse } from "../http.js";
 
 const DEFAULT_LIMIT = 50;
 const MAX_LIMIT = 200;

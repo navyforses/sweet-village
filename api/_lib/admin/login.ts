@@ -1,7 +1,7 @@
-import { adminEnv, assertMutationAllowed, sessionCookie, signSession, verifyPassword } from "../adminAuth";
-import { countRecentFailures, LOGIN_RETRY_AFTER_SECONDS, loginThrottled, recordLoginAttempt } from "../content";
-import { getSql } from "../db";
-import { clientIp, isRecord, methodNotAllowed, parseBody, type ApiRequest, type ApiResponse } from "../http";
+import { adminEnv, assertMutationAllowed, sessionCookie, signSession, verifyPassword } from "../adminAuth.js";
+import { countRecentFailures, LOGIN_RETRY_AFTER_SECONDS, loginThrottled, recordLoginAttempt } from "../content.js";
+import { getSql } from "../db.js";
+import { clientIp, isRecord, methodNotAllowed, parseBody, type ApiRequest, type ApiResponse } from "../http.js";
 
 const FAILED_LOGIN_DELAY_MS = 400;
 

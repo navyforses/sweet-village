@@ -1,8 +1,8 @@
-import { isSectionKey } from "../../../shared/content";
-import { getAdminSession } from "../adminAuth";
-import { listRevisions, readRevision } from "../content";
-import { getSql } from "../db";
-import { methodNotAllowed, queryParam, type ApiRequest, type ApiResponse } from "../http";
+import { isSectionKey } from "../../../shared/content.js";
+import { getAdminSession } from "../adminAuth.js";
+import { listRevisions, readRevision } from "../content.js";
+import { getSql } from "../db.js";
+import { methodNotAllowed, queryParam, type ApiRequest, type ApiResponse } from "../http.js";
 
 const DEFAULT_LIMIT = 30;
 const MAX_LIMIT = 100;
