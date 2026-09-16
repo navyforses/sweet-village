@@ -20,6 +20,8 @@ const Pool = lazy(() => import("./pages/Pool"));
 const Location = lazy(() => import("./pages/Location"));
 const About = lazy(() => import("./pages/About"));
 const Booking = lazy(() => import("./pages/Booking"));
+const Guides = lazy(() => import("./pages/Guides"));
+const GuideDetail = lazy(() => import("./pages/GuideDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const AdminApp = lazy(() => import("./admin/AdminApp"));
 
@@ -48,6 +50,8 @@ function PublicRoutes() {
       <Route path="/pool" component={Pool} />
       <Route path="/location" component={Location} />
       <Route path="/about" component={About} />
+      <Route path="/guides/:slug" component={GuideDetail} />
+      <Route path="/guides" component={Guides} />
       <Route path="/booking" component={Booking} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

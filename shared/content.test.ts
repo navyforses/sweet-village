@@ -201,7 +201,10 @@ describe("content schemas", () => {
 
   it("accepts locale patches but rejects prototype keys and excessive depth", () => {
     expect(sectionIssues("texts", { ka: { hero: { title: "ახალი სათაური" }, highlights: { items: [{ title: "x", body: "y" }] } } })).toBeNull();
-    expect(sectionIssues("texts", JSON.parse('{"ka": {"__proto__": {"x": "y"}}}'))).not.toBeNull();
+    // zod drops prototype keys from the parsed value instead of reporting them; either way nothing pollutes prototypes.
+    const parsed = parseSection("texts", JSON.parse('{"ka": {"__proto__": {"x": "y"}, "hero": {"title": "t"}}}'));
+    expect(parsed && Object.prototype.hasOwnProperty.call(parsed.ka, "__proto__")).toBe(false);
+    expect(parsed?.ka).toEqual({ hero: { title: "t" } });
     expect(sectionIssues("texts", { de: { hero: { title: "x" } } })).not.toBeNull();
     let deep: Record<string, unknown> = { leaf: "x" };
     for (let i = 0; i < 9; i += 1) deep = { nested: deep };

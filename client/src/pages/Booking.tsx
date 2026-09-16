@@ -6,7 +6,9 @@ import { SectionDivider } from "@/components/Ornaments";
 import type { UnitId } from "@shared/venue";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
-import { Seo } from "@/seo/Seo";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { faqPage } from "@/seo/jsonld";
+import Faq from "@/components/Faq";
 
 type Interest = "cottage" | "event" | "pool" | "restaurant" | "whole";
 
@@ -167,6 +169,7 @@ export default function Booking() {
   return (
     <div className="container py-10 md:py-20">
       <Seo path="/booking" title={t.meta.pages.booking.title} description={t.meta.pages.booking.description} />
+      <JsonLd data={faqPage(t.booking.faq.items)} />
       <div className="mx-auto max-w-2xl">
         <SectionHeading
           as="h1"
@@ -354,6 +357,8 @@ export default function Booking() {
             </button>
           </div>
         </form>
+
+        <Faq title={t.booking.faq.title} items={t.booking.faq.items} className="mt-14 md:mt-20" />
 
         <SectionDivider motif="vine" className="mt-10 md:mt-14" />
 

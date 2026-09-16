@@ -7,6 +7,7 @@ import { z } from "zod";
 import { LANGS, type Lang } from "./langs.js";
 import { EVENT_TYPES, UNITS } from "./venue.js";
 import { isSafeKey } from "./deepMerge.js";
+import { SLUG_MAX, SLUG_PATTERN } from "./slug.js";
 import type { SectionKey, SiteContent } from "./content.js";
 
 export const UNIT_IDS = UNITS.map(unit => unit.id) as [string, ...string[]];
@@ -220,6 +221,38 @@ export const menuSectionSchema = z
     { message: "duplicate_item_id", path: ["categories"] },
   );
 
+const isoDate = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, "invalid_date");
+
+export const guideFaqSchema = z.object({
+  question: localizedText(200),
+  answer: localizedText(1200),
+});
+
+export const GUIDE_BODY_MAX = 12_000;
+/** Everything the admin can save for the section must fit the API's request limit with room to spare. */
+const GUIDES_SECTION_MAX_BYTES = 450_000;
+
+export const guidePostSchema = z.object({
+  slug: z.string().min(3).max(SLUG_MAX).regex(SLUG_PATTERN, "invalid_slug"),
+  publishedAt: isoDate,
+  updatedAt: isoDate,
+  cover: photoSchema,
+  title: localizedText(120),
+  excerpt: localizedText(300),
+  body: localizedText(GUIDE_BODY_MAX),
+  faq: z.array(guideFaqSchema).max(12).default([]),
+  attractionIds: z.array(z.string().regex(/^[a-z][a-z0-9-]{1,40}$/, "invalid_id")).max(8).default([]),
+  hidden: z.boolean().default(false),
+});
+
+export const guidesSectionSchema = z
+  .object({ posts: z.array(guidePostSchema).max(40) })
+  .refine(section => new Set(section.posts.map(post => post.slug)).size === section.posts.length, {
+    message: "duplicate_slug",
+    path: ["posts"],
+  })
+  .refine(section => JSON.stringify(section).length <= GUIDES_SECTION_MAX_BYTES, { message: "section_too_large", path: ["posts"] });
+
 const MAX_PATCH_DEPTH = 7;
 const MAX_PATCH_BYTES = 150_000;
 const safeKey = z.string().regex(/^[A-Za-z0-9_-]{1,64}$/).refine(isSafeKey);
@@ -263,6 +296,7 @@ export const SECTION_SCHEMAS = {
   attractions: attractionsSectionSchema,
   about: aboutSectionSchema,
   menu: menuSectionSchema,
+  guides: guidesSectionSchema,
   texts: textsSectionSchema,
 } as const satisfies Record<SectionKey, z.ZodType>;
 

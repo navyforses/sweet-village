@@ -13,6 +13,7 @@ const fr = {
       "location": { "title": "Comment venir — Kvilishori, près de la grotte de Prométhée | Sweet Village", "description": "Carte et distances : grotte de Prométhée à 2 minutes, Koutaïssi et l'aéroport, Sataplia, canyons d'Okatsé et de Martvili. Adresse et horaires." },
       "about": { "title": "À propos — Sweet Village, Kvilishori", "description": "Un lieu familial à Kvilishori : jardin verdoyant, cabanes en bois, piscine et festins géorgiens faits maison. Notre histoire, nos chiffres, nos photos." },
       "booking": { "title": "Réservation — Sweet Village", "description": "Formulaire de demande pour un cottage, un événement, la piscine ou un repas. Réponse par téléphone ou WhatsApp." },
+      guides: { title: "Guides — Grotte de Prométhée, Tskaltoubo, canyons | Sweet Village", description: "Guides pratiques sur les sites d'Iméréthie : billets, horaires, itinéraires et conseils des hôtes de Sweet Village, à deux minutes de la grotte de Prométhée." },
       "notFound": { "title": "Page introuvable — Sweet Village", "description": "Ce lien n'existe plus. Retournez à l'accueil." },
     },
   },
@@ -29,6 +30,7 @@ const fr = {
     "stay": "Hébergement",
     "location": "Localisation",
     "about": "À propos",
+    guides: "Guides",
     "contact": "Contact",
     "book": "Réservation"
   },
@@ -139,7 +141,15 @@ const fr = {
     "seasonValue": "Juin — Septembre",
     "limitTitle": "Limite journalière",
     "limitBody": "Nous accueillons 40 visiteurs par jour. Il s’agit d’une limite consciente — l’emplacement et la tranquillité autour de la piscine doivent rester. Pour les jours fériés, un appel préalable est nécessaire.",
-    "cta": "Réserver une place"
+    "cta": "Réserver une place",
+    faq: {
+      title: "Questions sur la piscine",
+      items: [
+        { question: "Puis-je profiter de la piscine sans dormir sur place ?", answer: "Oui, avec un billet à la journée. Les tarifs adulte et enfant sont indiqués ci-dessus ; la piscine est gratuite pour les hôtes qui dorment chez nous." },
+        { question: "Faut-il réserver à l'avance ?", answer: "Le week-end et les jours fériés, oui : nous accueillons un nombre limité de visiteurs par jour. En semaine il y a généralement de la place, mais un appel vous en assure." },
+        { question: "Y a-t-il des transats, de l'ombre et de quoi manger ?", answer: "Il y a des transats et des coins d'ombre au bord de la piscine, et le restaurant et le bar sont juste à côté : déjeuner en terrasse est facile. Inutile d'apporter votre repas." },
+      ],
+    },
   },
   "restaurant": {
     "eyebrow": "Restaurant",
@@ -209,6 +219,14 @@ const fr = {
     "anyUnit": "N'importe quel logement disponible",
     "fallbackTitle": "Demande enregistrée",
     "fallbackBody": "Votre demande a été enregistrée, mais notre notification n'est pas partie. Pour en être sûr, écrivez-nous sur WhatsApp ou appelez-nous.",
+    faq: {
+      title: "Questions sur la réservation",
+      items: [
+        { question: "Comment la réservation est-elle confirmée, et faut-il un acompte ?", answer: "Après votre demande, nous confirmons la disponibilité et le prix par téléphone ou WhatsApp. En haute saison et pour les événements, un acompte peut être demandé pour bloquer la date ; nous vous indiquons le montant et le mode de paiement lors de la confirmation." },
+        { question: "Quelles sont les conditions d'annulation ?", answer: "Les conditions dépendent des dates et figurent dans votre message de confirmation ; pour les événements, elles sont convenues individuellement. Si vous avez besoin de souplesse, demandez-nous avant de réserver." },
+        { question: "Le petit-déjeuner est-il inclus, et à quelle heure l'arrivée ?", answer: "Le petit-déjeuner est inclus pour les hôtes qui dorment sur place, la piscine est gratuite et le parking est dans le jardin. La réception fonctionne 24 h/24 ; prévenez-nous si vous arrivez de nuit." },
+      ],
+    },
     "interestOptions": {
       "cottage": "Cottage / nuitée",
       "event": "Événement",
@@ -216,6 +234,26 @@ const fr = {
       "restaurant": "Restaurant / table",
       "whole": "Complexe entier"
     }
+  },
+  guides: {
+    eyebrow: "Guides",
+    title: "Que voir en Iméréthie : nos guides",
+    intro: "Billets, horaires, itinéraires et conseils sur les lieux dont nos hôtes nous parlent le plus. Écrits par nous, les propriétaires, et mis à jour chaque saison.",
+    readGuide: "Lire le guide",
+    back: "Tous les guides",
+    published: "Publié le",
+    updated: "Mis à jour le",
+    readingTime: "min de lecture",
+    faqTitle: "Questions fréquentes",
+    empty: "Pas encore de guide dans cette langue.",
+    viewEnglish: "Voir en anglais",
+    notInLanguage: "Ce guide n'est pas encore traduit dans cette langue ; la version disponible est ci-dessous.",
+    planTitle: "Séjournez à deux minutes de la grotte de Prométhée",
+    planBody: "Chalets en bois et chambres pour 18 personnes, piscine extérieure et table iméréthienne dans un même jardin : la base de tous les itinéraires de cette page.",
+    ctaStay: "Chalets et chambres",
+    ctaBook: "Demande de réservation",
+    moreTitle: "Autres guides",
+    onMap: "Carte et distances",
   },
   "gallery": {
     "eyebrow": "Galerie",

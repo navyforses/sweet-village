@@ -4,12 +4,15 @@
  */
 import {
   capacityOf,
+  guideAvailableIn,
+  guideLangs,
   pickLang,
   SECTION_KEYS,
   type AboutSection,
   type AttractionContent,
   type ContactSection,
   type EventContent,
+  type GuidePost,
   type Lang,
   type MenuCategoryContent,
   type MenuItemContent,
@@ -22,6 +25,7 @@ import {
   type UnitContent,
 } from "@shared/content";
 import { deepMerge, isRecord } from "@shared/deepMerge";
+import { LANGS } from "@shared/langs";
 import type { EventId, UnitId } from "@shared/venue";
 import { RAW_DISHES, RAW_PHOTOS } from "@shared/venuePhotos";
 import { assetUrl } from "@/lib/assetUrl";
@@ -126,6 +130,14 @@ export function sanitizeSparse(input: unknown): SparseContent {
   ) {
     out.menu = menu;
   }
+  const guides = input.guides;
+  if (
+    isRecord(guides) &&
+    Array.isArray(guides.posts) &&
+    guides.posts.every(post => isRecord(post) && typeof post.slug === "string" && isRecord(post.title) && isPhoto(post.cover) && typeof post.publishedAt === "string")
+  ) {
+    out.guides = guides;
+  }
   const texts = input.texts;
   if (isRecord(texts)) out.texts = texts;
   return out as SparseContent;
@@ -149,6 +161,7 @@ export function resolveContent(defaults: SiteContent, sparse: SparseContent): Si
     attractions: sparse.attractions ?? defaults.attractions,
     about: sparse.about ?? defaults.about,
     menu: sparse.menu ?? defaults.menu,
+    guides: sparse.guides ?? defaults.guides,
     texts,
   };
   for (const key of SECTION_KEYS) {
@@ -225,6 +238,28 @@ export interface VenueMenu {
   itemCount: number;
 }
 
+export interface VenueGuideFaq {
+  question: string;
+  answer: string;
+}
+
+export interface VenueGuide {
+  slug: string;
+  publishedAt: string;
+  updatedAt: string;
+  cover: string;
+  title: string;
+  excerpt: string;
+  /** Markdown; "" on pages whose embedded content omits article bodies (see slimContentForEmbedding). */
+  body: string;
+  faq: VenueGuideFaq[];
+  attractionIds: string[];
+  /** Written in the current language (title and body), as opposed to shown with a fallback. */
+  available: boolean;
+  /** Languages this article is published in. */
+  langs: Lang[];
+}
+
 export interface Venue {
   lang: Lang;
   units: VenueUnit[];
@@ -242,6 +277,8 @@ export interface Venue {
   attractions: VenueAttraction[];
   about: { photos: { main: string; detail1: string; detail2: string } };
   menu: VenueMenu;
+  /** Visible guides, newest first, in every language they exist in (see `available`). */
+  guides: VenueGuide[];
 }
 
 const resolvePhoto = (photo: Photo, lang: Lang): VenuePhoto => ({ url: assetUrl(photo.url), caption: pickLang(photo.caption, lang) });
@@ -310,6 +347,24 @@ function resolveMenu(menu: MenuSection, lang: Lang): VenueMenu {
   return { categories, itemCount: categories.reduce((count, category) => count + category.items.length, 0) };
 }
 
+function resolveGuide(post: GuidePost, lang: Lang): VenueGuide {
+  const body = post.body ?? {};
+  const faq = post.faq ?? [];
+  return {
+    slug: post.slug,
+    publishedAt: post.publishedAt,
+    updatedAt: post.updatedAt,
+    cover: assetUrl(post.cover.url),
+    title: pickLang(post.title, lang),
+    excerpt: pickLang(post.excerpt, lang),
+    body: pickLang(body, lang),
+    faq: faq.map(item => ({ question: pickLang(item.question, lang), answer: pickLang(item.answer, lang) })).filter(item => item.question && item.answer),
+    attractionIds: post.attractionIds ?? [],
+    available: guideAvailableIn({ title: post.title, body: body as GuidePost["body"] }, lang),
+    langs: guideLangs({ title: post.title, body: body as GuidePost["body"] }, LANGS),
+  };
+}
+
 function resolveAbout(about: AboutSection) {
   return { photos: { main: assetUrl(about.photos.main.url), detail1: assetUrl(about.photos.detail1.url), detail2: assetUrl(about.photos.detail2.url) } };
 }
@@ -348,5 +403,9 @@ export function resolveVenue(content: SiteContent, lang: Lang): Venue {
     attractions: content.attractions.attractions.map(item => resolveAttraction(item, lang)),
     about: resolveAbout(content.about),
     menu: resolveMenu(content.menu, lang),
+    guides: content.guides.posts
+      .filter(post => !post.hidden)
+      .map(post => resolveGuide(post, lang))
+      .sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0)),
   };
 }

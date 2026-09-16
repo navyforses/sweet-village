@@ -14,6 +14,7 @@ const es = {
       location: { title: "Cómo llegar — Kvilishori, junto a la cueva de Prometeo | Sweet Village", description: "Mapa y distancias: cueva de Prometeo a 2 minutos, Kutaisi y el aeropuerto, Sataplia, cañones de Okatse y Martvili. Dirección y horario." },
       about: { title: "Sobre nosotros — Sweet Village, Kvilishori", description: "Un lugar familiar en Kvilishori: jardín verde, cabañas de madera, piscina y banquetes georgianos caseros. Nuestra historia, cifras y fotos." },
       booking: { title: "Reservar — Sweet Village", description: "Formulario de solicitud para una cabaña, un evento, la piscina o un banquete. Respondemos por teléfono o WhatsApp." },
+      guides: { title: "Guías — Cueva de Prometeo, Tskaltubo, cañones | Sweet Village", description: "Guías prácticas de los lugares de Imereti: entradas, horarios, rutas y consejos de los anfitriones de Sweet Village, a dos minutos de la Cueva de Prometeo." },
       notFound: { title: "Página no encontrada — Sweet Village", description: "Este enlace ya no existe. Vuelve a la página principal." },
     },
   },
@@ -30,6 +31,7 @@ const es = {
     stay: "Alojamiento",
     location: "Ubicación",
     about: "Sobre nosotros",
+    guides: "Guías",
     contact: "Contacto",
     book: "Reservar",
   },
@@ -146,6 +148,14 @@ const es = {
     limitBody:
       "Recibimos a 40 visitantes por día. Esta es una restricción consciente — el espacio y la tranquilidad junto a la piscina deben mantenerse. En días festivos, es necesario llamar con antelación.",
     cta: "Reservar un lugar",
+    faq: {
+      title: "Preguntas sobre la piscina",
+      items: [
+        { question: "¿Puedo usar la piscina sin alojarme?", answer: "Sí, con una entrada de día. Los precios de adulto y niño están arriba; para los huéspedes alojados la piscina es gratuita." },
+        { question: "¿Hay que reservar con antelación?", answer: "Los fines de semana y festivos, sí: admitimos un número limitado de visitantes al día. Entre semana suele haber sitio, pero una llamada lo asegura." },
+        { question: "¿Hay tumbonas, sombra y comida?", answer: "Junto a la piscina hay tumbonas y zonas de sombra, y el restaurante y el bar están al lado, así que comer en la terraza es fácil. No hace falta traer comida." },
+      ],
+    },
   },
   restaurant: {
     eyebrow: "Restaurante",
@@ -224,6 +234,14 @@ const es = {
     fallbackTitle: "Solicitud guardada",
     fallbackBody:
       "Tu solicitud quedó registrada, pero la notificación no se envió. Para asegurarte, escríbenos por WhatsApp o llámanos.",
+    faq: {
+      title: "Preguntas sobre la reserva",
+      items: [
+        { question: "¿Cómo se confirma la reserva y hace falta un depósito?", answer: "Tras tu solicitud confirmamos disponibilidad y precio por teléfono o WhatsApp. En temporada alta y para eventos puede pedirse un depósito para bloquear la fecha; el importe y la forma de pago te los indicamos al confirmar." },
+        { question: "¿Cuál es la política de cancelación?", answer: "Las condiciones dependen de las fechas y se recogen en tu mensaje de confirmación; para eventos se acuerdan individualmente. Si necesitas flexibilidad, pregúntanos antes de reservar." },
+        { question: "¿Está incluido el desayuno y a qué hora es la entrada?", answer: "El desayuno está incluido para quienes pernoctan, la piscina es gratuita y el aparcamiento está en el jardín. La recepción funciona 24 horas; avísanos con antelación si llegas de noche." },
+      ],
+    },
     interestOptions: {
       cottage: "Cabaña / Alojamiento",
       event: "Evento",
@@ -231,6 +249,26 @@ const es = {
       restaurant: "Restaurante / Comida",
       whole: "Todo el complejo",
     },
+  },
+  guides: {
+    eyebrow: "Guías",
+    title: "Qué ver en Imereti: nuestras guías",
+    intro: "Entradas, horarios, rutas y consejos sobre los lugares por los que más nos preguntan los huéspedes. Las escribimos nosotros, los anfitriones, y las actualizamos cada temporada.",
+    readGuide: "Leer la guía",
+    back: "Todas las guías",
+    published: "Publicado",
+    updated: "Actualizado",
+    readingTime: "min de lectura",
+    faqTitle: "Preguntas frecuentes",
+    empty: "Aún no hay guías en este idioma.",
+    viewEnglish: "Ver en inglés",
+    notInLanguage: "Esta guía todavía no está traducida a este idioma; abajo está la versión disponible.",
+    planTitle: "Alójate a dos minutos de la Cueva de Prometeo",
+    planBody: "Cabañas de madera y habitaciones para hasta 18 huéspedes, piscina exterior y mesa imeretiana en un mismo jardín: la base para todas las rutas de esta página.",
+    ctaStay: "Cabañas y habitaciones",
+    ctaBook: "Solicitud de reserva",
+    moreTitle: "Más guías",
+    onMap: "Mapa y distancias",
   },
   gallery: {
     eyebrow: "Galería",

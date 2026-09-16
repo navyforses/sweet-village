@@ -32,6 +32,7 @@ const SECTION_LABELS: Record<SectionKey, string> = {
   attractions: S.nav.attractions,
   about: S.nav.about,
   menu: S.nav.menu,
+  guides: S.nav.guides,
   texts: S.nav.texts,
 };
 

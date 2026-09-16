@@ -14,6 +14,8 @@ import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
 import EventEdit from "./pages/EventEdit";
 import Events from "./pages/Events";
+import GuideEdit from "./pages/GuideEdit";
+import Guides from "./pages/Guides";
 import History from "./pages/History";
 import HomeEdit from "./pages/HomeEdit";
 import Login from "./pages/Login";
@@ -70,6 +72,8 @@ const AttractionsPage = page(S.nav.attractions, Attractions);
 const AboutPage = page(S.nav.about, AboutEdit);
 const MenuPage = page(S.nav.menu, MenuCategories);
 const MenuCategoryPage = page(S.nav.menu, MenuCategoryEdit);
+const GuidesPage = page(S.nav.guides, Guides);
+const GuideEditPage = page(S.nav.guides, GuideEdit);
 const TextsPage = page(S.nav.texts, Texts);
 const TextsEditPage = page(S.nav.texts, TextsEdit);
 const HistoryPage = page(S.nav.history, History);
@@ -119,6 +123,8 @@ export default function AdminApp() {
         <Route path="/admin/about" component={AboutPage} />
         <Route path="/admin/menu" component={MenuPage} />
         <Route path="/admin/menu/:categoryId" component={MenuCategoryPage} />
+        <Route path="/admin/guides" component={GuidesPage} />
+        <Route path="/admin/guides/:slug" component={GuideEditPage} />
         <Route path="/admin/texts" component={TextsPage} />
         <Route path="/admin/texts/:section" component={TextsEditPage} />
         <Route path="/admin/history" component={HistoryPage} />

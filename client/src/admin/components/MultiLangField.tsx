@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AdminApiError, useTranslate, type TranslateKind } from "../api";
+import { batchChunks, CHUNK_CHARS, splitForTranslation } from "../lib/translateChunks";
 import { S } from "../strings";
 
 interface MultiLangFieldProps {
@@ -36,6 +37,7 @@ export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLeng
   const { register, getValues, setValue, watch, getFieldState, formState } = useFormContext();
   const translate = useTranslate();
   const [freshlyTranslated, setFreshlyTranslated] = useState(false);
+  const [progress, setProgress] = useState<string | null>(null);
   const values = (watch(name) ?? {}) as Partial<Record<Lang, string>>;
 
   const runTranslate = async () => {
@@ -45,19 +47,37 @@ export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLeng
       return;
     }
     try {
-      const result = await translate.mutateAsync({
-        items: [{ id: name, text: source, kind, maxChars: maxLength }],
-        context,
-      });
-      const translations = result.items.find(item => item.id === name)?.translations ?? {};
+      const chunks = source.length > CHUNK_CHARS ? splitForTranslation(source) : [source];
+      const batches = batchChunks(chunks);
+      const collected: Record<string, string[]> = {};
+      let done = 0;
+      for (const batch of batches) {
+        if (batches.length > 1) setProgress(S.guides.translating(done, chunks.length));
+        const result = await translate.mutateAsync({
+          items: batch.map((text, index) => ({ id: `${name}#${done + index}`, text, kind, maxChars: chunks.length === 1 && maxLength && maxLength <= 3000 ? maxLength : undefined })),
+          context,
+        });
+        for (let index = 0; index < batch.length; index += 1) {
+          const translations = result.items.find(item => item.id === `${name}#${done + index}`)?.translations ?? {};
+          for (const lang of LANGS) {
+            if (lang === "ka") continue;
+            (collected[lang] ??= [])[done + index] = translations[lang] ?? "";
+          }
+        }
+        done += batch.length;
+      }
+      setProgress(null);
       for (const lang of LANGS) {
         if (lang === "ka") continue;
-        const value = translations[lang];
+        const parts = collected[lang] ?? [];
+        if (parts.some(part => !part)) continue;
+        const value = parts.join("\n\n");
         if (value) setValue(`${name}.${lang}`, value, { shouldDirty: true, shouldValidate: true });
       }
       setFreshlyTranslated(true);
       toast.success(S.lang.translated);
     } catch (error) {
+      setProgress(null);
       if (error instanceof AdminApiError && error.status === 503) toast.error(S.lang.translateNotConfigured);
       else if (error instanceof AdminApiError && error.status === 429) toast.error(S.lang.translateRateLimited);
       else toast.error(S.lang.translateFailed);
@@ -79,7 +99,7 @@ export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLeng
         </span>
         <Button type="button" variant="outline" size="sm" onClick={runTranslate} disabled={translate.isPending} className="h-8 text-[0.75rem]">
           {translate.isPending ? <Loader2 className="size-3.5 animate-spin" /> : <Languages className="size-3.5" />}
-          {translate.isPending ? S.lang.translating : S.lang.translate}
+          {translate.isPending ? (progress ?? S.lang.translating) : S.lang.translate}
         </Button>
       </div>
       <Tabs defaultValue="ka">

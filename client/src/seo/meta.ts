@@ -15,6 +15,8 @@ export interface PageMetaInput {
   image?: string;
   type?: "website" | "article";
   noindex?: boolean;
+  /** Languages the page exists in (default: all six). Guides are only listed in the languages they are written in. */
+  langs?: readonly Lang[];
 }
 
 export interface PageMeta {
@@ -46,18 +48,20 @@ export function absoluteUrl(ref: string): string {
 /** Everything a page's <head> needs, computed once from the language and the route. */
 export function pageMeta(input: PageMetaInput): PageMeta {
   const { lang, path } = input;
+  const langs = input.langs && input.langs.length > 0 ? input.langs : LANGS;
+  const fallback = langs.includes(DEFAULT_LANG) ? DEFAULT_LANG : langs[0];
   return {
     title: input.title,
     description: truncate(input.description, 160),
     canonical: canonicalUrl(lang, path),
     alternates: [
-      ...LANGS.map(code => ({ hrefLang: code, href: canonicalUrl(code, path) })),
-      { hrefLang: "x-default", href: canonicalUrl(DEFAULT_LANG, path) },
+      ...langs.map(code => ({ hrefLang: code, href: canonicalUrl(code, path) })),
+      { hrefLang: "x-default", href: canonicalUrl(fallback, path) },
     ],
     image: input.image ? absoluteUrl(input.image) : DEFAULT_OG_IMAGE,
     type: input.type ?? "website",
     locale: OG_LOCALES[lang],
-    alternateLocales: LANGS.filter(code => code !== lang).map(code => OG_LOCALES[code]),
+    alternateLocales: langs.filter(code => code !== lang).map(code => OG_LOCALES[code]),
     robots: input.noindex ? "noindex, nofollow" : null,
   };
 }
