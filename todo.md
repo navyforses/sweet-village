@@ -251,3 +251,8 @@
 
 - პროფესიონალური ფოტოგადაღება გენერირებული ფოტოების ჩასანაცვლებლად
 - Facebook ქავერის განახლება („6 კოტეჯი · 12 სტუმარი" → 5 ერთეული / 22 სტუმარი)
+
+## Production admin activation — 2026-09-16
+
+- [x] Fix production ESM imports and translation response validation; verify emitted Node runtime and existing checks.
+- [ ] Configure Neon, admin secrets and optional translation; redeploy and complete reversible live acceptance tests.

@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { LANGS, type Lang } from "../../../shared/langs";
-import { assertMutationAllowed, getAdminSession } from "../adminAuth";
-import { isRecord, methodNotAllowed, parseBody, type ApiRequest, type ApiResponse } from "../http";
+import { LANGS, type Lang } from "../../../shared/langs.js";
+import { assertMutationAllowed, getAdminSession } from "../adminAuth.js";
+import { isRecord, methodNotAllowed, parseBody, type ApiRequest, type ApiResponse } from "../http.js";
 
 export const TRANSLATE_MODEL = "claude-opus-5";
 const MAX_ITEMS = 40;
@@ -122,12 +122,12 @@ export async function translate(req: ApiRequest, res: ApiResponse) {
       res.status(502).json({ error: "translation_refused" });
       return;
     }
-    const output = message.parsed_output;
-    if (!output) {
+    const parsedOutput = translateOutputSchema.safeParse(message.parsed_output);
+    if (!parsedOutput.success) {
       res.status(502).json({ error: "translation_unparseable" });
       return;
     }
-    const byId = new Map(output.items.map(item => [item.id, item.translations]));
+    const byId = new Map(parsedOutput.data.items.map(item => [item.id, item.translations]));
     const items = request.items.map(item => {
       const translations = byId.get(item.id);
       const picked: Partial<Record<Exclude<Lang, "ka">, string>> = {};

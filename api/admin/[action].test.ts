@@ -400,6 +400,19 @@ describe("translate", () => {
     expect(params.output_config.effort).toBe("low");
   });
 
+  it("rejects malformed structured translations", async () => {
+    vi.stubEnv("ANTHROPIC_API_KEY", "sk-test");
+    anthropic.parse.mockResolvedValueOnce({
+      stop_reason: "end_turn",
+      parsed_output: { items: [{ id: "name", translations: { en: 42 } }] },
+      usage: { input_tokens: 1, output_tokens: 1 },
+    });
+    const { record, response } = responseRecorder();
+    await handler(request("translate", { method: "POST", mutate: true, auth: true, body }), response);
+    expect(record.statusCode).toBe(502);
+    expect(record.body).toEqual({ error: "translation_unparseable" });
+  });
+
   it("maps refusals, unparseable output and rate limits to errors", async () => {
     vi.stubEnv("ANTHROPIC_API_KEY", "sk-test");
     const errors = vi.spyOn(console, "error").mockImplementation(() => {});

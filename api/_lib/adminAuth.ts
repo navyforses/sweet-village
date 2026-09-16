@@ -15,7 +15,7 @@
 import { createHash, randomBytes, randomUUID, scrypt, scryptSync, timingSafeEqual } from "node:crypto";
 import { parse as parseCookie, serialize as serializeCookie } from "cookie";
 import { SignJWT, jwtVerify } from "jose";
-import { header, isSecureRequest, type ApiRequest } from "./http";
+import { header, isSecureRequest, type ApiRequest } from "./http.js";
 
 export const ADMIN_COOKIE = "sv_admin";
 export const ADMIN_COOKIE_PATH = "/api/admin";

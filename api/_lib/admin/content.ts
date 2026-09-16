@@ -1,9 +1,9 @@
-import { DEFAULT_CONTENT, isSectionKey, type SectionKey } from "../../../shared/content";
-import { parseSection, sectionIssues } from "../../../shared/contentSchema";
-import { assertMutationAllowed, getAdminSession } from "../adminAuth";
-import { readSection, upsertSection } from "../content";
-import { getSql } from "../db";
-import { isRecord, methodNotAllowed, parseBody, queryParam, type ApiRequest, type ApiResponse } from "../http";
+import { DEFAULT_CONTENT, isSectionKey, type SectionKey } from "../../../shared/content.js";
+import { parseSection, sectionIssues } from "../../../shared/contentSchema.js";
+import { assertMutationAllowed, getAdminSession } from "../adminAuth.js";
+import { readSection, upsertSection } from "../content.js";
+import { getSql } from "../db.js";
+import { isRecord, methodNotAllowed, parseBody, queryParam, type ApiRequest, type ApiResponse } from "../http.js";
 
 const MAX_BODY_CHARS = 512 * 1024;
 

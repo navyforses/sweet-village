@@ -1,8 +1,8 @@
-import { isSectionKey } from "../../../shared/content";
-import { assertMutationAllowed, getAdminSession } from "../adminAuth";
-import { readRevision, readSection, upsertSection } from "../content";
-import { getSql } from "../db";
-import { isRecord, methodNotAllowed, parseBody, type ApiRequest, type ApiResponse } from "../http";
+import { isSectionKey } from "../../../shared/content.js";
+import { assertMutationAllowed, getAdminSession } from "../adminAuth.js";
+import { readRevision, readSection, upsertSection } from "../content.js";
+import { getSql } from "../db.js";
+import { isRecord, methodNotAllowed, parseBody, type ApiRequest, type ApiResponse } from "../http.js";
 
 /**
  * `POST { key, id, ifUpdatedAt? }` copies a saved version back over the live

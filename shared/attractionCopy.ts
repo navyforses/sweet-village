@@ -3,7 +3,7 @@
  * six languages. Seeds DEFAULT_CONTENT.attractions; formerly lived under
  * `location.attractions` in the locale dictionaries.
  */
-import { localized, type LocalizedText } from "./langs";
+import { localized, type LocalizedText } from "./langs.js";
 
 export interface AttractionCopy {
   title: LocalizedText;

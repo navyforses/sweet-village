@@ -1,7 +1,7 @@
-import { DEFAULT_CONTENT } from "../shared/content";
-import { readSection } from "./_lib/content";
-import { getSql, type Sql } from "./_lib/db";
-import { parseBody, type ApiRequest, type ApiResponse } from "./_lib/http";
+import { DEFAULT_CONTENT } from "../shared/content.js";
+import { readSection } from "./_lib/content.js";
+import { getSql, type Sql } from "./_lib/db.js";
+import { parseBody, type ApiRequest, type ApiResponse } from "./_lib/http.js";
 
 type BookingInput = {
   name: string;
