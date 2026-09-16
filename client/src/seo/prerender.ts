@@ -94,6 +94,11 @@ export function assembleDocument({ template, lang, head, body, content, embedded
   const embedded = content ? `<script id="${embeddedId}" type="application/json">${embedJson(content)}</script>` : "";
   return template
     .replace(/<html lang="[^"]*"/, `<html lang="${lang}" dir="${dir}"`)
-    .replace("</head>", `${head.replace(/ hrefLang=/g, " hreflang=")}\n  </head>`)
-    .replace('<div id="root"></div>', `<div id="root">${body}</div>${embedded}`);
+    .replace("</head>", `${lowercaseAttributes(head)}\n  </head>`)
+    .replace('<div id="root"></div>', `<div id="root">${lowercaseAttributes(body)}</div>${embedded}`);
+}
+
+/** React writes a few attributes camel-cased in static markup; browsers accept either, validators prefer lowercase. */
+export function lowercaseAttributes(html: string): string {
+  return html.replace(/ (hrefLang|imageSrcSet|imageSizes|fetchPriority)=/g, (_, name: string) => ` ${name.toLowerCase()}=`);
 }

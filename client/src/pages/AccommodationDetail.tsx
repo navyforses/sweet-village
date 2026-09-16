@@ -9,6 +9,7 @@ import { useI18n } from "@/i18n";
 import { JsonLd, Seo } from "@/seo/Seo";
 import { accommodationUnit, breadcrumbs } from "@/seo/jsonld";
 import NotFound from "./NotFound";
+import Img from "@/components/Img";
 
 export default function AccommodationDetail() {
   const [, params] = useRoute("/stay/:unitId");
@@ -75,7 +76,7 @@ export default function AccommodationDetail() {
         <div className="sv-scrollbar-none grid snap-x snap-mandatory grid-flow-col auto-cols-[88%] gap-2 overflow-x-auto px-4 pb-2 md:h-[clamp(300px,34vw,420px)] md:snap-none md:grid-flow-row md:auto-cols-auto md:grid-cols-4 md:grid-rows-2 md:gap-2 md:overflow-visible md:px-0 md:pb-0">
           {unit.gallery.map((photo, index) => (
             <button key={`${photo.url}-${index}`} type="button" onClick={() => setActivePhoto(index)} className={`group relative aspect-[4/3] snap-start overflow-hidden bg-pistachio/10 text-start md:aspect-auto md:h-full ${index === 0 ? "md:col-span-2 md:row-span-2" : unit.gallery.length <= 3 ? "md:col-span-2" : ""} ${index > 4 ? "md:hidden" : ""}`} aria-label={`${captionFor(index)}: ${unit.title}`}>
-              <img src={photo.url} alt={`${unit.title} — ${captionFor(index)}`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
+              <Img src={photo.url} alt={`${unit.title} — ${captionFor(index)}`} sizes={index === 0 ? "(min-width: 768px) 50vw, 88vw" : "(min-width: 768px) 25vw, 88vw"} maxWidth={index === 0 ? 1280 : 960} priority={index === 0} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
               <span className="absolute inset-x-0 bottom-0 bg-ink/72 px-4 py-2.5 text-[0.75rem] text-white">{captionFor(index)}</span>
               {index === 4 && unit.gallery.length > 5 && (
                 <span className="absolute end-3 top-3 hidden items-center gap-1.5 bg-white/95 px-3 py-2 text-[0.75rem] text-ink shadow-sm md:inline-flex">
@@ -110,7 +111,7 @@ export default function AccommodationDetail() {
             <button type="button" onClick={() => setActivePhoto(null)} className="absolute end-3 top-3 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise" aria-label={copy.close}><X className="size-5" /></button>
             {unit.gallery.length > 1 && <button type="button" onClick={showPreviousPhoto} className="absolute start-2 z-10 inline-flex size-11 items-center justify-center bg-ink/80 text-white hover:bg-turquoise sm:start-4" aria-label={copy.previousPhoto}><ChevronLeft className="size-6 rtl:rotate-180" /></button>}
             <figure className="flex max-h-[90vh] max-w-full flex-col items-center">
-              <img src={unit.gallery[active].url} alt={`${unit.title} — ${captionFor(active)}`} className="max-h-[76svh] max-w-full object-contain sm:max-h-[82vh]" />
+              <Img src={unit.gallery[active].url} alt={`${unit.title} — ${captionFor(active)}`} sizes="100vw" loading="eager" className="max-h-[76svh] max-w-full object-contain sm:max-h-[82vh]" />
               <figcaption className="mt-3 bg-ink/80 px-4 py-2 text-center text-[0.78rem] text-white">
                 {active + 1} / {unit.gallery.length} · {captionFor(active)}
               </figcaption>

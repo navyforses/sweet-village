@@ -8,6 +8,7 @@ import { localePath } from "@/i18n/paths";
 import { JsonLd, Seo } from "@/seo/Seo";
 import { breadcrumbs, guideList } from "@/seo/jsonld";
 import { GuideDate } from "./GuideDetail";
+import Img from "@/components/Img";
 
 /** Guides written in the current language; the others are reachable through the language switcher on their own pages. */
 export default function Guides() {
@@ -36,7 +37,7 @@ export default function Guides() {
           {visible.map((guide, index) => (
             <article key={guide.slug} className="group border-b border-line pb-8">
               <Link href={`/guides/${guide.slug}`} className="block overflow-hidden bg-pistachio/10" aria-label={guide.title}>
-                <img src={guide.cover} alt={guide.title} loading={index < 2 ? "eager" : "lazy"} className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
+                <Img src={guide.cover} alt={guide.title} sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw" maxWidth={1280} priority={index === 0} className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
               </Link>
               <p className="sv-eyebrow mt-5">
                 <GuideDate value={guide.updatedAt} lang={lang} />

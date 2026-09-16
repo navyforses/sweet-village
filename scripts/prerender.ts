@@ -11,7 +11,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { DEFAULT_CONTENT, slimContentForEmbedding, type SparseContent } from "../shared/content";
+import { contentForEmbedding, DEFAULT_CONTENT, type SparseContent } from "../shared/content";
 import { readAllSections } from "../api/_lib/content";
 import { getSql } from "../api/_lib/db";
 import { resolveContent } from "../client/src/content/resolve";
@@ -59,7 +59,7 @@ async function main() {
     if (!head.includes("<title>")) throw new Error(`[prerender] ${url} rendered without a <title>`);
     const file = path.join(outDir, outputFileFor(page));
     await mkdir(path.dirname(file), { recursive: true });
-    const embedded = slimContentForEmbedding(sparse, isGuidePage(page.path));
+    const embedded = contentForEmbedding(sparse, content, isGuidePage(page.path));
     await writeFile(file, assembleDocument({ template, lang: page.lang, head, body, content: embedded, embeddedId: EMBEDDED_CONTENT_ID }));
   }
 
@@ -67,7 +67,7 @@ async function main() {
   const notFound = await render("/404", sparse);
   await writeFile(
     path.join(outDir, "404.html"),
-    assembleDocument({ template, lang: "ka", head: notFound.head, body: notFound.body, content: slimContentForEmbedding(sparse, false), embeddedId: EMBEDDED_CONTENT_ID }),
+    assembleDocument({ template, lang: "ka", head: notFound.head, body: notFound.body, content: contentForEmbedding(sparse, content, false), embeddedId: EMBEDDED_CONTENT_ID }),
   );
 
   const lastmod = sitemapLastmod(updatedAt);

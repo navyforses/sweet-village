@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { DEFAULT_CONTENT, guideAvailableIn, guideLangs, slimContentForEmbedding, type GuidePost } from "./content";
+import { contentForEmbedding, DEFAULT_CONTENT, guideAvailableIn, guideLangs, type GuidePost } from "./content";
+import { GUIDE_SEEDS as STUB_SEEDS } from "./guideCopy.stub";
+import { GUIDE_BODY_PENDING } from "./guideMeta";
 import { guidesSectionSchema, sectionIssues } from "./contentSchema";
 import { LANGS } from "./langs";
 import { isSlug } from "./slug";
@@ -36,15 +38,28 @@ describe("guides section", () => {
     expect(guidesSectionSchema.safeParse({ posts: [{ ...post, faq: Array(13).fill(post.faq[0]) }] }).success).toBe(false);
   });
 
-  it("drops bodies and FAQs from the embedded copy except on article pages", () => {
+  it("embeds the full guides section on article pages and strips bodies elsewhere", () => {
     const sparse = { guides: { posts: [post] } };
-    const slim = slimContentForEmbedding(sparse, false)!;
+    const slim = contentForEmbedding(sparse, DEFAULT_CONTENT, false)!;
     const slimPost = slim.guides!.posts[0] as Partial<GuidePost>;
     expect(slimPost.body).toBeUndefined();
     expect(slimPost.faq).toBeUndefined();
     expect(slimPost.excerpt).toEqual(post.excerpt);
-    expect(slimContentForEmbedding(sparse, true)).toBe(sparse);
-    expect(slimContentForEmbedding(null, false)).toBeNull();
-    expect(slimContentForEmbedding({ contact: DEFAULT_CONTENT.contact }, false)).toEqual({ contact: DEFAULT_CONTENT.contact });
+    expect(contentForEmbedding(sparse, DEFAULT_CONTENT, true)).toEqual({ guides: DEFAULT_CONTENT.guides });
+    expect(contentForEmbedding(null, DEFAULT_CONTENT, true)).toEqual({ guides: DEFAULT_CONTENT.guides });
+    expect(contentForEmbedding(null, DEFAULT_CONTENT, false)).toBeNull();
+    expect(contentForEmbedding({ contact: DEFAULT_CONTENT.contact }, DEFAULT_CONTENT, false)).toEqual({ contact: DEFAULT_CONTENT.contact });
+  });
+
+  it("keeps the browser stub in step with the full seeds", () => {
+    expect(STUB_SEEDS.map(seed => seed.slug)).toEqual(DEFAULT_CONTENT.guides.posts.map(item => item.slug));
+    for (const [index, stub] of STUB_SEEDS.entries()) {
+      const full = DEFAULT_CONTENT.guides.posts[index];
+      expect(stub.title).toEqual(full.title);
+      expect(stub.excerpt).toEqual(full.excerpt);
+      expect(guideLangs(stub, LANGS)).toEqual(guideLangs(full, LANGS));
+      expect(stub.body.ka).toBe(GUIDE_BODY_PENDING);
+      expect(stub.faq).toEqual([]);
+    }
   });
 });

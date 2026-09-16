@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_CONTENT } from "@shared/content";
-import { assembleDocument, embedJson, listPublicPages, outputFileFor, sitemapLastmod, sitemapXml } from "./prerender";
+import { assembleDocument, embedJson, listPublicPages, lowercaseAttributes, outputFileFor, sitemapLastmod, sitemapXml } from "./prerender";
 
 describe("prerender helpers", () => {
   it("lists every static and dynamic page in every language", () => {
@@ -21,6 +21,12 @@ describe("prerender helpers", () => {
     expect(outputFileFor({ lang: "ka", path: "/stay/grand" })).toBe("stay/grand/index.html");
     expect(outputFileFor({ lang: "en", path: "/" })).toBe("en/index.html");
     expect(outputFileFor({ lang: "fr", path: "/menu" })).toBe("fr/menu/index.html");
+  });
+
+  it("lowercases the attributes React emits camel-cased", () => {
+    expect(lowercaseAttributes('<link rel="preload" imageSrcSet="a 1w" imageSizes="100vw" fetchPriority="high"><img fetchPriority="high" hrefLang="en">')).toBe(
+      '<link rel="preload" imagesrcset="a 1w" imagesizes="100vw" fetchpriority="high"><img fetchpriority="high" hreflang="en">',
+    );
   });
 
   it("derives lastmod from the Postgres text timestamp and never throws", () => {

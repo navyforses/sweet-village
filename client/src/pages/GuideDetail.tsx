@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useRoute } from "wouter";
 import { ArrowLeft, ArrowUpRight, MapPin } from "lucide-react";
 import Faq from "@/components/Faq";
@@ -9,8 +10,11 @@ import { LANG_NAMES, useI18n, type Lang } from "@/i18n";
 import { localePath } from "@/i18n/paths";
 import { JsonLd, Seo } from "@/seo/Seo";
 import { breadcrumbs, faqPage, guideArticle } from "@/seo/jsonld";
+import { pickLang } from "@shared/langs";
 import { wordCount } from "@shared/markdown";
+import type { GuideSeedBody } from "@shared/guideBodies";
 import NotFound from "./NotFound";
+import Img from "@/components/Img";
 
 const DATE_LOCALES: Record<Lang, string> = { ka: "ka-GE", en: "en-GB", ru: "ru-RU", ar: "ar-EG", fr: "fr-FR", es: "es-ES" };
 
@@ -44,15 +48,33 @@ export default function GuideDetail() {
   const { guides, attractions } = useVenue();
   const { isLive } = useContent();
   const guide = guides.find(candidate => candidate.slug === params?.slug);
+  const bodyPending = guide?.bodyPending ?? false;
+  const slug = guide?.slug;
+  // The browser bundle carries the seed articles without their bodies; fetch the bodies chunk when this one is a seed.
+  const [seed, setSeed] = useState<(GuideSeedBody & { slug: string }) | null>(null);
+  useEffect(() => {
+    if (!bodyPending || !slug) return;
+    let cancelled = false;
+    void import("@shared/guideBodies").then(module => {
+      const content = module.GUIDE_BODIES[slug];
+      if (!cancelled && content) setSeed({ slug, ...content });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [bodyPending, slug]);
 
   if (!guide) return <NotFound />;
-  // Pages other than this one embed the guides without their bodies; wait for /api/content when we arrived by client-side navigation.
-  if (!guide.body && !isLive) return <PageFallback />;
-  if (!guide.body) return <NotFound />;
+  const seeded = bodyPending && seed?.slug === guide.slug ? seed : null;
+  const body = seeded ? pickLang(seeded.body, lang) : guide.body;
+  const faq = seeded ? seeded.faq.map(item => ({ question: pickLang(item.question, lang), answer: pickLang(item.answer, lang) })) : guide.faq;
+  // Still loading: the seed bodies chunk, or /api/content after client-side navigation from a page that embeds no bodies.
+  if (!body && (bodyPending || !isLive)) return <PageFallback />;
+  if (!body) return <NotFound />;
 
   const others = guides.filter(other => other.slug !== guide.slug && other.available).slice(0, 3);
   const places = attractions.filter(attraction => guide.attractionIds.includes(attraction.id));
-  const minutes = Math.max(1, Math.round(wordCount(guide.body) / 200));
+  const minutes = Math.max(1, Math.round(wordCount(body) / 200));
   // Visitors reading an untranslated language are pointed to English when it exists, otherwise to the first language written.
   const fallbackLang = guide.langs.includes("en") ? "en" : guide.langs[0];
 
@@ -69,9 +91,9 @@ export default function GuideDetail() {
       />
       <JsonLd
         data={[
-          guideArticle(lang, guide, t.brand.name),
+          guideArticle(lang, { ...guide, body }, t.brand.name),
           breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.guides, path: "/guides" }, { name: guide.title, path: `/guides/${guide.slug}` }]),
-          ...(guide.faq.length ? [faqPage(guide.faq)] : []),
+          ...(faq.length ? [faqPage(faq)] : []),
         ]}
       />
 
@@ -106,13 +128,13 @@ export default function GuideDetail() {
       </div>
 
       <div className="mt-8 md:container md:mt-12">
-        <img src={guide.cover} alt={guide.title} className="aspect-[16/9] w-full object-cover md:aspect-[21/9]" fetchPriority="high" />
+        <Img src={guide.cover} alt={guide.title} sizes="(min-width: 1280px) 1200px, 100vw" priority className="aspect-[16/9] w-full object-cover md:aspect-[21/9]" />
       </div>
 
       <div className="container mt-8 grid gap-10 md:mt-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16">
         <div className="max-w-[68ch]">
-          <Markdown source={guide.body} />
-          {guide.faq.length > 0 && <Faq title={t.guides.faqTitle} items={guide.faq} className="mt-12 md:mt-16" />}
+          <Markdown source={body} />
+          {faq.length > 0 && <Faq title={t.guides.faqTitle} items={faq} className="mt-12 md:mt-16" />}
         </div>
 
         <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
@@ -163,7 +185,7 @@ export default function GuideDetail() {
           <div className="mt-6 grid gap-6 md:grid-cols-3">
             {others.map(other => (
               <Link key={other.slug} href={`/guides/${other.slug}`} className="group block border-b border-line pb-5">
-                <img src={other.cover} alt="" loading="lazy" className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+                <Img src={other.cover} alt="" sizes="(min-width: 768px) 33vw, 100vw" maxWidth={640} className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                 <p className="mt-4 text-[1rem] leading-snug text-ink group-hover:text-turquoise">{other.title}</p>
                 <p className="mt-2 line-clamp-2 text-[0.8125rem] leading-6 text-muted-foreground">{other.excerpt}</p>
               </Link>
