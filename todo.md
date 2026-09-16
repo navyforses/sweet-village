@@ -182,6 +182,8 @@
 - [x] ფაზა 1: `api/booking.ts` ლიმიტები და WhatsApp ნომერი ბაზიდან (static fallback)
 - [x] ფაზა 2: `pool/events/attractions/about` სექციები (default-ები `venue.ts`, `shared/eventCopy.ts`, `shared/attractionCopy.ts`-დან), Pool/Events/EventDetail/Location/About/Home გვერდები content-ზე
 - [x] ფაზა 2: ადმინის გვერდები `/admin/pool`, `/admin/events(/:id)`, `/admin/attractions`, `/admin/about`, `/admin/texts(/:section)` — ტექსტების patch-რედაქტორი placeholder-ებით და მხოლოდ შეცვლილი ველების შენახვით
+- [x] ფაზა 3: `menu` სექცია (default `shared/menuData.ts` + თარგმანები + აღწერები + ფოტოები), `/menu` და „კერძების რაოდენობა“ content-ზე; დამალული კერძები და ცარიელი კატეგორიები საიტზე არ ჩანს
+- [x] ფაზა 3: ადმინის გვერდები `/admin/menu` (კატეგორიები: სახელი ×6, რიგითობა, დამატება/წაშლა) და `/admin/menu/:categoryId` (კერძები: ფასი, სახელი/აღწერა ×6, მოცულობა, ფოტო, „დროებით არ არის“, რიგითობა, დამატება/წაშლა)
 - [x] ფაზა 2: მკვდარი `events.types` და `location.attractions` ლოკალებიდან წაშლილია; `eventDetailCopy.ts` მხოლოდ გვერდის chrome-ს ინახავს
 - [ ] ფაზა 3: მენიუ (68 კერძი) ადმინიდან
 - [ ] ფაზა 4: ვერსიების ისტორია/აღდგენა, დაჯავშნის მოთხოვნების სია

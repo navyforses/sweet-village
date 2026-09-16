@@ -43,7 +43,7 @@ describe("GET /api/content", () => {
     neonState.handler = () => [
       { key: "contact", value: contact, updated_at: "2026-09-16 10:00:00.123456+00", updated_by: "owner" },
       { key: "units", value: { units: "broken" }, updated_at: "2026-09-16 11:00:00.000000+00", updated_by: "owner" },
-      { key: "menu", value: { categories: [] }, updated_at: "2026-09-16 12:00:00.000000+00", updated_by: "owner" },
+      { key: "bookings", value: { rows: [] }, updated_at: "2026-09-16 12:00:00.000000+00", updated_by: "owner" },
     ];
     const errors = vi.spyOn(console, "error").mockImplementation(() => {});
     const { record, response } = responseRecorder();

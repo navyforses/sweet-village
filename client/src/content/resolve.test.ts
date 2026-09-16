@@ -32,6 +32,7 @@ describe("sanitizeSparse", () => {
       location: { lat: "42", lng: 42, address: {} },
       texts: { ka: {} },
       menu: { categories: [] },
+      about: { photos: {} },
     });
     expect(Object.keys(sane).sort()).toEqual(["contact", "texts", "units"]);
     expect(sanitizeSparse(null)).toEqual({});
@@ -73,6 +74,32 @@ describe("resolveVenue", () => {
     expect(en.events.spacePhotos).toHaveLength(5);
     expect(en.attractions[0]).toMatchObject({ id: "prometheus", minutes: 2, title: "Prometheus Cave" });
     expect(en.about.photos.detail2).toContain("fb_misc_01");
+  });
+
+  it("resolves the menu per language, hides unavailable dishes and falls back to category photos", () => {
+    const content = resolveContent(DEFAULT_CONTENT, {});
+    const ar = resolveVenue(content, "ar");
+    expect(ar.menu.categories).toHaveLength(9);
+    expect(ar.menu.itemCount).toBe(68);
+    expect(ar.menu.categories[0].name).toBe("الأطباق الباردة والمقبلات");
+    expect(ar.menu.categories[0].items[0].searchText).toContain("pickled assortment");
+    expect(ar.menu.categories[0].items[0].photo).toContain("menu-card-01");
+
+    const [first, ...rest] = DEFAULT_CONTENT.menu.categories;
+    const edited = {
+      categories: [
+        { ...first, items: first.items.map((item, index) => (index === 0 ? { ...item, hidden: true } : index === 1 ? { ...item, photo: undefined, price: 15.5 } : item)) },
+        { ...rest[0], items: rest[0].items.map(item => ({ ...item, hidden: true })) },
+        ...rest.slice(1),
+      ],
+    };
+    const en = resolveVenue(resolveContent(DEFAULT_CONTENT, { menu: edited }), "en");
+    expect(en.menu.categories).toHaveLength(8);
+    expect(en.menu.categories.map(category => category.id)).not.toContain("salads");
+    expect(en.menu.itemCount).toBe(68 - 1 - rest[0].items.length);
+    expect(en.menu.categories[0].items[0].id).toBe(2);
+    expect(en.menu.categories[0].items[0].price).toBe(15.5);
+    expect(en.menu.categories[0].items[0].photo).toContain("dish_cheese");
   });
 
   it("falls back to English then Georgian for untranslated fields", () => {

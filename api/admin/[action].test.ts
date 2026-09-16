@@ -178,7 +178,7 @@ describe("content", () => {
     expect(record.body).toEqual({ key: "contact", value: DEFAULT_CONTENT.contact, updatedAt: null, stored: false });
 
     ({ record, response } = responseRecorder());
-    await handler(request("content", { auth: true, query: { key: "menu" } }), response);
+    await handler(request("content", { auth: true, query: { key: "bookings" } }), response);
     expect(record.statusCode).toBe(400);
   });
 

@@ -168,6 +168,58 @@ export const aboutSectionSchema = z.object({
   photos: z.object({ main: photoSchema, detail1: photoSchema, detail2: photoSchema }),
 });
 
+/** Same shape as `localizedText` but Georgian may be empty too (menu descriptions). */
+const localizedOptional = (max: number) =>
+  z.object({
+    ka: z.string().trim().max(max).default(""),
+    en: z.string().trim().max(max).default(""),
+    ru: z.string().trim().max(max).default(""),
+    ar: z.string().trim().max(max).default(""),
+    fr: z.string().trim().max(max).default(""),
+    es: z.string().trim().max(max).default(""),
+  });
+
+const gelPrice = z
+  .number()
+  .min(0)
+  .max(10_000)
+  .refine(value => Math.round(value * 100) / 100 === value, { message: "price_precision" });
+
+export const menuItemSchema = z.object({
+  id: z.number().int().min(1).max(100_000),
+  name: localizedText(120),
+  description: localizedOptional(300),
+  price: gelPrice,
+  volume: z.string().trim().max(24).default(""),
+  photo: photoSchema.optional(),
+  hidden: z.boolean().default(false),
+});
+
+export const menuCategorySchema = z
+  .object({
+    id: z.string().regex(/^[a-z][a-z0-9-]{1,40}$/, "invalid_id"),
+    name: localizedText(80),
+    items: z.array(menuItemSchema).max(80),
+  })
+  .refine(category => new Set(category.items.map(item => item.id)).size === category.items.length, {
+    message: "duplicate_item_id",
+    path: ["items"],
+  });
+
+export const menuSectionSchema = z
+  .object({ categories: z.array(menuCategorySchema).min(1).max(20) })
+  .refine(section => new Set(section.categories.map(category => category.id)).size === section.categories.length, {
+    message: "duplicate_category_id",
+    path: ["categories"],
+  })
+  .refine(
+    section => {
+      const ids = section.categories.flatMap(category => category.items.map(item => item.id));
+      return new Set(ids).size === ids.length;
+    },
+    { message: "duplicate_item_id", path: ["categories"] },
+  );
+
 const MAX_PATCH_DEPTH = 7;
 const MAX_PATCH_BYTES = 150_000;
 const safeKey = z.string().regex(/^[A-Za-z0-9_-]{1,64}$/).refine(isSafeKey);
@@ -210,6 +262,7 @@ export const SECTION_SCHEMAS = {
   events: eventsSectionSchema,
   attractions: attractionsSectionSchema,
   about: aboutSectionSchema,
+  menu: menuSectionSchema,
   texts: textsSectionSchema,
 } as const satisfies Record<SectionKey, z.ZodType>;
 

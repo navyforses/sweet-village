@@ -15,6 +15,8 @@ import EventEdit from "./pages/EventEdit";
 import Events from "./pages/Events";
 import HomeEdit from "./pages/HomeEdit";
 import Login from "./pages/Login";
+import MenuCategories from "./pages/MenuCategories";
+import MenuCategoryEdit from "./pages/MenuCategoryEdit";
 import PoolEdit from "./pages/PoolEdit";
 import Texts from "./pages/Texts";
 import TextsEdit from "./pages/TextsEdit";
@@ -63,6 +65,8 @@ const EventsPage = page(S.nav.events, Events);
 const EventEditPage = page(S.nav.events, EventEdit);
 const AttractionsPage = page(S.nav.attractions, Attractions);
 const AboutPage = page(S.nav.about, AboutEdit);
+const MenuPage = page(S.nav.menu, MenuCategories);
+const MenuCategoryPage = page(S.nav.menu, MenuCategoryEdit);
 const TextsPage = page(S.nav.texts, Texts);
 const TextsEditPage = page(S.nav.texts, TextsEdit);
 
@@ -105,6 +109,8 @@ export default function AdminApp() {
         <Route path="/admin/events/:eventId" component={EventEditPage} />
         <Route path="/admin/attractions" component={AttractionsPage} />
         <Route path="/admin/about" component={AboutPage} />
+        <Route path="/admin/menu" component={MenuPage} />
+        <Route path="/admin/menu/:categoryId" component={MenuCategoryPage} />
         <Route path="/admin/texts" component={TextsPage} />
         <Route path="/admin/texts/:section" component={TextsEditPage} />
         <Route>

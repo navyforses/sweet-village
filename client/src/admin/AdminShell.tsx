@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link, useLocation } from "wouter";
-import { ExternalLink, Home, Images, Info, LayoutDashboard, LogOut, MapPin, PartyPopper, Phone, Type, Waves } from "lucide-react";
+import { ChefHat, ExternalLink, Home, Images, Info, LayoutDashboard, LogOut, MapPin, PartyPopper, Phone, Type, Waves } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -28,6 +28,7 @@ const NAV = [
   { href: "/admin/events", label: S.nav.events, icon: PartyPopper, exact: false },
   { href: "/admin/attractions", label: S.nav.attractions, icon: MapPin, exact: true },
   { href: "/admin/about", label: S.nav.about, icon: Info, exact: true },
+  { href: "/admin/menu", label: S.nav.menu, icon: ChefHat, exact: false },
   { href: "/admin/texts", label: S.nav.texts, icon: Type, exact: false },
 ];
 

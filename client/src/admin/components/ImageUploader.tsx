@@ -49,7 +49,7 @@ export function useImageUpload() {
   return { progress, busy: progress !== null, run };
 }
 
-const ASPECTS = { wide: "aspect-[16/10]", square: "aspect-square", portrait: "aspect-[4/5]" } as const;
+const ASPECTS = { wide: "aspect-[16/10]", square: "aspect-square", portrait: "aspect-[4/5]", card: "aspect-[4/3]" } as const;
 
 /** Single-photo field: preview plus a replace button. */
 export function ImageUploader({

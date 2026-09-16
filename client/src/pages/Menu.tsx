@@ -3,8 +3,8 @@ import QRCode from "qrcode";
 import { Link2, Search, X } from "lucide-react";
 import { toast } from "sonner";
 import { SectionDivider } from "@/components/Ornaments";
-import { menuItemPhoto } from "@/lib/assets";
-import { MENU, categoryName, itemDesc, itemName, searchMenu } from "@/lib/menu";
+import { useVenue } from "@/content/hooks";
+import { searchMenu } from "@/lib/menu";
 import { useI18n } from "@/i18n";
 
 /**
@@ -12,9 +12,12 @@ import { useI18n } from "@/i18n";
  * image — so the QR code printed on a table never goes stale.
  */
 export default function Menu() {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
+  const { menu } = useVenue();
   const [query, setQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState(MENU[0].id);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  // Content can arrive after first paint; fall back to the first category when the chosen one is gone.
+  const activeCategory = menu.categories.some(category => category.id === selectedCategory) ? selectedCategory : menu.categories[0]?.id;
   const [qr, setQr] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -34,7 +37,7 @@ export default function Menu() {
       .catch(() => setQr(""));
   }, [menuUrl]);
 
-  const results = useMemo(() => searchMenu(query, lang), [query, lang]);
+  const results = useMemo(() => searchMenu(menu.categories, query), [menu.categories, query]);
   const isSearching = Boolean(query.trim());
   const visibleCategories = isSearching
     ? results
@@ -64,7 +67,7 @@ export default function Menu() {
 
       <div className="mt-9 grid gap-5 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
         <p className="order-2 text-[0.75rem] leading-5 text-muted-foreground lg:order-1">
-          {MENU.reduce((sum, category) => sum + category.items.length, 0)} {t.menu.title.toLowerCase()}
+          {menu.itemCount} {t.menu.title.toLowerCase()}
         </p>
         {/* Search — the fastest path through 68 items on a phone. */}
         <div className="relative order-1 lg:order-2">
@@ -96,7 +99,7 @@ export default function Menu() {
         aria-label={t.menu.title}
         className="mt-8 -mx-4 border-y border-line bg-paper px-4 py-3 sm:mx-0 sm:px-0">
         <div className="sv-scrollbar-none flex snap-x gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible" role="tablist">
-          {MENU.map(category => {
+          {menu.categories.map(category => {
             const selected = !isSearching && activeCategory === category.id;
             return (
               <button
@@ -106,14 +109,14 @@ export default function Menu() {
                 aria-selected={selected}
                 onClick={() => {
                   setQuery("");
-                  setActiveCategory(category.id);
+                  setSelectedCategory(category.id);
                 }}
                 className={`min-h-11 shrink-0 snap-start border px-4 text-[0.8125rem] transition-colors ${
                   selected
                     ? "border-turquoise bg-turquoise text-white"
                     : "border-line bg-white text-ink hover:border-pistachio"
                 }`}>
-                {categoryName(category, lang)}
+                {category.name}
                 <span className="ms-2 text-[0.6875rem] opacity-70">{category.items.length}</span>
               </button>
             );
@@ -131,19 +134,19 @@ export default function Menu() {
           <section key={category.id} aria-labelledby={`menu-category-${category.id}`}>
             <div className="mb-5 flex items-baseline justify-between border-b border-ink/15 pb-3">
               <h2 id={`menu-category-${category.id}`} className="font-serif text-[1.5rem] text-ink md:text-[1.75rem]">
-                {categoryName(category, lang)}
+                {category.name}
               </h2>
               <span className="sv-eyebrow text-[0.625rem]">{category.items.length}</span>
             </div>
 
             <ul className="sv-stagger grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
               {category.items.map(item => {
-                const desc = itemDesc(item, lang);
-                const title = itemName(item, lang);
+                const desc = item.description;
+                const title = item.name;
                 return (
                   <li key={item.id} className="sv-card flex min-w-0 flex-col overflow-hidden">
                     <img
-                      src={menuItemPhoto(item.id, category.id)}
+                      src={item.photo}
                       alt={title}
                       loading="lazy"
                       className="aspect-[4/3] w-full object-cover"

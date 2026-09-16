@@ -8,9 +8,12 @@
  */
 import { ATTRACTION_COPY } from "./attractionCopy";
 import { EVENT_CAPTION_CONCEPT, EVENT_CAPTION_REAL, EVENT_COPY } from "./eventCopy";
+import { MENU } from "./menuData";
+import { EN_RU_DESCRIPTIONS } from "./menuDescriptions";
+import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS } from "./menuTranslations";
 import { ADDRESS_COPY, UNIT_COPY, defaultUnitCaptions } from "./unitCopy";
 import { ATTRACTIONS, CONTACT, EVENT_TYPES, LOCATION, POOL, UNITS, type EventId, type UnitId } from "./venue";
-import { EVENTS_PAGE_HERO, EVENTS_SPACE_PHOTO_REFS, HOME_GALLERY_REFS, HOME_PHOTO_REFS, RAW_PHOTOS } from "./venuePhotos";
+import { EVENTS_PAGE_HERO, EVENTS_SPACE_PHOTO_REFS, HOME_GALLERY_REFS, HOME_PHOTO_REFS, RAW_MENU_ITEM_PHOTOS, RAW_PHOTOS } from "./venuePhotos";
 import type { Lang, LocalizedText } from "./langs";
 
 export type { Lang, LocalizedText } from "./langs";
@@ -121,6 +124,32 @@ export interface AboutSection {
   photos: { main: Photo; detail1: Photo; detail2: Photo };
 }
 
+export interface MenuItemContent {
+  /** Stable numeric id; new dishes get the next free number. */
+  id: number;
+  name: LocalizedText;
+  /** Short card description; every language may be empty. */
+  description: LocalizedText;
+  /** Price in GEL, up to two decimals. */
+  price: number;
+  /** Volume note such as "0.5 L"; "" when not applicable. */
+  volume: string;
+  /** Dish photo; when missing the category's stock photo is shown. */
+  photo?: Photo;
+  /** Temporarily unavailable: kept in the admin, hidden on the public menu. */
+  hidden: boolean;
+}
+
+export interface MenuCategoryContent {
+  id: string;
+  name: LocalizedText;
+  items: MenuItemContent[];
+}
+
+export interface MenuSection {
+  categories: MenuCategoryContent[];
+}
+
 /** Deep-partial patch over a locale dictionary (string leaves, arrays, nested objects). */
 export type LocalePatch = { [key: string]: string | LocalePatch | Array<string | LocalePatch> };
 
@@ -135,11 +164,12 @@ export interface SiteContent {
   events: EventsSection;
   attractions: AttractionsSection;
   about: AboutSection;
+  menu: MenuSection;
   texts: TextsSection;
 }
 
 export type SectionKey = keyof SiteContent;
-export const SECTION_KEYS = ["units", "home", "contact", "location", "pool", "events", "attractions", "about", "texts"] as const satisfies readonly SectionKey[];
+export const SECTION_KEYS = ["units", "home", "contact", "location", "pool", "events", "attractions", "about", "menu", "texts"] as const satisfies readonly SectionKey[];
 
 export function isSectionKey(value: unknown): value is SectionKey {
   return typeof value === "string" && (SECTION_KEYS as readonly string[]).includes(value);
@@ -197,6 +227,38 @@ function defaultEvents(): EventContent[] {
       experience: copy.experience,
       highlights: [...copy.highlights],
       gallery: defaultEventGallery(event.id, event.gallery),
+    };
+  });
+}
+
+/** The printed menu (ka/en/ru) plus the translation and description layers, folded into one object per dish. */
+function defaultMenu(): MenuCategoryContent[] {
+  return MENU.map(category => {
+    const extra = CATEGORY_TRANSLATIONS[category.id];
+    return {
+      id: category.id,
+      name: { ka: category.ka, en: category.en, ru: category.ru, ar: extra?.ar ?? "", fr: extra?.fr ?? "", es: extra?.es ?? "" },
+      items: category.items.map(item => {
+        const translated = ITEM_TRANSLATIONS[item.id];
+        const enRu = EN_RU_DESCRIPTIONS[item.id];
+        const url = RAW_MENU_ITEM_PHOTOS[item.id];
+        return {
+          id: item.id,
+          name: { ka: item.ka, en: item.en, ru: item.ru, ar: translated?.ar.name ?? "", fr: translated?.fr.name ?? "", es: translated?.es.name ?? "" },
+          description: {
+            ka: item.descKa ?? "",
+            en: enRu?.en ?? "",
+            ru: enRu?.ru ?? "",
+            ar: translated?.ar.desc ?? "",
+            fr: translated?.fr.desc ?? "",
+            es: translated?.es.desc ?? "",
+          },
+          price: item.price,
+          volume: item.volume ?? "",
+          ...(url ? { photo: photo(url) } : {}),
+          hidden: false,
+        };
+      }),
     };
   });
 }
@@ -264,8 +326,19 @@ export const DEFAULT_CONTENT: SiteContent = {
   about: {
     photos: { main: photo(RAW_PHOTOS.terrace), detail1: photo(RAW_PHOTOS.roomDetail), detail2: photo(RAW_PHOTOS.banquet) },
   },
+  menu: { categories: defaultMenu() },
   texts: {},
 };
+
+/** Dishes the public menu shows (not marked hidden). */
+export function visibleMenuItemCount(menu: MenuSection): number {
+  return menu.categories.reduce((count, category) => count + category.items.filter(item => !item.hidden).length, 0);
+}
+
+/** Next free dish id across every category. */
+export function nextMenuItemId(menu: MenuSection): number {
+  return menu.categories.reduce((max, category) => category.items.reduce((inner, item) => Math.max(inner, item.id), max), 0) + 1;
+}
 
 /** Capacity totals derived the same way as `CAPACITY` in shared/venue.ts. */
 export function capacityOf(units: readonly Pick<UnitContent, "beds" | "maxGuests">[]) {
