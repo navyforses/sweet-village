@@ -3,7 +3,18 @@ import { applyAuthenticCopy } from "../authenticCopy";
 const fr = {
   "meta": {
     "title": "Sweet Village — Cottages, piscine et restaurant à Tskaltoubo",
-    "description": "Cabanes en bois, piscine extérieure, restaurant géorgien et espace couvert pour événements à Kvilishori, Tskaltoubo, Imérétie."
+    "description": "Cabanes en bois, piscine extérieure, restaurant géorgien et espace couvert pour événements à Kvilishori, Tskaltoubo, Imérétie.",
+    "pages": {
+      "home": { "title": "Sweet Village — Cottages, piscine et restaurant près de la grotte de Prométhée", "description": "Cabanes en bois, piscine extérieure, restaurant géorgien et espace couvert dans un jardin à Kvilishori, Tskaltoubo — à 2 minutes de la grotte de Prométhée, 20 de Koutaïssi." },
+      "stay": { "title": "Cottages et chambres à Tskaltoubo près de la grotte de Prométhée — Sweet Village", "description": "Cinq logements dans un même jardin, jusqu'à 18 personnes : cabanes en bois et chambres avec piscine, parking gratuit et petit-déjeuner. Tarifs et réservation." },
+      "menu": { "title": "Menu du restaurant — cuisine géorgienne à Tskaltoubo | Sweet Village", "description": "Khatchapouri, khinkali, mtsvadi, tchakapouli, salades et boissons — 9 catégories avec prix en lari. Un menu en ligne toujours à jour." },
+      "events": { "title": "Mariage et fêtes dans la nature près de Koutaïssi — Sweet Village", "description": "Espace couvert dans le jardin et banquet en plein air : mariages, fiançailles, anniversaires, séminaires et fêtes au bord de la piscine. Kvilishori, Tskaltoubo." },
+      "pool": { "title": "Piscine extérieure à Tskaltoubo — entrée à la journée | Sweet Village", "description": "Piscine extérieure dans un jardin, à 20 minutes de Koutaïssi. Tarifs à la journée adultes et enfants, horaires, saison et règles." },
+      "location": { "title": "Comment venir — Kvilishori, près de la grotte de Prométhée | Sweet Village", "description": "Carte et distances : grotte de Prométhée à 2 minutes, Koutaïssi et l'aéroport, Sataplia, canyons d'Okatsé et de Martvili. Adresse et horaires." },
+      "about": { "title": "À propos — Sweet Village, Kvilishori", "description": "Un lieu familial à Kvilishori : jardin verdoyant, cabanes en bois, piscine et festins géorgiens faits maison. Notre histoire, nos chiffres, nos photos." },
+      "booking": { "title": "Réservation — Sweet Village", "description": "Formulaire de demande pour un cottage, un événement, la piscine ou un repas. Réponse par téléphone ou WhatsApp." },
+      "notFound": { "title": "Page introuvable — Sweet Village", "description": "Ce lien n'existe plus. Retournez à l'accueil." },
+    },
   },
   "brand": {
     "name": "Sweet Village",

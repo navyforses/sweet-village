@@ -46,6 +46,7 @@ The following rules are business and UX constraints, not optional implementation
 | `/about` | `client/src/pages/About.tsx` | Property story and positioning | `client/src/i18n/authenticCopy.ts` |
 | `/booking` | `client/src/pages/Booking.tsx` | Booking request form and WhatsApp fallback | `shared/booking.ts`, `server/booking.ts`, `api/booking.ts` |
 | `/404` | `client/src/pages/NotFound.tsx` | Not-found page | `client/src/components/Ornaments.tsx` |
+| `/<lang>/…` (`/en/stay`, `/ru/menu`, `/ar/events/wedding` …) | same components | **Language editions.** Georgian lives at the root; `en`, `ru`, `ar`, `fr`, `es` get a path prefix (`client/src/i18n/paths.ts`, wouter `Router base`). Every page renders its own `<title>`, description, canonical, six `hreflang` alternates, Open Graph tags and JSON-LD through `client/src/seo/Seo.tsx`. Legacy `?lang=xx` links are upgraded client-side; `/ka/…` redirects to the root (`vercel.json`). | `client/src/seo/*`, `client/src/i18n/locales/*.ts` (`meta.pages`) |
 | `/admin`, `/admin/login`, `/admin/units(/:unitId)`, `/admin/home`, `/admin/contact`, `/admin/pool`, `/admin/events(/:eventId)`, `/admin/attractions`, `/admin/about`, `/admin/menu(/:categoryId)`, `/admin/texts(/:section)`, `/admin/history(/:section)`, `/admin/bookings` | `client/src/admin/AdminApp.tsx` | **Owner admin panel** (Georgian only, `noindex`, rendered without the public chrome). Edits prices, unit/event copy, galleries, page photos, pool facts, attractions, contact, location, the menu and every page text; shows revision history with restore and the booking enquiries. | `shared/content.ts`, `shared/contentSchema.ts`, `api/admin/[action].ts`, `api/content.ts` |
 
 ### Global layout and reusable UI
@@ -226,7 +227,7 @@ pnpm test
 pnpm check
 ```
 
-The current suite covers booking validation, booking API behavior (including owner-edited guest limits), menu completeness, venue/inventory data, the content model and its defaults, content resolution, admin authentication, the admin API dispatcher (login, content, upload, translate with mocked Neon and Anthropic clients), maps proxy behavior, authentic copy, asset URL resolution, upload naming, native Node ESM loading, and client-side map loading. The most recent local baseline is **131 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
+The current suite covers locale paths and legacy `?lang=` upgrades, page metadata (canonical, hreflang, Open Graph) and JSON-LD builders, booking validation, booking API behavior (including owner-edited guest limits), menu completeness, venue/inventory data, the content model and its defaults, content resolution, admin authentication, the admin API dispatcher (login, content, upload, translate with mocked Neon and Anthropic clients), maps proxy behavior, authentic copy, asset URL resolution, upload naming, native Node ESM loading, and client-side map loading. The most recent local baseline is **140 passing tests and 1 opt-in live Blob credential test skipped** because it requires a real token outside the local sandbox.
 
 Visual QA must cover desktop, mobile, and Arabic RTL for any touched public page. Text changes also require checking that each changed user-facing message exists in all six locale files or is intentionally language-specific.
 
@@ -255,6 +256,7 @@ The current public domain has been checked in a browser and through HTTP headers
 | Change phone/WhatsApp/email/socials/coordinates | **Use `/admin/contact`** (owner). Code defaults: `shared/venue.ts` `CONTACT`/`LOCATION` | `api/booking.ts` reads the same section |
 | Add an editable section to the admin | `shared/content.ts` + `shared/contentSchema.ts` | `client/src/content/resolve.ts`, `client/src/admin/pages/*`, tests |
 | Add or change a menu dish | **Use `/admin/menu`** (owner). Code defaults: `shared/menuData.ts` | descriptions, translations, photo registry, menu tests |
+| Change a page's search title/description | **Use `/admin/texts/meta`** (owner). Code defaults: `meta.pages.*` in `client/src/i18n/locales/*.ts` | `client/src/seo/meta.ts` (canonical/hreflang/OG), `client/src/seo/jsonld.ts` (structured data) |
 | Change page text | **Use `/admin/texts`** (owner; stored as a per-language patch over the dictionary). Code defaults: `client/src/i18n/locales/ka.ts` | five other locale files and possibly `authenticCopy.ts` |
 | Change home priority/sections | `client/src/pages/Home.tsx` | i18n keys and responsive QA |
 | Change navigation or language menu | `client/src/components/SiteHeader.tsx` | `LanguageSwitcher.tsx`, RTL QA |

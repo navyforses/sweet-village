@@ -7,6 +7,8 @@ interface Props {
   /** Editorial default is left-aligned; centre only for full-width moments. */
   align?: "start" | "center";
   className?: string;
+  /** Page titles render as the page's single <h1>; section titles stay <h2>. */
+  as?: "h1" | "h2";
 }
 
 export default function SectionHeading({
@@ -15,6 +17,7 @@ export default function SectionHeading({
   intro,
   align = "start",
   className = "",
+  as: Heading = "h2",
 }: Props) {
   const isCenter = align === "center";
   return (
@@ -27,7 +30,7 @@ export default function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <h2 className="text-[clamp(1.5rem,6.8vw,2.4rem)] leading-[1.16] text-ink">{title}</h2>
+      <Heading className="text-[clamp(1.5rem,6.8vw,2.4rem)] leading-[1.16] text-ink">{title}</Heading>
       {intro && (
         <p className="mt-4 max-w-[62ch] text-[0.9375rem] text-muted-foreground md:mt-5 md:text-[0.975rem]">{intro}</p>
       )}

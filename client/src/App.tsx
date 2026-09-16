@@ -1,11 +1,12 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { lazy, Suspense } from "react";
-import { Route, Switch, useLocation } from "wouter";
+import { Route, Router, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ContentProvider } from "./content/ContentProvider";
-import { I18nProvider } from "./i18n";
+import { I18nProvider, useI18n } from "./i18n";
+import { localeBase } from "./i18n/paths";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 
@@ -33,7 +34,7 @@ function PageFallback() {
   );
 }
 
-function Router() {
+function PublicRoutes() {
   return (
     <Switch>
       <Route path="/" component={Home} />
@@ -53,6 +54,20 @@ function Router() {
   );
 }
 
+/** Routes and links are language-relative; wouter prefixes them with the language base (/en, /ru, …). */
+function LocalizedRouter() {
+  const { lang } = useI18n();
+  return (
+    <Router base={localeBase(lang)}>
+      <Layout>
+        <Suspense fallback={<PageFallback />}>
+          <PublicRoutes />
+        </Suspense>
+      </Layout>
+    </Router>
+  );
+}
+
 /** The public site: owner content + six languages + shared chrome. */
 function PublicSite() {
   return (
@@ -60,11 +75,7 @@ function PublicSite() {
       <I18nProvider>
         <TooltipProvider>
           <Toaster position="top-center" />
-          <Layout>
-            <Suspense fallback={<PageFallback />}>
-              <Router />
-            </Suspense>
-          </Layout>
+          <LocalizedRouter />
         </TooltipProvider>
       </I18nProvider>
     </ContentProvider>

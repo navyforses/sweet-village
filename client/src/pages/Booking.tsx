@@ -6,6 +6,7 @@ import { SectionDivider } from "@/components/Ornaments";
 import type { UnitId } from "@shared/venue";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
+import { Seo } from "@/seo/Seo";
 
 type Interest = "cottage" | "event" | "pool" | "restaurant" | "whole";
 
@@ -165,8 +166,10 @@ export default function Booking() {
 
   return (
     <div className="container py-10 md:py-20">
+      <Seo path="/booking" title={t.meta.pages.booking.title} description={t.meta.pages.booking.description} />
       <div className="mx-auto max-w-2xl">
         <SectionHeading
+          as="h1"
           eyebrow={t.booking.eyebrow}
           title={t.booking.title}
           intro={t.booking.intro}

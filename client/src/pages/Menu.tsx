@@ -6,14 +6,17 @@ import { SectionDivider } from "@/components/Ornaments";
 import { useVenue } from "@/content/hooks";
 import { searchMenu } from "@/lib/menu";
 import { useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { breadcrumbs, restaurantWithMenu } from "@/seo/jsonld";
 
 /**
  * The live menu. This route is always a rendered page — never a PDF or an
  * image — so the QR code printed on a table never goes stale.
  */
 export default function Menu() {
-  const { t } = useI18n();
-  const { menu } = useVenue();
+  const { t, lang } = useI18n();
+  const venue = useVenue();
+  const { menu } = venue;
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   // Content can arrive after first paint; fall back to the first category when the chosen one is gone.
@@ -54,6 +57,13 @@ export default function Menu() {
 
   return (
     <div className="container py-9 md:py-16">
+      <Seo path="/menu" title={t.meta.pages.menu.title} description={t.meta.pages.menu.description} image={venue.home.services.restaurant} />
+      <JsonLd
+        data={[
+          restaurantWithMenu({ lang, name: `${t.brand.name} — ${t.nav.restaurant}`, description: t.meta.pages.menu.description, venue, menu, menuName: t.menu.title }),
+          breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.menu, path: "/menu" }]),
+        ]}
+      />
       {/* Compact heading: the food is the primary visual, not a page-sized cover. */}
       <header className="max-w-[56rem] border-s-2 border-gold/70 ps-5 md:ps-7">
         <p className="sv-eyebrow">{t.menu.eyebrow}</p>

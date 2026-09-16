@@ -184,6 +184,12 @@
 - [x] ფაზა 2: ადმინის გვერდები `/admin/pool`, `/admin/events(/:id)`, `/admin/attractions`, `/admin/about`, `/admin/texts(/:section)` — ტექსტების patch-რედაქტორი placeholder-ებით და მხოლოდ შეცვლილი ველების შენახვით
 - [x] ფაზა 3: `menu` სექცია (default `shared/menuData.ts` + თარგმანები + აღწერები + ფოტოები), `/menu` და „კერძების რაოდენობა“ content-ზე; დამალული კერძები და ცარიელი კატეგორიები საიტზე არ ჩანს
 - [x] ფაზა 4: `revisions`/`restore`/`bookings` admin action-ები (`api/_lib/admin/*`), `listRevisions`/`readRevision`/`listBookings` (`api/_lib/content.ts`); დაბრუნება = ახალი შენახვა `restore:<id>` ნიშნით
+- [x] SEO-1: ენა URL-ის პრეფიქსში (`/en/stay`, ქართული root-ზე; `client/src/i18n/paths.ts`, wouter `Router base`), `?lang=` ბმულების ავტო-განახლება, `/ka/…` redirect
+- [x] SEO-1: `client/src/seo/` — თითო გვერდზე title/description/canonical/hreflang ×7/Open Graph/Twitter, JSON-LD (WebSite, LodgingBusiness, Restaurant+Menu, Accommodation, EventVenue, BreadcrumbList), 6-ენოვანი `meta.pages` ლოკალებში (ადმინიდან რედაქტირებადი)
+- [x] SEO-1: favicon/apple-touch-icon/manifest/OG სურათი, არაბლოკირებადი ფონტები, ერთი `<h1>` ყველა გვერდზე, Manus-ის ნარჩენების ამოღება public bundle-იდან (215 → 202 KB gz)
+- [ ] SEO-2: build-time პრერენდერი (სტატიკური HTML ყველა გვერდზე × 6 ენა), sitemap.xml, deploy hook ადმინიდან
+- [ ] SEO-3: გზამკვლევის გვერდები (`guides` სექცია, ადმინი, 6 საწყისი სტატია), FAQ ბლოკები
+- [ ] SEO-4: სურათების srcset/Vercel Image Optimization, Lighthouse გაზომვა
 - [x] ფაზა 4: `/admin/history(/:section)` — ვერსიების სია, leaf-diff წინა ვერსიასთან და მიმდინარესთან ქართული ლეიბლებით, დადასტურებით დაბრუნება; `/admin/bookings` — read-only სია ზარის/WhatsApp ბმულებით
 - [x] ფაზა 3: ადმინის გვერდები `/admin/menu` (კატეგორიები: სახელი ×6, რიგითობა, დამატება/წაშლა) და `/admin/menu/:categoryId` (კერძები: ფასი, სახელი/აღწერა ×6, მოცულობა, ფოტო, „დროებით არ არის“, რიგითობა, დამატება/წაშლა)
 - [x] ფაზა 2: მკვდარი `events.types` და `location.attractions` ლოკალებიდან წაშლილია; `eventDetailCopy.ts` მხოლოდ გვერდის chrome-ს ინახავს

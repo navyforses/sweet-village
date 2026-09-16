@@ -14,11 +14,13 @@ import ShareButton from "@/components/ShareButton";
 import { getEventPageCopy } from "@/lib/eventDetailCopy";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { breadcrumbs } from "@/seo/jsonld";
 import NotFound from "./NotFound";
 
 export default function EventDetail() {
   const [, params] = useRoute("/events/:eventId");
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const copy = getEventPageCopy(lang);
   const { events } = useVenue();
   const event = events.events.find(candidate => candidate.id === params?.eventId);
@@ -65,9 +67,11 @@ export default function EventDetail() {
 
   return (
     <div className="pb-8 md:pb-12">
+      <Seo path={`/events/${event.id}`} title={`${event.title} — ${t.nav.events} | ${t.brand.name}`} description={event.body} image={event.cover} />
+      <JsonLd data={breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.events, path: "/events" }, { name: event.title, path: `/events/${event.id}` }])} />
       <section className="container pt-6 md:pt-12">
         <Link
-          href={`/events?lang=${lang}`}
+          href="/events"
           className="inline-flex min-h-11 items-center gap-2 text-[0.8125rem] text-turquoise hover:text-deep"
         >
           <ArrowLeft className="size-4 rtl:rotate-180" strokeWidth={1.5} />
@@ -152,7 +156,7 @@ export default function EventDetail() {
             </p>
           </div>
           <Link
-            href={`/booking?interest=whole&guests=${event.minGuests}&lang=${lang}`}
+            href={`/booking?interest=whole&guests=${event.minGuests}`}
             data-press
             className="inline-flex min-h-12 items-center justify-center gap-2 bg-turquoise px-7 text-[0.875rem] text-white transition-colors hover:bg-deep"
           >

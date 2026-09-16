@@ -5,6 +5,17 @@ const en = {
     title: "Sweet Village — Cottages, Pool and Restaurant in Tskaltubo",
     description:
       "Wooden cottages, an outdoor pool, a Georgian restaurant, and a covered event space in the village of Kvilishori, Tskaltubo.",
+    pages: {
+      home: { title: "Sweet Village — Cottages, Pool and Restaurant near Prometheus Cave", description: "Wooden cottages, an outdoor pool, a Georgian restaurant and a covered garden venue in Kvilishori, Tskaltubo — 2 minutes from Prometheus Cave, 20 from Kutaisi." },
+      stay: { title: "Cottages and Rooms in Tskaltubo near Prometheus Cave — Sweet Village", description: "Five units in one garden for up to 18 guests: wooden cottages and rooms with pool, free parking and breakfast. Kvilishori, Tskaltubo. Prices and booking." },
+      menu: { title: "Restaurant Menu — Georgian Cuisine in Tskaltubo | Sweet Village", description: "Khachapuri, khinkali, mtsvadi, chakapuli, salads and drinks — 9 categories with prices in GEL. A live menu that is always up to date." },
+      events: { title: "Garden Wedding and Event Venue near Kutaisi — Sweet Village", description: "Covered garden venue with an open-air feast: weddings, engagements, birthdays, corporate days and poolside parties in Kvilishori, Tskaltubo." },
+      pool: { title: "Outdoor Pool Day Pass in Tskaltubo | Sweet Village", description: "Outdoor pool in a green garden, 20 minutes from Kutaisi. Day-pass prices for adults and children, opening hours, season and house rules." },
+      location: { title: "How to Get Here — Kvilishori, near Prometheus Cave | Sweet Village", description: "Map and distances: Prometheus Cave 2 minutes, Kutaisi and the airport, Sataplia, Okatse and Martvili canyons. Address and reception hours." },
+      about: { title: "About Sweet Village — a Family Place in Kvilishori", description: "A family-run place in Kvilishori: green garden, wooden cottages, a pool and home-cooked Georgian feasts. Our story, numbers and photos." },
+      booking: { title: "Book Your Stay — Sweet Village", description: "Request form for a cottage, an event, the pool or a feast. We reply by phone or WhatsApp." },
+      notFound: { title: "Page Not Found — Sweet Village", description: "This link no longer exists. Go back to the home page." },
+    },
   },
   brand: {
     name: "Sweet Village",

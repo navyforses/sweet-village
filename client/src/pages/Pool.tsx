@@ -4,14 +4,18 @@ import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
 import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
+import { JsonLd, Seo } from "@/seo/Seo";
+import { breadcrumbs } from "@/seo/jsonld";
 
 export default function Pool() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const { pool } = useVenue();
 
   return (
     <div className="container py-10 md:py-20">
-      <SectionHeading eyebrow={t.pool.eyebrow} title={t.pool.title} intro={t.pool.intro} />
+      <Seo path="/pool" title={t.meta.pages.pool.title} description={t.meta.pages.pool.description} image={pool.photos.main} />
+      <JsonLd data={breadcrumbs(lang, [{ name: t.nav.home, path: "/" }, { name: t.nav.pool, path: "/pool" }])} />
+      <SectionHeading as="h1" eyebrow={t.pool.eyebrow} title={t.pool.title} intro={t.pool.intro} />
 
       <div className="mt-9 grid gap-8 md:mt-12 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
         <div className="space-y-4">
