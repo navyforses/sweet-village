@@ -12,7 +12,7 @@ if (!shouldMigrate) {
   process.exit(0);
 }
 
-const sourceFile = await readFile(path.join(root, "api", "blobSources.ts"), "utf8");
+const sourceFile = await readFile(path.join(root, "api", "_lib", "blobSources.ts"), "utf8");
 const sources = [...sourceFile.matchAll(/\["([^"]+)", "([^"]+)"\]/g)].map(([, pathname, source]) => ({ pathname, source }));
 if (sources.length < 90) throw new Error(`[blob-build] expected 90+ source records, found ${sources.length}`);
 
