@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { capacityOf, DEFAULT_CONTENT, isSectionKey, pickLang, SECTION_KEYS } from "./content";
 import { isAllowedImageRef, parseSection, SECTION_SCHEMAS, sectionIssues, unitSchema } from "./contentSchema";
-import { CAPACITY, CONTACT, LOCATION, UNITS } from "./venue";
+import { ATTRACTIONS, CAPACITY, CONTACT, EVENT_TYPES, LOCATION, POOL, UNITS } from "./venue";
 import { HOME_GALLERY_REFS, HOME_PHOTO_REFS } from "./venuePhotos";
 
 describe("default content", () => {
@@ -49,6 +49,40 @@ describe("default content", () => {
     expect(DEFAULT_CONTENT.location.lng).toBe(LOCATION.lng);
     expect(DEFAULT_CONTENT.location.address.ka).toContain("ქვილიშორი");
     expect(DEFAULT_CONTENT.texts).toEqual({});
+  });
+});
+
+describe("phase 2 defaults", () => {
+  it("mirrors pool, events and attractions from the compiled constants", () => {
+    const { pool, events, attractions, about } = DEFAULT_CONTENT;
+    expect(pool).toMatchObject({ adult: POOL.adult, child: POOL.child, dailyLimit: POOL.dailyLimit, openFrom: POOL.openFrom, openTo: POOL.openTo, provisional: POOL.provisional });
+    expect(events.events.map(event => event.id)).toEqual(EVENT_TYPES.map(event => event.id));
+    for (const [index, event] of events.events.entries()) {
+      expect(event.gallery.map(photo => photo.url)).toEqual([...EVENT_TYPES[index].gallery]);
+      expect(event.gallery[0].url).toBe(EVENT_TYPES[index].photo);
+      expect(event.minGuests).toBe(EVENT_TYPES[index].minGuests);
+      expect(event.highlights).toHaveLength(3);
+      expect(event.gallery.every(photo => photo.caption?.ka && photo.caption.es)).toBe(true);
+    }
+    expect(events.events.find(event => event.id === "masterclass")?.title.ka).toBe("კულინარიული მასტერკლასი");
+    expect(events.hero.url).toBe("/events/00-events-overview.webp");
+    expect(events.spacePhotos).toHaveLength(5);
+    expect(attractions.attractions.map(item => [item.id, item.minutes])).toEqual(ATTRACTIONS.map(item => [item.id, item.minutes]));
+    expect(attractions.attractions[0].title.en).toBe("Prometheus Cave");
+    expect(about.photos.main.url).toContain("fb_outdoor_01");
+  });
+
+  it("rejects impossible pool, event and attraction facts", () => {
+    const { pool, events, attractions } = DEFAULT_CONTENT;
+    expect(sectionIssues("pool", { ...pool, child: pool.adult + 1 })).not.toBeNull();
+    expect(sectionIssues("pool", { ...pool, openFrom: "25:00" })).not.toBeNull();
+    expect(sectionIssues("pool", { ...pool, seasonTo: 13 })).not.toBeNull();
+    const [first, ...rest] = events.events;
+    expect(sectionIssues("events", { ...events, events: [{ ...first, maxGuests: first.minGuests - 1 }, ...rest] })).not.toBeNull();
+    expect(sectionIssues("events", { ...events, events: [{ ...first, highlights: first.highlights.slice(0, 2) }, ...rest] })).not.toBeNull();
+    expect(sectionIssues("events", { ...events, events: [first, first] })).not.toBeNull();
+    expect(sectionIssues("attractions", { attractions: attractions.attractions.map(item => ({ ...item, lat: 10 })) })).not.toBeNull();
+    expect(sectionIssues("attractions", { attractions: [] })).not.toBeNull();
   });
 });
 

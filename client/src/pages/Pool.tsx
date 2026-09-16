@@ -2,12 +2,12 @@ import { Link } from "wouter";
 import { Clock, Info, Sun, Users } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
-import { PHOTOS } from "@/lib/assets";
-import { POOL } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 
 export default function Pool() {
   const { t } = useI18n();
+  const { pool } = useVenue();
 
   return (
     <div className="container py-10 md:py-20">
@@ -16,19 +16,19 @@ export default function Pool() {
       <div className="mt-9 grid gap-8 md:mt-12 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
         <div className="space-y-4">
           <img
-            src={PHOTOS.poolReal}
+            src={pool.photos.main}
             alt={t.pool.title}
             className="aspect-[16/10] w-full object-cover"
           />
           <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
             <img
-              src={PHOTOS.poolDay}
+              src={pool.photos.side1}
               alt=""
               loading="lazy"
               className="aspect-[4/3] w-full object-cover"
             />
             <img
-              src={PHOTOS.terrace}
+              src={pool.photos.side2}
               alt=""
               loading="lazy"
               className="aspect-[4/3] w-full object-cover"
@@ -45,7 +45,7 @@ export default function Pool() {
                   {t.pool.adultLabel}
                 </th>
                 <td className="py-5 text-end font-serif text-[1.35rem] text-turquoise">
-                  {POOL.adult} {t.common.lari}
+                  {pool.adult} {t.common.lari}
                 </td>
               </tr>
               <tr>
@@ -56,7 +56,7 @@ export default function Pool() {
                   </span>
                 </th>
                 <td className="py-5 text-end font-serif text-[1.35rem] text-turquoise">
-                  {POOL.child} {t.common.lari}
+                  {pool.child} {t.common.lari}
                 </td>
               </tr>
               <tr>
@@ -76,7 +76,7 @@ export default function Pool() {
               <div>
                 <dt className="sv-eyebrow mb-1">{t.pool.hours}</dt>
                 <dd className="text-[0.9375rem] text-ink" dir="ltr">
-                  {POOL.openFrom} — {POOL.openTo}
+                  {pool.openFrom} — {pool.openTo}
                 </dd>
               </div>
             </div>
@@ -91,12 +91,12 @@ export default function Pool() {
               <Users className="mt-0.5 size-4 shrink-0 text-turquoise" strokeWidth={1.5} />
               <div>
                 <dt className="sv-eyebrow mb-1">{t.pool.limitTitle}</dt>
-                <dd className="font-serif text-[1.35rem] text-turquoise">{POOL.dailyLimit}</dd>
+                <dd className="font-serif text-[1.35rem] text-turquoise">{pool.dailyLimit}</dd>
               </div>
             </div>
           </dl>
 
-          <p className="mt-3 text-[0.75rem] text-muted-foreground">{t.common.provisional}</p>
+          {pool.provisional && <p className="mt-3 text-[0.75rem] text-muted-foreground">{t.common.provisional}</p>}
 
           <Link
             href="/booking"

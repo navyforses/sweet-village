@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import ShareButton from "@/components/ShareButton";
 import { getEventPageCopy } from "@/lib/eventDetailCopy";
-import { EVENT_TYPES, type EventId } from "@shared/venue";
+import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 import NotFound from "./NotFound";
 
@@ -20,7 +20,8 @@ export default function EventDetail() {
   const [, params] = useRoute("/events/:eventId");
   const { lang } = useI18n();
   const copy = getEventPageCopy(lang);
-  const event = EVENT_TYPES.find(candidate => candidate.id === params?.eventId);
+  const { events } = useVenue();
+  const event = events.events.find(candidate => candidate.id === params?.eventId);
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
 
   useEffect(() => {
@@ -48,8 +49,9 @@ export default function EventDetail() {
   }, [activePhoto, event]);
 
   if (!event) return <NotFound />;
-  const info = copy.events[event.id as EventId];
-  const generatedPhotoCount = event.id === "poolside" ? 4 : 2;
+  const info = event;
+  const captionFor = (index: number) => event.gallery[index]?.caption || `${copy.gallery} · ${index + 1}`;
+  const active = activePhoto === null ? null : Math.min(activePhoto, event.gallery.length - 1);
   const previous = () =>
     setActivePhoto(current =>
       current === null
@@ -98,24 +100,20 @@ export default function EventDetail() {
         <div className="sv-scrollbar-none grid snap-x snap-mandatory grid-flow-col auto-cols-[88%] gap-2 overflow-x-auto px-4 pb-2 md:h-[clamp(300px,34vw,430px)] md:snap-none md:grid-flow-row md:auto-cols-auto md:grid-cols-4 md:grid-rows-2 md:gap-2 md:overflow-visible md:px-0 md:pb-0">
           {event.gallery.map((photo, index) => (
             <button
-              key={photo}
+              key={`${photo.url}-${index}`}
               type="button"
               onClick={() => setActivePhoto(index)}
               className={`group relative aspect-[4/3] snap-start overflow-hidden bg-pistachio/10 text-start md:aspect-auto md:h-full ${index === 0 ? "md:col-span-2 md:row-span-2" : ""} ${index > 4 ? "md:hidden" : ""}`}
               aria-label={`${info.title} — ${copy.gallery} ${index + 1}`}
             >
               <img
-                src={photo}
-                alt={`${info.title} — ${copy.gallery} ${index + 1}`}
+                src={photo.url}
+                alt={`${info.title} — ${captionFor(index)}`}
                 loading={index === 0 ? "eager" : "lazy"}
                 className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
               />
               <span className="absolute inset-x-0 bottom-0 bg-ink/70 px-4 py-2.5 text-[0.72rem] text-white">
-                {index === 0
-                  ? info.experience
-                  : index < generatedPhotoCount
-                    ? `${copy.professionalConcept} · ${index + 1}`
-                    : `${copy.realVenuePhoto} · ${index + 1}`}
+                {captionFor(index)}
               </span>
               {index === 4 && event.gallery.length > 5 && (
                 <span className="absolute end-3 top-3 hidden items-center gap-1.5 bg-white/95 px-3 py-2 text-[0.75rem] text-ink shadow-sm md:inline-flex">
@@ -136,9 +134,9 @@ export default function EventDetail() {
           <div>
             <p className="sv-eyebrow">{copy.details}</p>
             <ul className="mt-5 grid gap-3 sm:grid-cols-3">
-              {info.highlights.map(item => (
+              {info.highlights.map((item, index) => (
                 <li
-                  key={item}
+                  key={`${index}-${item}`}
                   className="flex gap-2.5 text-[0.84rem] leading-6 text-ink"
                 >
                   <Check
@@ -165,7 +163,7 @@ export default function EventDetail() {
         <ShareButton className="mt-12 justify-center" />
       </section>
 
-      {activePhoto !== null && (
+      {active !== null && (
         <div
           className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/92 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:p-4"
           role="dialog"
@@ -195,12 +193,12 @@ export default function EventDetail() {
             </button>
             <figure className="flex max-h-[90vh] max-w-full flex-col items-center">
               <img
-                src={event.gallery[activePhoto]}
-                alt={`${info.title} — ${activePhoto + 1}`}
+                src={event.gallery[active].url}
+                alt={`${info.title} — ${captionFor(active)}`}
                 className="max-h-[76svh] max-w-full object-contain sm:max-h-[82vh]"
               />
               <figcaption className="mt-3 bg-ink/80 px-4 py-2 text-[0.78rem] text-white">
-                {activePhoto + 1} / {event.gallery.length} · {info.title}
+                {active + 1} / {event.gallery.length} · {captionFor(active)}
               </figcaption>
             </figure>
             <button

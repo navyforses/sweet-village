@@ -7,10 +7,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AdminShell } from "./AdminShell";
 import { isUnauthorized, useAdminSession } from "./api";
 import { S } from "./strings";
+import AboutEdit from "./pages/AboutEdit";
+import Attractions from "./pages/Attractions";
 import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
+import EventEdit from "./pages/EventEdit";
+import Events from "./pages/Events";
 import HomeEdit from "./pages/HomeEdit";
 import Login from "./pages/Login";
+import PoolEdit from "./pages/PoolEdit";
+import Texts from "./pages/Texts";
+import TextsEdit from "./pages/TextsEdit";
 import UnitEdit from "./pages/UnitEdit";
 import Units from "./pages/Units";
 
@@ -51,6 +58,13 @@ const UnitsPage = page(S.nav.units, Units);
 const UnitEditPage = page(S.nav.units, UnitEdit);
 const HomePage = page(S.nav.home, HomeEdit);
 const ContactPage = page(S.nav.contact, Contact);
+const PoolPage = page(S.nav.pool, PoolEdit);
+const EventsPage = page(S.nav.events, Events);
+const EventEditPage = page(S.nav.events, EventEdit);
+const AttractionsPage = page(S.nav.attractions, Attractions);
+const AboutPage = page(S.nav.about, AboutEdit);
+const TextsPage = page(S.nav.texts, Texts);
+const TextsEditPage = page(S.nav.texts, TextsEdit);
 
 /**
  * Owner admin panel. Georgian-only, left-to-right, never indexed. Rendered
@@ -86,6 +100,13 @@ export default function AdminApp() {
         <Route path="/admin/units/:unitId" component={UnitEditPage} />
         <Route path="/admin/home" component={HomePage} />
         <Route path="/admin/contact" component={ContactPage} />
+        <Route path="/admin/pool" component={PoolPage} />
+        <Route path="/admin/events" component={EventsPage} />
+        <Route path="/admin/events/:eventId" component={EventEditPage} />
+        <Route path="/admin/attractions" component={AttractionsPage} />
+        <Route path="/admin/about" component={AboutPage} />
+        <Route path="/admin/texts" component={TextsPage} />
+        <Route path="/admin/texts/:section" component={TextsEditPage} />
         <Route>
           <Redirect to="/admin" replace />
         </Route>

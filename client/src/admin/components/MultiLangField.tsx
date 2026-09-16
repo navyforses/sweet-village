@@ -23,6 +23,8 @@ interface MultiLangFieldProps {
   /** Short hint passed to the translator, e.g. the unit's name. */
   context?: string;
   hint?: string;
+  /** Default text per language, shown as placeholder; an empty field means "use the default". */
+  placeholders?: Partial<Record<Lang, string>>;
 }
 
 /**
@@ -30,14 +32,14 @@ interface MultiLangFieldProps {
  * the Georgian tab fills the other five languages through /api/admin/translate.
  * Nothing is saved until the form's Save button is pressed.
  */
-export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLength, required = true, context, hint }: MultiLangFieldProps) {
+export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLength, required = true, context, hint, placeholders }: MultiLangFieldProps) {
   const { register, getValues, setValue, watch, getFieldState, formState } = useFormContext();
   const translate = useTranslate();
   const [freshlyTranslated, setFreshlyTranslated] = useState(false);
   const values = (watch(name) ?? {}) as Partial<Record<Lang, string>>;
 
   const runTranslate = async () => {
-    const source = (getValues(`${name}.ka`) as string | undefined)?.trim();
+    const source = (getValues(`${name}.ka`) as string | undefined)?.trim() || placeholders?.ka?.trim();
     if (!source) {
       toast.error(S.lang.translateEmptyKa);
       return;
@@ -83,7 +85,7 @@ export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLeng
       <Tabs defaultValue="ka">
         <TabsList className="h-auto w-full flex-wrap justify-start gap-1 bg-transparent p-0">
           {LANGS.map(lang => {
-            const empty = !values[lang]?.trim();
+            const empty = !values[lang]?.trim() && !placeholders?.[lang];
             const error = errorFor(lang);
             return (
               <TabsTrigger
@@ -104,9 +106,9 @@ export function MultiLangField({ name, label, kind, multiline, rows = 4, maxLeng
           return (
             <TabsContent key={lang} value={lang} className="mt-2">
               {multiline ? (
-                <Textarea id={id} dir={dir} rows={rows} maxLength={maxLength} {...register(`${name}.${lang}`)} aria-invalid={Boolean(error)} className="bg-white" />
+                <Textarea id={id} dir={dir} rows={rows} maxLength={maxLength} placeholder={placeholders?.[lang]} {...register(`${name}.${lang}`)} aria-invalid={Boolean(error)} className="bg-white" />
               ) : (
-                <Input id={id} dir={dir} maxLength={maxLength} {...register(`${name}.${lang}`)} aria-invalid={Boolean(error)} className="bg-white" />
+                <Input id={id} dir={dir} maxLength={maxLength} placeholder={placeholders?.[lang]} {...register(`${name}.${lang}`)} aria-invalid={Boolean(error)} className="bg-white" />
               )}
               {error ? (
                 <p className="mt-1.5 text-[0.75rem] text-destructive" role="alert">

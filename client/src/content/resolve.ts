@@ -6,19 +6,25 @@ import {
   capacityOf,
   pickLang,
   SECTION_KEYS,
+  type AboutSection,
+  type AttractionContent,
   type ContactSection,
+  type EventContent,
   type Lang,
   type Photo,
+  type PoolSection,
   type SiteContent,
   type SparseContent,
   type TextsSection,
   type UnitContent,
 } from "@shared/content";
 import { deepMerge, isRecord } from "@shared/deepMerge";
-import type { UnitId } from "@shared/venue";
+import type { EventId, UnitId } from "@shared/venue";
 import { assetUrl } from "@/lib/assetUrl";
 
 const isPhoto = (value: unknown): value is Photo => isRecord(value) && typeof value.url === "string" && value.url.length > 0;
+const hasPhotos = (value: unknown, keys: string[]) => isRecord(value) && keys.every(key => isPhoto(value[key]));
+const isPhotoList = (value: unknown): value is Photo[] => Array.isArray(value) && value.length > 0 && value.every(isPhoto);
 
 /**
  * Drops sections whose shape is not what this build expects (an older
@@ -34,14 +40,7 @@ export function sanitizeSparse(input: unknown): SparseContent {
     Array.isArray(units.units) &&
     units.units.length > 0 &&
     units.units.every(
-      unit =>
-        isRecord(unit) &&
-        typeof unit.id === "string" &&
-        isRecord(unit.name) &&
-        typeof unit.nightlyPrice === "number" &&
-        Array.isArray(unit.gallery) &&
-        unit.gallery.length > 0 &&
-        unit.gallery.every(isPhoto),
+      unit => isRecord(unit) && typeof unit.id === "string" && isRecord(unit.name) && typeof unit.nightlyPrice === "number" && isPhotoList(unit.gallery),
     )
   ) {
     out.units = units;
@@ -50,13 +49,9 @@ export function sanitizeSparse(input: unknown): SparseContent {
   if (
     isRecord(home) &&
     isPhoto(home.hero) &&
-    isRecord(home.services) &&
-    ["events", "pool", "restaurant", "stay"].every(key => isPhoto((home.services as Record<string, unknown>)[key])) &&
-    isRecord(home.stayTeaser) &&
-    ["exterior", "bedroom", "studio"].every(key => isPhoto((home.stayTeaser as Record<string, unknown>)[key])) &&
-    Array.isArray(home.gallery) &&
-    home.gallery.length > 0 &&
-    home.gallery.every(isPhoto)
+    hasPhotos(home.services, ["events", "pool", "restaurant", "stay"]) &&
+    hasPhotos(home.stayTeaser, ["exterior", "bedroom", "studio"]) &&
+    isPhotoList(home.gallery)
   ) {
     out.home = home;
   }
@@ -68,6 +63,49 @@ export function sanitizeSparse(input: unknown): SparseContent {
   if (isRecord(location) && typeof location.lat === "number" && typeof location.lng === "number" && isRecord(location.address)) {
     out.location = location;
   }
+  const pool = input.pool;
+  if (
+    isRecord(pool) &&
+    typeof pool.adult === "number" &&
+    typeof pool.child === "number" &&
+    typeof pool.dailyLimit === "number" &&
+    typeof pool.openFrom === "string" &&
+    hasPhotos(pool.photos, ["main", "side1", "side2"])
+  ) {
+    out.pool = pool;
+  }
+  const events = input.events;
+  if (
+    isRecord(events) &&
+    isPhoto(events.hero) &&
+    isPhotoList(events.spacePhotos) &&
+    Array.isArray(events.events) &&
+    events.events.length > 0 &&
+    events.events.every(
+      event =>
+        isRecord(event) &&
+        typeof event.id === "string" &&
+        isRecord(event.title) &&
+        typeof event.minGuests === "number" &&
+        Array.isArray(event.highlights) &&
+        isPhotoList(event.gallery),
+    )
+  ) {
+    out.events = events;
+  }
+  const attractions = input.attractions;
+  if (
+    isRecord(attractions) &&
+    Array.isArray(attractions.attractions) &&
+    attractions.attractions.length > 0 &&
+    attractions.attractions.every(
+      item => isRecord(item) && typeof item.id === "string" && typeof item.minutes === "number" && typeof item.lat === "number" && isRecord(item.title),
+    )
+  ) {
+    out.attractions = attractions;
+  }
+  const about = input.about;
+  if (isRecord(about) && hasPhotos(about.photos, ["main", "detail1", "detail2"])) out.about = about;
   const texts = input.texts;
   if (isRecord(texts)) out.texts = texts;
   return out as SparseContent;
@@ -86,6 +124,10 @@ export function resolveContent(defaults: SiteContent, sparse: SparseContent): Si
     home: sparse.home ?? defaults.home,
     contact: sparse.contact ?? defaults.contact,
     location: sparse.location ?? defaults.location,
+    pool: sparse.pool ?? defaults.pool,
+    events: sparse.events ?? defaults.events,
+    attractions: sparse.attractions ?? defaults.attractions,
+    about: sparse.about ?? defaults.about,
     texts,
   };
   for (const key of SECTION_KEYS) {
@@ -113,6 +155,30 @@ export interface VenueUnit {
   gallery: VenuePhoto[];
 }
 
+export interface VenueEvent {
+  id: EventId;
+  minGuests: number;
+  maxGuests: number;
+  title: string;
+  body: string;
+  experience: string;
+  highlights: string[];
+  cover: string;
+  gallery: VenuePhoto[];
+}
+
+export interface VenueAttraction {
+  id: string;
+  minutes: number;
+  km: number;
+  lat: number;
+  lng: number;
+  title: string;
+  note: string;
+}
+
+export type VenuePool = Omit<PoolSection, "photos"> & { photos: { main: string; side1: string; side2: string } };
+
 export interface Venue {
   lang: Lang;
   units: VenueUnit[];
@@ -125,6 +191,10 @@ export interface Venue {
     stayTeaser: { exterior: string; bedroom: string; studio: string };
     gallery: string[];
   };
+  pool: VenuePool;
+  events: { hero: string; spacePhotos: string[]; events: VenueEvent[] };
+  attractions: VenueAttraction[];
+  about: { photos: { main: string; detail1: string; detail2: string } };
 }
 
 const resolvePhoto = (photo: Photo, lang: Lang): VenuePhoto => ({ url: assetUrl(photo.url), caption: pickLang(photo.caption, lang) });
@@ -145,10 +215,37 @@ function resolveUnit(unit: UnitContent, lang: Lang): VenueUnit {
   };
 }
 
+function resolveEvent(event: EventContent, lang: Lang): VenueEvent {
+  const gallery = event.gallery.map(photo => resolvePhoto(photo, lang));
+  return {
+    id: event.id,
+    minGuests: event.minGuests,
+    maxGuests: event.maxGuests,
+    title: pickLang(event.title, lang),
+    body: pickLang(event.body, lang),
+    experience: pickLang(event.experience, lang),
+    highlights: event.highlights.map(item => pickLang(item, lang)).filter(Boolean),
+    cover: gallery[0]?.url ?? "",
+    gallery,
+  };
+}
+
+function resolveAttraction(item: AttractionContent, lang: Lang): VenueAttraction {
+  return { id: item.id, minutes: item.minutes, km: item.km, lat: item.lat, lng: item.lng, title: pickLang(item.title, lang), note: pickLang(item.note, lang) };
+}
+
+function resolvePool(pool: PoolSection): VenuePool {
+  return { ...pool, photos: { main: assetUrl(pool.photos.main.url), side1: assetUrl(pool.photos.side1.url), side2: assetUrl(pool.photos.side2.url) } };
+}
+
+function resolveAbout(about: AboutSection) {
+  return { photos: { main: assetUrl(about.photos.main.url), detail1: assetUrl(about.photos.detail1.url), detail2: assetUrl(about.photos.detail2.url) } };
+}
+
 /** Language-resolved view of the content, with every image ref turned into a browser URL. */
 export function resolveVenue(content: SiteContent, lang: Lang): Venue {
   const units = content.units.units.map(unit => resolveUnit(unit, lang));
-  const { home, location } = content;
+  const { home, location, events } = content;
   return {
     lang,
     units,
@@ -170,5 +267,13 @@ export function resolveVenue(content: SiteContent, lang: Lang): Venue {
       },
       gallery: home.gallery.map(photo => assetUrl(photo.url)),
     },
+    pool: resolvePool(content.pool),
+    events: {
+      hero: assetUrl(events.hero.url),
+      spacePhotos: events.spacePhotos.map(photo => assetUrl(photo.url)),
+      events: events.events.map(event => resolveEvent(event, lang)),
+    },
+    attractions: content.attractions.attractions.map(item => resolveAttraction(item, lang)),
+    about: resolveAbout(content.about),
   };
 }

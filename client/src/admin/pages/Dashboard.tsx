@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { ArrowUpRight, Home, Images, Phone } from "lucide-react";
+import { ArrowUpRight, Home, Images, Info, MapPin, PartyPopper, Phone, Type, Waves } from "lucide-react";
 import type { SectionKey } from "@shared/content";
 import { AdminApiError, useSection } from "../api";
 import { formatDateTime } from "../lib/timestamps";
@@ -9,6 +9,11 @@ const CARDS: { key: SectionKey; href: string; icon: typeof Home; title: string; 
   { key: "units", href: "/admin/units", icon: Images, ...S.dashboard.sections.units },
   { key: "home", href: "/admin/home", icon: Home, ...S.dashboard.sections.home },
   { key: "contact", href: "/admin/contact", icon: Phone, ...S.dashboard.sections.contact },
+  { key: "pool", href: "/admin/pool", icon: Waves, ...S.dashboard.sections.pool },
+  { key: "events", href: "/admin/events", icon: PartyPopper, ...S.dashboard.sections.events },
+  { key: "attractions", href: "/admin/attractions", icon: MapPin, ...S.dashboard.sections.attractions },
+  { key: "about", href: "/admin/about", icon: Info, ...S.dashboard.sections.about },
+  { key: "texts", href: "/admin/texts", icon: Type, ...S.dashboard.sections.texts },
 ];
 
 function SectionCard({ card }: { card: (typeof CARDS)[number] }) {

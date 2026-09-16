@@ -1,16 +1,14 @@
 import SectionHeading from "@/components/SectionHeading";
 import ShareButton from "@/components/ShareButton";
 import { SectionDivider } from "@/components/Ornaments";
-import { PHOTOS } from "@/lib/assets";
-import { ATTRACTIONS } from "@shared/venue";
 import { useVenue } from "@/content/hooks";
 import { MENU_ITEM_COUNT } from "@shared/menuData";
 import { useI18n } from "@/i18n";
 
 export default function About() {
   const { t } = useI18n();
-  const { capacity } = useVenue();
-  const prometheus = ATTRACTIONS[0].minutes;
+  const { capacity, attractions, about } = useVenue();
+  const prometheus = attractions[0]?.minutes ?? 0;
 
   const stats = [
     { value: capacity.units, label: t.about.stats.units },
@@ -33,18 +31,18 @@ export default function About() {
 
         <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
           <img
-            src={PHOTOS.terrace}
+            src={about.photos.main}
             alt=""
             className="col-span-2 aspect-[16/10] w-full object-cover"
           />
           <img
-            src={PHOTOS.roomDetail}
+            src={about.photos.detail1}
             alt=""
             loading="lazy"
             className="aspect-square w-full object-cover"
           />
           <img
-            src={PHOTOS.banquet}
+            src={about.photos.detail2}
             alt=""
             loading="lazy"
             className="aspect-square w-full object-cover"

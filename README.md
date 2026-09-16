@@ -47,7 +47,7 @@ The following rules are business and UX constraints, not optional implementation
 | `/booking` | `client/src/pages/Booking.tsx` | Booking request form and WhatsApp fallback | `shared/booking.ts`, `server/booking.ts`, `api/booking.ts` |
 | `/404` | `client/src/pages/NotFound.tsx` | Not-found page | `client/src/components/Ornaments.tsx` |
 | `/migration` | `client/src/pages/BlobMigration.tsx` | **Temporary Vercel Blob migration utility. Do not expose as a customer feature.** | `api/migrate-assets.ts` |
-| `/admin`, `/admin/login`, `/admin/units`, `/admin/units/:unitId`, `/admin/home`, `/admin/contact` | `client/src/admin/AdminApp.tsx` | **Owner admin panel** (Georgian only, `noindex`, rendered without the public chrome). Edits prices, unit copy, galleries, homepage photos, contact and location. | `shared/content.ts`, `shared/contentSchema.ts`, `api/admin/[action].ts`, `api/content.ts` |
+| `/admin`, `/admin/login`, `/admin/units(/:unitId)`, `/admin/home`, `/admin/contact`, `/admin/pool`, `/admin/events(/:eventId)`, `/admin/attractions`, `/admin/about`, `/admin/texts(/:section)` | `client/src/admin/AdminApp.tsx` | **Owner admin panel** (Georgian only, `noindex`, rendered without the public chrome). Edits prices, unit/event copy, galleries, page photos, pool facts, attractions, contact, location and every page text. | `shared/content.ts`, `shared/contentSchema.ts`, `api/admin/[action].ts`, `api/content.ts` |
 
 ### Global layout and reusable UI
 
@@ -99,7 +99,7 @@ Do not duplicate business facts in components. The following files are the proje
 | Menu descriptions | `shared/menuDescriptions.ts` | Used for compact, card-oriented menu UX. |
 | Menu translations | `shared/menuTranslations.ts` | Preserve all six language entries when editing an item. |
 | Booking validation and message formatting | `shared/booking.ts` | Shared by the UI and Vercel booking API. Update tests if validation changes. |
-| **Owner-editable content (runtime)** | `shared/content.ts` (types, `DEFAULT_CONTENT`), `shared/contentSchema.ts` (zod), `shared/unitCopy.ts`, `shared/venuePhotos.ts` | The compiled constants above are **defaults**. Once the owner saves a section in `/admin`, the saved value (Neon `site_content` table) overrides the default on the public site. Prices, unit names/descriptions/captions, homepage photos, contact and coordinates are all owner-editable today; pool, events, page texts and the menu follow in later phases. |
+| **Owner-editable content (runtime)** | `shared/content.ts` (types, `DEFAULT_CONTENT`), `shared/contentSchema.ts` (zod), `shared/unitCopy.ts`, `shared/venuePhotos.ts` | The compiled constants above are **defaults**. Once the owner saves a section in `/admin`, the saved value (Neon `site_content` table) overrides the default on the public site. Prices, unit and event copy, galleries and captions, homepage/pool/about/events photos, pool facts, attractions, contact, coordinates and every dictionary section (`texts` patches) are owner-editable; the menu follows in phase 3. Defaults for the moved copy live in `shared/unitCopy.ts`, `shared/eventCopy.ts`, `shared/attractionCopy.ts`. |
 | Content delivery | `api/content.ts` → `client/src/content/ContentProvider.tsx` → `useVenue()` (`client/src/content/hooks.ts`) | Public site renders defaults on first paint, then overlays `GET /api/content` (edge-cached 60 s). Page texts patch the locale dictionary inside `I18nProvider` after `authenticCopy`. |
 | Legacy/Manus booking persistence | `server/booking.ts`, `server/db.ts`, `server/routers.ts` | Current managed-runtime flow. |
 | Vercel/Neon/Resend booking flow | `api/booking.ts`, `drizzle/neonSchema.ts`, `drizzle.neon.config.ts` | Prepared code; requires environment variables and a real Neon migration. |
@@ -256,7 +256,7 @@ The current public domain has been checked in a browser and through HTTP headers
 | Change phone/WhatsApp/email/socials/coordinates | **Use `/admin/contact`** (owner). Code defaults: `shared/venue.ts` `CONTACT`/`LOCATION` | `api/booking.ts` reads the same section |
 | Add an editable section to the admin | `shared/content.ts` + `shared/contentSchema.ts` | `client/src/content/resolve.ts`, `client/src/admin/pages/*`, tests |
 | Add or change a menu dish | `shared/menuData.ts` | descriptions, translations, photo registry, menu tests |
-| Change page text | `client/src/i18n/locales/ka.ts` | five other locale files and possibly `authenticCopy.ts` |
+| Change page text | **Use `/admin/texts`** (owner; stored as a per-language patch over the dictionary). Code defaults: `client/src/i18n/locales/ka.ts` | five other locale files and possibly `authenticCopy.ts` |
 | Change home priority/sections | `client/src/pages/Home.tsx` | i18n keys and responsive QA |
 | Change navigation or language menu | `client/src/components/SiteHeader.tsx` | `LanguageSwitcher.tsx`, RTL QA |
 | Change booking fields/validation | `shared/booking.ts` | `Booking.tsx`, `server/booking.ts`, `api/booking.ts`, tests |
