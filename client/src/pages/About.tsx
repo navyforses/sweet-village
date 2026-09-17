@@ -5,6 +5,7 @@ import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 import { JsonLd, Seo } from "@/seo/Seo";
 import { breadcrumbs, lodgingBusiness } from "@/seo/jsonld";
+import Img from "@/components/Img";
 
 export default function About() {
   const { t, lang } = useI18n();
@@ -39,21 +40,26 @@ export default function About() {
         </div>
 
         <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
-          <img
+          <Img
             src={about.photos.main}
             alt=""
+            sizes="(min-width: 768px) 50vw, 100vw"
+            maxWidth={1280}
+            priority
             className="col-span-2 aspect-[16/10] w-full object-cover"
           />
-          <img
+          <Img
             src={about.photos.detail1}
             alt=""
-            loading="lazy"
+            sizes="(min-width: 768px) 25vw, 50vw"
+            maxWidth={640}
             className="aspect-square w-full object-cover"
           />
-          <img
+          <Img
             src={about.photos.detail2}
             alt=""
-            loading="lazy"
+            sizes="(min-width: 768px) 25vw, 50vw"
+            maxWidth={640}
             className="aspect-square w-full object-cover"
           />
         </div>

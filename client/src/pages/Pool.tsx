@@ -7,6 +7,7 @@ import { useVenue } from "@/content/hooks";
 import { useI18n } from "@/i18n";
 import { JsonLd, Seo } from "@/seo/Seo";
 import { breadcrumbs, faqPage } from "@/seo/jsonld";
+import Img from "@/components/Img";
 
 export default function Pool() {
   const { t, lang } = useI18n();
@@ -20,22 +21,27 @@ export default function Pool() {
 
       <div className="mt-9 grid gap-8 md:mt-12 lg:grid-cols-[1.3fr_1fr] lg:gap-14">
         <div className="space-y-4">
-          <img
+          <Img
             src={pool.photos.main}
             alt={t.pool.title}
+            sizes="(min-width: 1024px) 56vw, 100vw"
+            maxWidth={1280}
+            priority
             className="aspect-[16/10] w-full object-cover"
           />
           <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
-            <img
+            <Img
               src={pool.photos.side1}
               alt=""
-              loading="lazy"
+              sizes="(min-width: 1024px) 28vw, 50vw"
+              maxWidth={640}
               className="aspect-[4/3] w-full object-cover"
             />
-            <img
+            <Img
               src={pool.photos.side2}
               alt=""
-              loading="lazy"
+              sizes="(min-width: 1024px) 28vw, 50vw"
+              maxWidth={640}
               className="aspect-[4/3] w-full object-cover"
             />
           </div>

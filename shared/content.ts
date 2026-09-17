@@ -9,6 +9,7 @@
 import { ATTRACTION_COPY } from "./attractionCopy.js";
 import { EVENT_CAPTION_CONCEPT, EVENT_CAPTION_REAL, EVENT_COPY } from "./eventCopy.js";
 import { GUIDE_SEEDS } from "./guideCopy.js";
+import { GUIDE_BODY_PENDING } from "./guideMeta.js";
 import { MENU } from "./menuData.js";
 import { EN_RU_DESCRIPTIONS } from "./menuDescriptions.js";
 import { CATEGORY_TRANSLATIONS, ITEM_TRANSLATIONS } from "./menuTranslations.js";
@@ -18,6 +19,7 @@ import { EVENTS_PAGE_HERO, EVENTS_SPACE_PHOTO_REFS, HOME_GALLERY_REFS, HOME_PHOT
 import type { Lang, LocalizedText } from "./langs.js";
 
 export type { Lang, LocalizedText } from "./langs.js";
+export { GUIDE_BODY_PENDING } from "./guideMeta.js";
 export { pickLang } from "./langs.js";
 
 /** A photo reference plus an optional caption per language. */
@@ -388,14 +390,20 @@ export function guideLangs(post: Pick<GuidePost, "title" | "body">, langs: reado
   return langs.filter(lang => guideAvailableIn(post, lang));
 }
 
+/** True for a body the browser bundle has not loaded yet (see shared/guideCopy.stub.ts). */
+export function isGuideBodyPending(text: string | undefined): boolean {
+  return text === GUIDE_BODY_PENDING;
+}
+
 /**
- * The JSON embedded in every prerendered page for hydration. Article bodies
- * and FAQs are only needed on the article's own page, so elsewhere they are
- * dropped: the client refreshes from /api/content before it can navigate
- * there, and the home page must not carry every guide in six languages.
+ * The JSON embedded in a prerendered page for hydration. An article page
+ * embeds the whole resolved guides section (the browser bundle only carries
+ * placeholders for the seed bodies); every other page drops article bodies
+ * and FAQs so the home page does not carry every guide in six languages.
  */
-export function slimContentForEmbedding(sparse: SparseContent | null, keepGuideBodies: boolean): SparseContent | null {
-  if (!sparse?.guides || keepGuideBodies) return sparse;
+export function contentForEmbedding(sparse: SparseContent | null, resolved: SiteContent, isGuidePage: boolean): SparseContent | null {
+  if (isGuidePage) return { ...(sparse ?? {}), guides: resolved.guides };
+  if (!sparse?.guides) return sparse;
   const posts = sparse.guides.posts.map(post => {
     const { body: _body, faq: _faq, ...rest } = post;
     return rest as GuidePost;

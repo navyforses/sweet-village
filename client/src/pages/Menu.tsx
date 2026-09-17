@@ -8,6 +8,7 @@ import { searchMenu } from "@/lib/menu";
 import { useI18n } from "@/i18n";
 import { JsonLd, Seo } from "@/seo/Seo";
 import { breadcrumbs, restaurantWithMenu } from "@/seo/jsonld";
+import Img from "@/components/Img";
 
 /**
  * The live menu. This route is always a rendered page — never a PDF or an
@@ -156,10 +157,11 @@ export default function Menu() {
                 const title = item.name;
                 return (
                   <li key={item.id} className="sv-card flex min-w-0 flex-col overflow-hidden">
-                    <img
+                    <Img
                       src={item.photo}
                       alt={title}
-                      loading="lazy"
+                      sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 430px) 50vw, 100vw"
+                      maxWidth={640}
                       className="aspect-[4/3] w-full object-cover"
                     />
                     <div className="flex min-h-[7.5rem] flex-1 flex-col p-4 min-[430px]:p-3 sm:min-h-[9.5rem] sm:p-4">

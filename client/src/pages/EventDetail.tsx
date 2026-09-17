@@ -17,6 +17,7 @@ import { useI18n } from "@/i18n";
 import { JsonLd, Seo } from "@/seo/Seo";
 import { breadcrumbs } from "@/seo/jsonld";
 import NotFound from "./NotFound";
+import Img from "@/components/Img";
 
 export default function EventDetail() {
   const [, params] = useRoute("/events/:eventId");
@@ -110,10 +111,12 @@ export default function EventDetail() {
               className={`group relative aspect-[4/3] snap-start overflow-hidden bg-pistachio/10 text-start md:aspect-auto md:h-full ${index === 0 ? "md:col-span-2 md:row-span-2" : ""} ${index > 4 ? "md:hidden" : ""}`}
               aria-label={`${info.title} — ${copy.gallery} ${index + 1}`}
             >
-              <img
+              <Img
                 src={photo.url}
                 alt={`${info.title} — ${captionFor(index)}`}
-                loading={index === 0 ? "eager" : "lazy"}
+                sizes={index === 0 ? "(min-width: 768px) 50vw, 88vw" : "(min-width: 768px) 25vw, 88vw"}
+                maxWidth={index === 0 ? 1280 : 960}
+                priority={index === 0}
                 className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
               />
               <span className="absolute inset-x-0 bottom-0 bg-ink/70 px-4 py-2.5 text-[0.72rem] text-white">
@@ -196,9 +199,11 @@ export default function EventDetail() {
               <ChevronLeft className="size-6 rtl:rotate-180" />
             </button>
             <figure className="flex max-h-[90vh] max-w-full flex-col items-center">
-              <img
+              <Img
                 src={event.gallery[active].url}
                 alt={`${info.title} — ${captionFor(active)}`}
+                sizes="100vw"
+                loading="eager"
                 className="max-h-[76svh] max-w-full object-contain sm:max-h-[82vh]"
               />
               <figcaption className="mt-3 bg-ink/80 px-4 py-2 text-[0.78rem] text-white">

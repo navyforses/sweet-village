@@ -7,6 +7,7 @@ import { VENUE_SPACE } from "@shared/venue";
 import { isLocalSegment, useI18n } from "@/i18n";
 import { JsonLd, Seo } from "@/seo/Seo";
 import { lodgingBusiness, webSite } from "@/seo/jsonld";
+import Img from "@/components/Img";
 
 function Hero() {
   const { t, lang } = useI18n();
@@ -18,11 +19,11 @@ function Hero() {
       <Seo path="/" title={t.meta.pages.home.title} description={t.meta.pages.home.description} image={home.hero} />
       <JsonLd data={[webSite(lang, t.brand.name), lodgingBusiness({ lang, name: t.brand.name, description: t.meta.pages.home.description, venue })]} />
       <div className="relative h-[52svh] min-h-[21rem] max-h-[31rem] w-full overflow-hidden md:h-[70vh] md:min-h-[27rem] md:max-h-none">
-        <img
+        <Img
           src={home.hero}
           alt={`${t.brand.name} — ${t.hero.title}`}
-          fetchPriority="high"
-          decoding="async"
+          sizes="100vw"
+          priority
           className="absolute inset-0 size-full object-cover object-center"
         />
         {/* Keep the hospitality photograph unobstructed; only a light vignette shapes the frame. */}
@@ -145,10 +146,11 @@ function Services() {
           {ordered.map(c => (
             <Link key={c.key} href={c.href} className="sv-card group block">
               <div className="aspect-[16/10] overflow-hidden">
-                <img
+                <Img
                   src={c.photo}
                   alt={c.title}
-                  loading="lazy"
+                  sizes="(min-width: 1280px) 600px, (min-width: 640px) 50vw, 100vw"
+                  maxWidth={1280}
                   className="size-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 />
               </div>
@@ -206,22 +208,25 @@ function StayTeaser() {
         </div>
 
         <div className="order-1 grid grid-cols-2 gap-2.5 sm:gap-4 lg:order-2">
-          <img
+          <Img
             src={home.stayTeaser.exterior}
             alt=""
-            loading="lazy"
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            maxWidth={1280}
             className="col-span-2 aspect-[16/10] w-full object-cover"
           />
-          <img
+          <Img
             src={home.stayTeaser.bedroom}
             alt=""
-            loading="lazy"
+            sizes="(min-width: 1024px) 25vw, 50vw"
+            maxWidth={640}
             className="aspect-square w-full object-cover"
           />
-          <img
+          <Img
             src={home.stayTeaser.studio}
             alt=""
-            loading="lazy"
+            sizes="(min-width: 1024px) 25vw, 50vw"
+            maxWidth={640}
             className="aspect-square w-full object-cover"
           />
         </div>
@@ -285,10 +290,11 @@ function Gallery() {
           <figure
             key={i}
             className={`overflow-hidden ${i % 5 === 0 ? "col-span-2 aspect-[16/10]" : "aspect-square"}`}>
-            <img
+            <Img
               src={src}
               alt=""
-              loading="lazy"
+              sizes={i % 5 === 0 ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 25vw, 50vw"}
+              maxWidth={i % 5 === 0 ? 1280 : 640}
               className="size-full object-cover transition-transform duration-700 hover:scale-[1.04]"
             />
           </figure>

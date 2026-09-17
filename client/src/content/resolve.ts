@@ -6,6 +6,7 @@ import {
   capacityOf,
   guideAvailableIn,
   guideLangs,
+  isGuideBodyPending,
   pickLang,
   SECTION_KEYS,
   type AboutSection,
@@ -250,8 +251,10 @@ export interface VenueGuide {
   cover: string;
   title: string;
   excerpt: string;
-  /** Markdown; "" on pages whose embedded content omits article bodies (see slimContentForEmbedding). */
+  /** Markdown; "" while the body is not loaded (see `bodyPending`) or on pages whose embedded content omits bodies. */
   body: string;
+  /** The seed body exists but the browser bundle has not loaded it yet (shared/guideBodies.ts is fetched on demand). */
+  bodyPending: boolean;
   faq: VenueGuideFaq[];
   attractionIds: string[];
   /** Written in the current language (title and body), as opposed to shown with a fallback. */
@@ -350,6 +353,7 @@ function resolveMenu(menu: MenuSection, lang: Lang): VenueMenu {
 function resolveGuide(post: GuidePost, lang: Lang): VenueGuide {
   const body = post.body ?? {};
   const faq = post.faq ?? [];
+  const text = pickLang(body, lang);
   return {
     slug: post.slug,
     publishedAt: post.publishedAt,
@@ -357,7 +361,8 @@ function resolveGuide(post: GuidePost, lang: Lang): VenueGuide {
     cover: assetUrl(post.cover.url),
     title: pickLang(post.title, lang),
     excerpt: pickLang(post.excerpt, lang),
-    body: pickLang(body, lang),
+    body: isGuideBodyPending(text) ? "" : text,
+    bodyPending: isGuideBodyPending(text),
     faq: faq.map(item => ({ question: pickLang(item.question, lang), answer: pickLang(item.answer, lang) })).filter(item => item.question && item.answer),
     attractionIds: post.attractionIds ?? [],
     available: guideAvailableIn({ title: post.title, body: body as GuidePost["body"] }, lang),
